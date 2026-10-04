@@ -1,0 +1,46 @@
+---
+const email = "hello@etdledger.com";
+const steps = [
+  ["01", "Tell us about your infrastructure", "Servers, clusters, team size and what you run today."],
+  ["02", "See InfraLedger on a stack like yours", "A live walkthrough of deploys, data services and the audit ledger."],
+  ["03", "Plan a pilot on your own servers", "Start on a single host and decide from real usage."],
+];
+---
+<section class="sec cta" id="contact">
+  <div class="wrap">
+    <div class="rule rule--ink" data-draw></div>
+    <div class="grid cta__in">
+      <div class="cta__head">
+        <p class="label"><span class="cta__num">§06</span> Get started</p>
+        <h2 class="display cta__title" data-rise>Put your infrastructure on the ledger.</h2>
+        <div class="cta__actions" data-rise>
+          <a class="btn btn--signal" href={`mailto:${email}?subject=InfraLedger%20demo%20request`}>Request a demo <span class="arrow">→</span></a>
+          <a class="ulink mono cta__mail" href={`mailto:${email}`}>{email}</a>
+        </div>
+      </div>
+      <ol class="cta__steps">
+        {steps.map(([n, t, d]) => (
+          <li data-rise>
+            <span class="mono cta__sn">{n}</span>
+            <div><p class="cta__st">{t}</p><p class="body-2">{d}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { padding-top: 0; }
+  .cta__in { row-gap: 56px; padding-top: 72px; }
+  .cta__head { grid-column: 1 / span 7; }
+  .cta__num { color: var(--signal); margin-right: 10px; }
+  .cta__title { margin-top: 28px; font-size: clamp(40px, 5.2vw, 72px); }
+  .cta__actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; margin-top: 44px; }
+  .cta__mail { font-size: 14px; color: var(--ink-2); }
+  .cta__steps { grid-column: 9 / span 4; list-style: none; align-self: end; border-top: 1px solid var(--ink); }
+  .cta__steps li { display: grid; grid-template-columns: 40px 1fr; padding: 20px 0; border-bottom: 1px solid var(--rule); }
+  .cta__sn { font-size: 12px; color: var(--ink-3); padding-top: 3px; }
+  .cta__st { font-weight: 500; margin-bottom: 4px; }
+  @media (max-width: 960px) { .cta__head, .cta__steps { grid-column: 1 / -1; } }
+</style>

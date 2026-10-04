@@ -1,0 +1,24 @@
+---
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import Problem from "../components/Problem.astro";
+import Platform from "../components/Platform.astro";
+import Architecture from "../components/Architecture.astro";
+import Security from "../components/Security.astro";
+import Cta from "../components/Cta.astro";
+---
+<Base
+  title="ETDLedger — InfraLedger, the self-hosted cloud platform"
+  description="InfraLedger turns your servers into a self-service platform for apps and databases, with an audit ledger of every change. Plus SAP, Oracle and security services from ETDLedger."
+>
+  <Hero />
+  <Problem />
+  <Platform />
+  <Architecture />
+  <Security />
+  <Cta />
+</Base>
+
+<script>
+  import "../scripts/motion.ts";
+</script>

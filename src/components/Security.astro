@@ -1,0 +1,132 @@
+---
+import SectionHead from "./SectionHead.astro";
+const security = [
+  ["SEC-01", "Threat detection & monitoring", "Detection rules and alerting built on the platform's audit ledger and infrastructure telemetry."],
+  ["SEC-02", "Security assessments", "Infrastructure and application reviews, penetration testing and hardening for self-hosted and cloud-native environments."],
+  ["SEC-03", "Compliance readiness", "Access controls, audit trails and tenant isolation, mapped to the frameworks your auditors work with."],
+];
+const enterprise = [
+  ["ENT-01", "SAP", "Implementation, migration and integration, connected to infrastructure you control rather than one vendor's cloud."],
+  ["ENT-02", "Oracle", "Database administration, migration and application support, on-premises or hybrid."],
+  ["ENT-03", "Managed Kubernetes", "Isolated virtual clusters with direct kubectl access, delivered on the InfraLedger provider layer."],
+];
+---
+<section class="sec" id="security">
+  <div class="wrap">
+    <SectionHead
+      num="05"
+      label="Security & enterprise"
+      title="The ledger is where detection starts."
+      lead="Every deploy, login, configuration change and network decision passes through InfraLedger and is recorded with its actor, time and outcome. Our security team builds detection on that record, and on the systems around it."
+    />
+
+    <div class="grid sec__split">
+      <figure class="iso" data-iso>
+        <svg viewBox="0 0 560 350" role="img" aria-labelledby="iso-t">
+          <title id="iso-t">A request from another organization is denied at the network boundary and logged.</title>
+          <rect class="iso__org" x="20" y="30" width="250" height="270" rx="3" />
+          <text class="iso__lbl" x="38" y="58">org / acme · prod</text>
+          <rect class="iso__org" x="310" y="30" width="230" height="270" rx="3" />
+          <text class="iso__lbl" x="328" y="58">org / globex · web</text>
+
+          <rect class="iso__node" x="50" y="100" width="130" height="40" rx="2" />
+          <text class="iso__nt" x="66" y="125">api-prod</text>
+          <rect class="iso__node" x="50" y="220" width="130" height="40" rx="2" />
+          <text class="iso__nt" x="66" y="245">pg-main</text>
+          <rect class="iso__node" x="370" y="220" width="140" height="40" rx="2" />
+          <text class="iso__nt" x="386" y="245">web-frontend</text>
+
+          <line class="iso__ok" data-iso-ok x1="115" y1="140" x2="115" y2="220" />
+          <text class="iso__tag" x="124" y="184">allowed</text>
+
+          <line class="iso__bad" data-iso-bad x1="370" y1="240" x2="276" y2="240" />
+          <g data-iso-x>
+            <circle class="iso__xc" cx="270" cy="240" r="11" />
+            <path class="iso__xp" d="M265,235 L275,245 M275,235 L265,245" />
+          </g>
+          <text class="iso__note" data-iso-note x="290" y="330" text-anchor="middle">denied · cross-tenant · ledger #48211</text>
+        </svg>
+        <figcaption class="label iso__cap">Fig. 1 — Per-organization network isolation</figcaption>
+      </figure>
+
+      <div class="sec__copy">
+        <h3 class="h3">Isolation that's enforced, not named.</h3>
+        <p class="body-2">Each project runs on its own private network, and roles are checked on every API call, not just hidden in the interface. When something crosses a boundary it isn't allowed to, it's blocked and becomes a ledger entry your team can investigate.</p>
+        <ul class="cap-spec mono">
+          <li>Owner / Admin / Member, enforced server-side</li>
+          <li>Audit log of every deploy, restart and admin action</li>
+          <li>Platform admin can suspend abusive tenants</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="idx" data-rise>
+      <p class="label idx__h">Security services</p>
+      {security.map(([c, t, d]) => (
+        <div class="idx__row"><span class="mono idx__c">{c}</span><span class="idx__t">{t}</span><span class="idx__d">{d}</span></div>
+      ))}
+    </div>
+
+    <div class="idx" id="enterprise" data-rise>
+      <p class="label idx__h">Enterprise systems</p>
+      {enterprise.map(([c, t, d]) => (
+        <div class="idx__row"><span class="mono idx__c">{c}</span><span class="idx__t">{t}</span><span class="idx__d">{d}</span></div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec__split { align-items: center; row-gap: 48px; margin-bottom: 104px; }
+  .iso { grid-column: 1 / span 7; }
+  .sec__copy { grid-column: 9 / span 4; }
+  @media (max-width: 960px) { .iso, .sec__copy { grid-column: 1 / -1; } }
+
+  .iso svg { width: 100%; height: auto; font-family: var(--mono); }
+  .iso__org { fill: var(--surface); stroke: var(--ink-3); stroke-dasharray: 4 4; }
+  .iso__lbl { font-size: 12px; fill: var(--ink-3); }
+  .iso__node { fill: var(--paper); stroke: var(--ink); }
+  .iso__nt { font-size: 13px; fill: var(--ink); }
+  .iso__ok { stroke: var(--ink); stroke-width: 1.5; }
+  .iso__tag { font-size: 11px; fill: var(--ink-3); }
+  .iso__bad { stroke: var(--signal); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .iso__xc { fill: var(--signal); }
+  .iso__xp { stroke: #fff; stroke-width: 1.75; fill: none; }
+  .iso__note { font-size: 12px; fill: var(--signal); }
+  .iso__cap { margin-top: 16px; }
+
+  .sec__copy .body-2 { margin-top: 14px; }
+  .cap-spec { list-style: none; margin-top: 28px; font-size: 12.5px; color: var(--ink-2); }
+  .cap-spec li { padding: 10px 0; border-top: 1px solid var(--rule); }
+  .cap-spec li:last-child { border-bottom: 1px solid var(--rule); }
+
+  .idx { margin-top: 64px; }
+  .idx__h { padding-bottom: 14px; border-bottom: 1px solid var(--ink); }
+  .idx__row {
+    display: grid; grid-template-columns: 96px minmax(0, 3fr) minmax(0, 5fr); column-gap: var(--gutter);
+    padding: 22px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  .idx__c { font-size: 12px; color: var(--signal); }
+  .idx__t { font-size: 20px; font-weight: 500; letter-spacing: -0.01em; }
+  .idx__d { color: var(--ink-2); font-size: 15px; }
+  @media (max-width: 760px) {
+    .idx__row { grid-template-columns: 72px 1fr; row-gap: 6px; }
+    .idx__d { grid-column: 2; }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const fig = document.querySelector("[data-iso]");
+  if (fig && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+    tl.from("[data-iso-ok]", { attr: { y2: 140 }, duration: 0.6 })
+      .from("[data-iso-bad]", { attr: { x2: 370 }, duration: 0.9, ease: "power2.inOut" }, "+=0.2")
+      .from("[data-iso-x]", { scale: 0, transformOrigin: "50% 50%", duration: 0.35 })
+      .from("[data-iso-note]", { opacity: 0, y: 6, duration: 0.4 }, "+=0.1");
+    ScrollTrigger.create({ trigger: fig, start: "top 70%", once: true, onEnter: () => tl.play() });
+  }
+</script>

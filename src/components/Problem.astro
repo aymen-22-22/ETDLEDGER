@@ -1,0 +1,68 @@
+---
+import SectionHead from "./SectionHead.astro";
+const rows = [
+  ["Developer experience", "Self-service, git push", "SSH, Docker and YAML", "Self-service, git push"],
+  ["Where workloads run", "The vendor's cloud", "Your hardware", "Your hardware or cluster"],
+  ["Data residency", "Vendor regions", "Fully yours", "Fully yours"],
+  ["Tenant isolation", "Managed by the vendor", "Build it yourself", "Per-organization networks"],
+  ["Audit trail", "Partial, held by the vendor", "Build it yourself", "Every action, every actor"],
+  ["Third-party cloud APIs", "Required", "None", "None"],
+];
+---
+<section class="sec" id="problem">
+  <div class="wrap">
+    <SectionHead
+      num="02"
+      label="The trade-off"
+      title="Hosted platforms are convenient, until you need control."
+      lead="Teams usually pick between a hosted PaaS that owns their stack and raw servers that need a platform team to run. InfraLedger is the third option."
+    />
+    <div class="cmp" data-rise>
+      <div class="cmp__row cmp__row--head">
+        <span></span>
+        <span class="label">Hosted PaaS</span>
+        <span class="label">Raw servers</span>
+        <span class="cmp__us"><span class="label">InfraLedger</span></span>
+      </div>
+      {rows.map(([k, a, b, c]) => (
+        <div class="cmp__row">
+          <span class="cmp__k">{k}</span>
+          <span class="cmp__v">{a}</span>
+          <span class="cmp__v">{b}</span>
+          <span class="cmp__us">{c}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cmp { border-top: 1px solid var(--ink); }
+  .cmp__row {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1fr 1fr;
+    column-gap: var(--gutter);
+    border-bottom: 1px solid var(--rule);
+  }
+  .cmp__row > span { padding: 18px 0; }
+  .cmp__row--head > span { padding: 16px 0 14px; }
+  .cmp__k { font-weight: 500; }
+  .cmp__v { color: var(--ink-2); }
+  .cmp__us {
+    background: var(--surface);
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    font-weight: 500;
+  }
+  .cmp__row--head .cmp__us { border-top: 2px solid var(--signal); margin-top: -1px; }
+  .cmp__row--head .cmp__us .label { color: var(--ink); }
+
+  @media (max-width: 760px) {
+    .cmp__row { grid-template-columns: 1fr 1fr; row-gap: 0; }
+    .cmp__row > span:nth-child(2), .cmp__row > span:nth-child(3) { display: none; }
+    .cmp__row--head > span:first-child { display: none; }
+    .cmp__row--head { grid-template-columns: 1fr; }
+  }
+</style>

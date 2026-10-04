@@ -1,0 +1,66 @@
+---
+import Logo from "./Logo.astro";
+const links = [
+  { href: "#platform", label: "Platform" },
+  { href: "#architecture", label: "Architecture" },
+  { href: "#security", label: "Security" },
+  { href: "#enterprise", label: "Enterprise" },
+];
+---
+<header class="hdr" data-hdr>
+  <div class="wrap hdr__in">
+    <a href="/" aria-label="ETDLedger home"><Logo /></a>
+    <nav class="hdr__nav" aria-label="Primary">
+      {links.map((l) => <a class="ulink" href={l.href}>{l.label}</a>)}
+    </nav>
+    <div class="hdr__cta">
+      <a href="#contact" class="btn btn--solid hdr__btn">Request a demo</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(245, 244, 240, 0.86);
+    backdrop-filter: saturate(1.4) blur(10px);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 300ms var(--ease), background-color 300ms var(--ease);
+  }
+  .hdr.is-scrolled { border-bottom-color: var(--rule); }
+  .hdr.is-dark { background: rgba(14, 17, 22, 0.88); border-bottom-color: var(--night-rule); }
+  .hdr.is-dark :global(.logo) { color: var(--night-ink); }
+  .hdr.is-dark .hdr__nav { color: var(--night-ink-2); }
+  .hdr.is-dark .hdr__nav a:hover { color: var(--night-ink); }
+  .hdr.is-dark .hdr__btn { background: var(--night-ink); color: var(--night); border-color: var(--night-ink); }
+  .hdr__in {
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .hdr__nav { display: flex; gap: 36px; font-size: 15px; color: var(--ink-2); }
+  .hdr__nav a:hover { color: var(--ink); }
+  .hdr__btn { height: 38px; padding: 0 16px; font-size: 14px; }
+  @media (max-width: 860px) { .hdr__nav { display: none; } }
+</style>
+
+<script>
+  const hdr = document.querySelector<HTMLElement>("[data-hdr]");
+  const darks = Array.from(document.querySelectorAll<HTMLElement>("main .night"));
+  const onScroll = () => {
+    if (!hdr) return;
+    hdr.classList.toggle("is-scrolled", window.scrollY > 8);
+    const y = hdr.offsetHeight / 2;
+    hdr.classList.toggle("is-dark", darks.some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top <= y && r.bottom >= y;
+    }));
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+</script>
