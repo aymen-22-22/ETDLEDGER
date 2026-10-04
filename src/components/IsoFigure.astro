@@ -1,0 +1,60 @@
+---
+---
+<figure class="iso" data-iso>
+        <svg viewBox="0 0 560 350" role="img" aria-labelledby="iso-t">
+          <title id="iso-t">A request from another organization is denied at the network boundary and logged.</title>
+          <rect class="iso__org" x="20" y="30" width="250" height="270" rx="3" />
+          <text class="iso__lbl" x="38" y="58">org / acme · prod</text>
+          <rect class="iso__org" x="310" y="30" width="230" height="270" rx="3" />
+          <text class="iso__lbl" x="328" y="58">org / globex · web</text>
+
+          <rect class="iso__node" x="50" y="100" width="130" height="40" rx="2" />
+          <text class="iso__nt" x="66" y="125">api-prod</text>
+          <rect class="iso__node" x="50" y="220" width="130" height="40" rx="2" />
+          <text class="iso__nt" x="66" y="245">pg-main</text>
+          <rect class="iso__node" x="370" y="220" width="140" height="40" rx="2" />
+          <text class="iso__nt" x="386" y="245">web-frontend</text>
+
+          <line class="iso__ok" data-iso-ok x1="115" y1="140" x2="115" y2="220" />
+          <text class="iso__tag" x="124" y="184">allowed</text>
+
+          <line class="iso__bad" data-iso-bad x1="370" y1="240" x2="276" y2="240" />
+          <g data-iso-x>
+            <circle class="iso__xc" cx="270" cy="240" r="11" />
+            <path class="iso__xp" d="M265,235 L275,245 M275,235 L265,245" />
+          </g>
+          <text class="iso__note" data-iso-note x="290" y="330" text-anchor="middle">denied · cross-tenant · ledger #48211</text>
+        </svg>
+        <figcaption class="label iso__cap">Fig. 1 — Per-organization network isolation</figcaption>
+      </figure>
+
+<style>
+  .iso svg { width: 100%; height: auto; font-family: var(--mono); }
+  .iso__org { fill: var(--surface); stroke: var(--ink-3); stroke-dasharray: 4 4; }
+  .iso__lbl { font-size: 12px; fill: var(--ink-3); }
+  .iso__node { fill: var(--paper); stroke: var(--ink); }
+  .iso__nt { font-size: 13px; fill: var(--ink); }
+  .iso__ok { stroke: var(--ink); stroke-width: 1.5; }
+  .iso__tag { font-size: 11px; fill: var(--ink-3); }
+  .iso__bad { stroke: var(--signal); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .iso__xc { fill: var(--signal); }
+  .iso__xp { stroke: #fff; stroke-width: 1.75; fill: none; }
+  .iso__note { font-size: 12px; fill: var(--signal); }
+  .iso__cap { margin-top: 16px; }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const fig = document.querySelector("[data-iso]");
+  if (fig && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+    tl.from("[data-iso-ok]", { attr: { y2: 140 }, duration: 0.6 })
+      .from("[data-iso-bad]", { attr: { x2: 370 }, duration: 0.9, ease: "power2.inOut" }, "+=0.2")
+      .from("[data-iso-x]", { scale: 0, transformOrigin: "50% 50%", duration: 0.35 })
+      .from("[data-iso-note]", { opacity: 0, y: 6, duration: 0.4 }, "+=0.1");
+    ScrollTrigger.create({ trigger: fig, start: "top 70%", once: true, onEnter: () => tl.play() });
+  }
+</script>

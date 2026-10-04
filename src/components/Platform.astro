@@ -185,10 +185,17 @@ const rules = [
         </div>
       </div>
     </article>
+    <a class="more" href="/platform">Explore the full platform <span class="arrow">→</span></a>
   </div>
 </section>
 
 <style>
+  .more {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+    font-size: 17px; font-weight: 500; transition: padding 300ms var(--ease);
+  }
+  .more:hover { padding-left: 8px; padding-right: 8px; }
   .cap { padding: 72px 0; border-top: 1px solid var(--rule); row-gap: 40px; align-items: start; }
   .cap__text { grid-column: 1 / span 4; position: sticky; top: 108px; }
   .cap__num { margin-bottom: 18px; }

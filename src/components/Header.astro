@@ -1,17 +1,20 @@
 ---
 import Logo from "./Logo.astro";
 const links = [
-  { href: "#platform", label: "Platform" },
-  { href: "#architecture", label: "Architecture" },
-  { href: "#security", label: "Security" },
-  { href: "#enterprise", label: "Enterprise" },
+  { href: "/platform", label: "Platform" },
+  { href: "/platform#architecture", label: "Architecture" },
+  { href: "/security", label: "Security" },
+  { href: "/enterprise", label: "Enterprise" },
 ];
+const path = Astro.url.pathname.replace(/\/$/, "");
 ---
 <header class="hdr" data-hdr>
   <div class="wrap hdr__in">
     <a href="/" aria-label="ETDLedger home"><Logo /></a>
     <nav class="hdr__nav" aria-label="Primary">
-      {links.map((l) => <a class="ulink" href={l.href}>{l.label}</a>)}
+      {links.map((l) => (
+        <a class="ulink" href={l.href} aria-current={!l.href.includes("#") && path === l.href ? "page" : undefined}>{l.label}</a>
+      ))}
     </nav>
     <div class="hdr__cta">
       <a href="#contact" class="btn btn--solid hdr__btn">Request a demo</a>
@@ -44,7 +47,8 @@ const links = [
     gap: 24px;
   }
   .hdr__nav { display: flex; gap: 36px; font-size: 15px; color: var(--ink-2); }
-  .hdr__nav a:hover { color: var(--ink); }
+  .hdr__nav a:hover, .hdr__nav a[aria-current] { color: var(--ink); }
+  .hdr__nav a[aria-current] { background-size: 100% 1px; }
   .hdr__btn { height: 38px; padding: 0 16px; font-size: 14px; }
   @media (max-width: 860px) { .hdr__nav { display: none; } }
 </style>

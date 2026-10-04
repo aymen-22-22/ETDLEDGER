@@ -1,0 +1,161 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Cta from "../components/Cta.astro";
+
+const index = [
+  { num: "01", label: "SAP", href: "#sap" },
+  { num: "02", label: "Oracle", href: "#oracle" },
+  { num: "03", label: "Managed Kubernetes", href: "#kubernetes" },
+  { num: "04", label: "Engagement models", href: "#models" },
+];
+
+const practices = [
+  {
+    id: "sap",
+    num: "01",
+    code: "ENT-01",
+    label: "SAP",
+    title: "SAP, connected to infrastructure you control.",
+    lead: "Implementation, migration and integration work across SAP landscapes, with the surrounding services running on infrastructure you own rather than a single vendor's cloud.",
+    items: [
+      ["Implementation", "Planning and rollout of SAP modules, aligned to your business processes."],
+      ["Migration", "Moves between SAP versions and hosting models, with cutover and rollback planning."],
+      ["Integration", "Connecting SAP to the applications, APIs and data services around it."],
+      ["Operations support", "Ongoing administration, monitoring and change management."],
+    ],
+  },
+  {
+    id: "oracle",
+    num: "02",
+    code: "ENT-02",
+    label: "Oracle",
+    title: "Oracle databases and applications, run well.",
+    lead: "Database administration, migration and application support for Oracle estates, on-premises or hybrid.",
+    items: [
+      ["Database administration", "Performance tuning, patching, backup and recovery."],
+      ["Migration", "Upgrades and platform moves, including to and from containerized environments."],
+      ["Licensing review", "Understand your current usage and where it can be optimized."],
+      ["Application support", "Maintenance and integration for Oracle-based applications."],
+    ],
+  },
+  {
+    id: "kubernetes",
+    num: "03",
+    code: "ENT-03",
+    label: "Managed Kubernetes",
+    title: "Kubernetes clusters you can offer as a product.",
+    lead: "InfraLedger's Kubernetes provider can create isolated virtual clusters with vcluster. We help you run that as a managed service for your own customers or business units.",
+    items: [
+      ["Virtual clusters", "Each customer gets an isolated cluster on shared infrastructure, with direct kubectl access."],
+      ["Same platform, same API", "Clusters are managed from InfraLedger alongside apps and databases."],
+      ["Cluster setup", "Design and rollout of the underlying Kubernetes infrastructure."],
+      ["Day-two operations", "Upgrades, capacity planning and incident support."],
+    ],
+  },
+];
+
+const models = [
+  ["Project", "A defined scope with a fixed outcome, such as a migration or an implementation phase."],
+  ["Retained team", "Ongoing capacity from engineers who know your systems, for operations and continuous change."],
+  ["Advisory", "Architecture reviews and decision support for your own team, on a schedule that suits you."],
+];
+---
+<Base
+  title="Enterprise — ETDLedger"
+  description="SAP, Oracle and managed Kubernetes services from ETDLedger, delivered on infrastructure you control."
+>
+  <PageHero
+    label="ETDLedger / Enterprise"
+    title="The systems your business runs on, on your terms."
+    lead="Alongside InfraLedger, ETDLedger's engineers work on the enterprise systems that sit at the center of most organizations: SAP, Oracle and the Kubernetes infrastructure beneath them."
+    index={index}
+  />
+
+  {practices.map((p, i) => (
+    <section class:list={["sec", { night: i === 1 }]} id={p.id}>
+      <div class="wrap">
+        <SectionHead num={p.num} label={p.label} title={p.title} lead={p.lead} />
+        <div class="grid">
+          <div class="prac">
+            <p class="mono prac__code">{p.code}</p>
+            <div class="prac__items">
+              {p.items.map(([t, d]) => (
+                <div class="prac__row" data-rise>
+                  <p class="prac__t">{t}</p>
+                  <p class="prac__d">{d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="sec" id="models">
+    <div class="wrap">
+      <SectionHead
+        num="04"
+        label="Engagement models"
+        title="Work with us the way that fits."
+        lead="Every engagement starts with a scoping conversation, then takes one of three shapes."
+      />
+      <div class="grid">
+        <div class="models">
+          {models.map(([t, d], i) => (
+            <div class="models__col" data-rise>
+              <span class="mono models__n">0{i + 1}</span>
+              <p class="models__t">{t}</p>
+              <p class="body-2">{d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    num="05"
+    title="Bring your enterprise systems under control."
+    subject="Enterprise services enquiry"
+    button="Talk to our team"
+    steps={[
+      ["01", "Tell us what you run", "SAP, Oracle, Kubernetes, and the systems around them."],
+      ["02", "Agree on the outcome", "Migration, implementation, operations or advice."],
+      ["03", "Get a proposal", "Scope, timeline and the engineers doing the work."],
+    ]}
+  />
+</Base>
+
+<style>
+  .prac { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+  .prac__code { grid-column: 1 / span 3; font-size: 12px; color: var(--signal); padding-top: 24px; }
+  .prac__items {
+    grid-column: 4 / span 9; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--gutter);
+    border-top: 1px solid var(--ink);
+  }
+  .night .prac__items { border-top-color: var(--night-ink-3); }
+  .prac__row { padding: 22px 0 26px; border-bottom: 1px solid var(--rule); }
+  .night .prac__row { border-bottom-color: var(--night-rule); }
+  .prac__t { font-weight: 500; font-size: 17px; margin-bottom: 6px; }
+  .prac__d { font-size: 15px; color: var(--ink-2); }
+  .night .prac__d { color: var(--night-ink-2); }
+  @media (max-width: 900px) {
+    .prac__code { display: none; }
+    .prac__items { grid-column: 1 / -1; grid-template-columns: 1fr; }
+  }
+
+  .models { grid-column: 4 / span 9; display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--gutter); }
+  .models__col { border-top: 1px solid var(--ink); padding-top: 18px; }
+  .models__n { font-size: 12px; color: var(--signal); }
+  .models__t { font-size: 20px; font-weight: 500; margin: 16px 0 8px; }
+  @media (max-width: 900px) {
+    .models { grid-column: 1 / -1; grid-template-columns: 1fr; row-gap: 32px; }
+  }
+</style>
+
+<script>
+  import "../scripts/motion.ts";
+</script>

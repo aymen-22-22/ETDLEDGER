@@ -1,5 +1,6 @@
 ---
 import SectionHead from "./SectionHead.astro";
+const { num = "04" } = Astro.props as { num?: string };
 const steps = [
   { n: "01", title: "Start on a single server", prov: "DockerProvider", text: "Run InfraLedger with Docker Compose on one machine, or a laptop for local development. No cluster required." },
   { n: "02", title: "Grow onto Kubernetes", prov: "KubernetesProvider", text: "The same apps, databases and services move onto a cluster. No rewrite, and no change to how your developers work." },
@@ -9,7 +10,7 @@ const steps = [
 <section class="sec night arch" id="architecture">
   <div class="wrap">
     <SectionHead
-      num="04"
+      num={num}
       label="Architecture"
       title="One platform. Any backend underneath."
       lead="InfraLedger never hard-codes against Docker. A provider abstraction layer runs the same workloads on a single host or a Kubernetes cluster, through the same API and dashboard."

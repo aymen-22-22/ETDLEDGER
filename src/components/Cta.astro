@@ -1,20 +1,22 @@
 ---
+const { num = "06", title = "Put your infrastructure on the ledger.", subject = "InfraLedger demo request", button = "Request a demo", steps: customSteps } = Astro.props as { num?: string; title?: string; subject?: string; button?: string; steps?: string[][] };
 const email = "hello@etdledger.com";
-const steps = [
+const defaultSteps = [
   ["01", "Tell us about your infrastructure", "Servers, clusters, team size and what you run today."],
   ["02", "See InfraLedger on a stack like yours", "A live walkthrough of deploys, data services and the audit ledger."],
   ["03", "Plan a pilot on your own servers", "Start on a single host and decide from real usage."],
 ];
+const steps = customSteps ?? defaultSteps;
 ---
 <section class="sec cta" id="contact">
   <div class="wrap">
     <div class="rule rule--ink" data-draw></div>
     <div class="grid cta__in">
       <div class="cta__head">
-        <p class="label"><span class="cta__num">§06</span> Get started</p>
-        <h2 class="display cta__title" data-rise>Put your infrastructure on the ledger.</h2>
+        <p class="label"><span class="cta__num">§{num}</span> Get started</p>
+        <h2 class="display cta__title" data-rise>{title}</h2>
         <div class="cta__actions" data-rise>
-          <a class="btn btn--signal" href={`mailto:${email}?subject=InfraLedger%20demo%20request`}>Request a demo <span class="arrow">→</span></a>
+          <a class="btn btn--signal" href={`mailto:${email}?subject=${encodeURIComponent(subject)}`}>{button} <span class="arrow">→</span></a>
           <a class="ulink mono cta__mail" href={`mailto:${email}`}>{email}</a>
         </div>
       </div>
