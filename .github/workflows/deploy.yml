@@ -16,9 +16,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
-      CPANEL_USER: ${{ secrets.CPANEL_USER }}
-      CPANEL_TOKEN: ${{ secrets.CPANEL_TOKEN }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       CPANEL_REPO: ${{ vars.CPANEL_REPO || '/home/qrtvfyrp/repositories/ETDL' }}
     steps:
       - uses: actions/checkout@v4
@@ -45,22 +46,27 @@ jobs:
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: Build site from
 
-      - name: Pull and deploy on cPanel
-        if: env.CPANEL_TOKEN != ''
+      - name: Pull and deploy on cPanel over SSH
+        if: env.SSH_PRIVATE_KEY != ''
         run: |
           set -euo pipefail
-          api() {
-            curl -sS --fail-with-body -G "https://${CPANEL_HOST}:2083/execute/$1" \
-              -H "Authorization: cpanel ${CPANEL_USER}:${CPANEL_TOKEN}" \
-              --data-urlencode "repository_root=${CPANEL_REPO}" "${@:2}"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" \
+            -o StrictHostKeyChecking=accept-new -o BatchMode=yes -o ConnectTimeout=20 \
+            "$SSH_USER@$SSH_HOST" "bash -s" -- "$CPANEL_REPO" <<'REMOTE'
+          set -eu
+          repo="$1"
+          run() {
+            out=$(uapi "$@")
+            echo "$out" | grep -qE '^  status: 1$' || { echo "$out"; echo "::error::uapi $1 $2 failed"; exit 1; }
           }
-          check() {
-            echo "$1" | jq -e '.status == 1' >/dev/null || { echo "::error::cPanel $2 failed: $(echo "$1" | jq -c '.errors')"; exit 1; }
-          }
-          out=$(api VersionControl/update --data-urlencode "branch=production"); check "$out" "pull"
-          echo "Pulled production: $(echo "$out" | jq -r '.data.last_update.identifier // "ok"')"
-          out=$(api VersionControlDeployment/create); check "$out" "deploy"
-          echo "Deployment queued: task $(echo "$out" | jq -r '.data.task_id // "?"')"
+          run VersionControl update repository_root="$repo" branch=production
+          echo "Pulled production into $repo"
+          run VersionControlDeployment create repository_root="$repo"
+          echo "Deployment queued"
+          REMOTE
       - name: Explain skipped cPanel deploy
-        if: env.CPANEL_TOKEN == ''
-        run: echo "::warning::CPANEL_HOST, CPANEL_USER and CPANEL_TOKEN secrets are not set, so production was built but not deployed. Click Update from Remote and Deploy HEAD Commit in cPanel, or add the secrets."
+        if: env.SSH_PRIVATE_KEY == ''
+        run: echo "::warning::SSH_HOST, SSH_USER and SSH_PRIVATE_KEY secrets are not set, so production was built but not deployed. Click Update from Remote and Deploy HEAD Commit in cPanel, or add the secrets."
