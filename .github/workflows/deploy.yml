@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build production branch
 
 on:
   push:
@@ -6,12 +6,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: false
 
 jobs:
@@ -23,24 +21,21 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - id: pages
-        uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm run build
         env:
-          SITE_URL: ${{ steps.pages.outputs.origin }}
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          SITE_URL: https://etdledger.com
+          BASE_PATH: /
           PUBLIC_FORM_ENDPOINT: ${{ vars.PUBLIC_FORM_ENDPOINT }}
-      - uses: actions/upload-pages-artifact@v3
+      - run: cp deploy-config/.cpanel.yml dist/.cpanel.yml
+      - name: Publish built site to the production branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: production
+          publish_dir: ./dist
+          force_orphan: true
+          enable_jekyll: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: Build site from
