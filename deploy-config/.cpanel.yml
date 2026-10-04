@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=$HOME/public_html/
+    - export DEPLOYPATH=$HOME/etdledger.com/
     - /bin/rsync -a --exclude='.git' --exclude='.cpanel.yml' --exclude='.nojekyll' ./ $DEPLOYPATH
