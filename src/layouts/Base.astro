@@ -1,8 +1,6 @@
 ---
 import { u } from "../lib/url";
-import "@fontsource/ibm-plex-sans/400.css";
-import "@fontsource/ibm-plex-sans/500.css";
-import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource-variable/inter/opsz.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "../styles/global.css";
@@ -13,13 +11,21 @@ interface Props { title: string; description: string }
 const { title, description } = Astro.props;
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f5f4f0" />
+    <meta name="theme-color" content="#0a0c0f" />
+    <script is:inline>
+      (function () {
+        var t = "dark";
+        try { t = localStorage.getItem("theme") || "dark"; } catch (e) {}
+        document.documentElement.dataset.theme = t;
+        document.querySelector('meta[name="theme-color"]').content = t === "light" ? "#f6f5f1" : "#0a0c0f";
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href={u("/favicon.svg")} />
   </head>
   <body>

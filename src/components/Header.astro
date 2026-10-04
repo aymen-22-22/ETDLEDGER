@@ -15,10 +15,14 @@ const path = stripBase(Astro.url.pathname).replace(/\/$/, "");
     <a href={u("/")} aria-label="ETDLedger home"><Logo /></a>
     <nav class="hdr__nav" aria-label="Primary">
       {links.map((l) => (
-        <a class="ulink" href={u(l.href)} aria-current={!l.href.includes("#") && path === l.href ? "page" : undefined}>{l.label}</a>
+        <a href={u(l.href)} aria-current={!l.href.includes("#") && path === l.href ? "page" : undefined}>{l.label}</a>
       ))}
     </nav>
     <div class="hdr__cta">
+      <button class="hdr__theme" type="button" data-theme-toggle aria-label="Switch to light theme">
+        <svg class="i-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M3 13l1.4-1.4M11.6 4.4 13 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <svg class="i-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      </button>
       <a href={u("/contact")} class="btn btn--solid hdr__btn">Request a demo</a>
     </div>
   </div>
@@ -29,43 +33,69 @@ const path = stripBase(Astro.url.pathname).replace(/\/$/, "");
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(245, 244, 240, 0.86);
-    backdrop-filter: saturate(1.4) blur(10px);
-    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    background: var(--hdr-bg);
+    backdrop-filter: saturate(1.6) blur(14px);
+    -webkit-backdrop-filter: saturate(1.6) blur(14px);
     border-bottom: 1px solid transparent;
     transition: border-color 300ms var(--ease), background-color 300ms var(--ease);
   }
+  .hdr:not(.is-scrolled) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .hdr.is-scrolled { border-bottom-color: var(--rule); }
-  .hdr.is-dark { background: rgba(14, 17, 22, 0.88); border-bottom-color: var(--night-rule); }
-  .hdr.is-dark :global(.logo) { color: var(--night-ink); }
-  .hdr.is-dark .hdr__nav { color: var(--night-ink-2); }
-  .hdr.is-dark .hdr__nav a:hover { color: var(--night-ink); }
-  .hdr.is-dark .hdr__btn { background: var(--night-ink); color: var(--night); border-color: var(--night-ink); }
-  .hdr__in {
-    height: 68px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+  .hdr.is-dark {
+    background: color-mix(in srgb, var(--night) 82%, transparent);
+    border-bottom-color: var(--night-rule);
+    --ink: var(--night-ink); --ink-2: var(--night-ink-2); --on-solid: var(--night);
+    --rule: var(--night-rule); color: var(--night-ink);
   }
-  .hdr__nav { display: flex; gap: 36px; font-size: 15px; color: var(--ink-2); }
-  .hdr__nav a:hover, .hdr__nav a[aria-current] { color: var(--ink); }
-  .hdr__nav a[aria-current] { background-size: 100% 1px; }
-  .hdr__btn { height: 38px; padding: 0 16px; font-size: 14px; }
-  @media (max-width: 860px) { .hdr__nav { display: none; } }
+  .hdr.is-dark :global(.logo) { color: var(--night-ink); }
+  .hdr__in { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .hdr__nav { display: flex; gap: 4px; font-size: 14px; color: var(--ink-2); }
+  .hdr__nav a {
+    padding: 6px 12px; border-radius: 999px;
+    transition: color 200ms var(--ease), background-color 200ms var(--ease);
+  }
+  .hdr__nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
+  .hdr__nav a[aria-current] { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, transparent); }
+  .hdr__cta { display: flex; align-items: center; gap: 10px; }
+  .hdr__btn { height: 36px; padding: 0 16px; font-size: 14px; }
+  .hdr__theme {
+    width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center;
+    color: var(--ink-2); border: 1px solid var(--rule);
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .hdr__theme:hover { color: var(--ink); border-color: var(--rule-strong); }
+  .hdr__theme svg { grid-area: 1 / 1; transition: opacity 300ms var(--ease), transform 400ms var(--ease); }
+  :global([data-theme="dark"]) .i-moon, :global([data-theme="light"]) .i-sun { opacity: 0; transform: rotate(-60deg) scale(0.6); }
+  @media (max-width: 960px) { .hdr__nav { display: none; } }
 </style>
 
 <script>
   const hdr = document.querySelector<HTMLElement>("[data-hdr]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const root = document.documentElement;
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+
+  const label = () => toggle?.setAttribute("aria-label", `Switch to ${root.dataset.theme === "dark" ? "light" : "dark"} theme`);
+  label();
+  toggle?.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    if (meta) meta.content = next === "light" ? "#f6f5f1" : "#0a0c0f";
+    try { localStorage.setItem("theme", next); } catch {}
+    label();
+    onScroll();
+  });
+
   const darks = Array.from(document.querySelectorAll<HTMLElement>("main .night"));
   const onScroll = () => {
     if (!hdr) return;
     hdr.classList.toggle("is-scrolled", window.scrollY > 8);
     const y = hdr.offsetHeight / 2;
-    hdr.classList.toggle("is-dark", darks.some((el) => {
+    const overNight = root.dataset.theme === "light" && darks.some((el) => {
       const r = el.getBoundingClientRect();
       return r.top <= y && r.bottom >= y;
-    }));
+    });
+    hdr.classList.toggle("is-dark", overNight);
   };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });

@@ -30,7 +30,7 @@ mm.add("(prefers-reduced-motion: no-preference)", () => {
   gsap.utils.toArray<HTMLElement>("[data-panel]").forEach((el) => {
     const rows = el.querySelectorAll(".ui-tr:not(.ui-th)");
     const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 80%", once: true } });
-    tl.from(el, { y: 24, opacity: 0, duration: 0.8, ease });
+    tl.from(el, { y: 28, opacity: 0, filter: "blur(8px)", duration: 0.9, ease, clearProps: "filter" });
     if (rows.length) tl.from(rows, { opacity: 0, x: -6, duration: 0.4, stagger: 0.06, ease }, "-=0.45");
   });
 
@@ -48,4 +48,16 @@ mm.add("(prefers-reduced-motion: no-preference)", () => {
       },
     );
   }
+});
+
+mm.add("(hover: hover) and (pointer: fine)", () => {
+  const onMove = (e: PointerEvent) => {
+    const frame = (e.target as Element | null)?.closest<HTMLElement>(".frame");
+    if (!frame) return;
+    const r = frame.getBoundingClientRect();
+    frame.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    frame.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
+  document.addEventListener("pointermove", onMove, { passive: true });
+  return () => document.removeEventListener("pointermove", onMove);
 });
