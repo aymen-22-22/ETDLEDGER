@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=$HOME/etdledger.com/
-    - /bin/rsync -a --exclude='.git' --exclude='.cpanel.yml' --exclude='.nojekyll' ./ $DEPLOYPATH
+    - /bin/find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .cpanel.yml ! -name .nojekyll -exec /bin/cp -R {} $DEPLOYPATH \;
