@@ -1,4 +1,4 @@
-name: Deploy to cPanel
+name: Build production branch
 
 on:
   push:
@@ -6,17 +6,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: deploy
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    env:
-      FTP_SERVER: ${{ secrets.FTP_SERVER }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,16 +27,15 @@ jobs:
           SITE_URL: https://etdledger.com
           BASE_PATH: /
           PUBLIC_FORM_ENDPOINT: ${{ vars.PUBLIC_FORM_ENDPOINT }}
-      - name: Upload to cPanel over FTPS
-        if: env.FTP_SERVER != ''
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - run: cp deploy-config/.cpanel.yml dist/.cpanel.yml
+      - name: Publish built site to the production branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
-          local-dir: ./dist/
-          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
-      - name: Explain skipped upload
-        if: env.FTP_SERVER == ''
-        run: echo "::warning::FTP secrets are not set, so the site was built but not uploaded. Add FTP_SERVER, FTP_USERNAME and FTP_PASSWORD in Settings → Secrets and variables → Actions."
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: production
+          publish_dir: ./dist
+          force_orphan: true
+          enable_jekyll: true
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: Build site from
