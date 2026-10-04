@@ -1,5 +1,5 @@
 ---
-const { num = "06", title = "Put your infrastructure on the ledger.", subject = "InfraLedger demo request", button = "Request a demo", steps: customSteps } = Astro.props as { num?: string; title?: string; subject?: string; button?: string; steps?: string[][] };
+const { num = "06", title = "Put your infrastructure on the ledger.", interest = "platform", button = "Request a demo", steps: customSteps } = Astro.props as { num?: string; title?: string; interest?: string; button?: string; steps?: string[][] };
 const email = "hello@etdledger.com";
 const defaultSteps = [
   ["01", "Tell us about your infrastructure", "Servers, clusters, team size and what you run today."],
@@ -16,7 +16,7 @@ const steps = customSteps ?? defaultSteps;
         <p class="label"><span class="cta__num">§{num}</span> Get started</p>
         <h2 class="display cta__title" data-rise>{title}</h2>
         <div class="cta__actions" data-rise>
-          <a class="btn btn--signal" href={`mailto:${email}?subject=${encodeURIComponent(subject)}`}>{button} <span class="arrow">→</span></a>
+          <a class="btn btn--signal" href={`/contact?interest=${interest}`}>{button} <span class="arrow">→</span></a>
           <a class="ulink mono cta__mail" href={`mailto:${email}`}>{email}</a>
         </div>
       </div>
