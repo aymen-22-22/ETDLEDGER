@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 const seed = [
   { t: "14:02:41", actor: "m.okafor", text: "Deployment succeeded", res: "api-prod", ref: "a3f9c1e", s: "ok" },
   { t: "14:02:17", actor: "system", text: "Backup completed", res: "pg-main", ref: "7c21d04", s: "ok" },
@@ -28,7 +29,7 @@ const facts = [
           databases, and records every action in an audit ledger your security team can act on.
         </p>
         <div class="hero__ctas">
-          <a href="/contact?interest=platform" class="btn btn--solid">Request a demo <span class="arrow">→</span></a>
+          <a href={u("/contact?interest=platform")} class="btn btn--solid">Request a demo <span class="arrow">→</span></a>
           <a href="#architecture" class="btn btn--line">How it works</a>
         </div>
       </div>
