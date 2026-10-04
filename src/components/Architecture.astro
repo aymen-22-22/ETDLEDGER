@@ -1,0 +1,237 @@
+---
+import SectionHead from "./SectionHead.astro";
+const { num = "04" } = Astro.props as { num?: string };
+const steps = [
+  { n: "01", title: "Start on a single server", prov: "DockerProvider", text: "Run InfraLedger with Docker Compose on one machine, or a laptop for local development. No cluster required." },
+  { n: "02", title: "Grow onto Kubernetes", prov: "KubernetesProvider", text: "The same apps, databases and services move onto a cluster. No rewrite, and no change to how your developers work." },
+  { n: "03", title: "Offer clusters to your customers", prov: "KubernetesProvider · vcluster", text: "Give each customer an isolated virtual cluster with direct kubectl access, sold as a product on your own infrastructure." },
+];
+---
+<section class="sec night arch" id="architecture">
+  <div class="wrap">
+    <SectionHead
+      num={num}
+      label="Architecture"
+      title="One platform. Any backend underneath."
+      lead="InfraLedger never hard-codes against Docker. A provider abstraction layer runs the same workloads on a single host or a Kubernetes cluster, through the same API and dashboard."
+    />
+
+    <div class="grid arch__body" data-arch>
+      <ol class="arch__steps">
+        {steps.map((s, i) => (
+          <li>
+            <button class:list={["arch__step", { "is-on": i === 0 }]} data-step={i} type="button">
+              <span class="arch__bar"><span></span></span>
+              <span class="mono arch__n">{s.n}</span>
+              <span class="arch__st">
+                <span class="arch__title">{s.title}</span>
+                <span class="mono arch__prov">{s.prov}</span>
+                <span class="arch__text">{s.text}</span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ol>
+
+      <div class="stage" data-stage="0" aria-hidden="true">
+        <div class="stage__layer stage__ui">
+          <span class="mono">Dashboard · API</span>
+          <span class="mono stage__dim">NestJS · Prisma · PostgreSQL</span>
+        </div>
+        <div class="stage__link"></div>
+        <div class="stage__layer stage__app">
+          <div class="stage__apphead">
+            <span class="mono stage__appname">api-prod</span>
+            <span class="stage__unchanged mono">unchanged</span>
+          </div>
+          <div class="stage__chips mono">
+            <span>3 replicas</span><span>pg-main</span><span>cache-eu</span><span>HTTPS</span>
+          </div>
+        </div>
+        <div class="stage__link"></div>
+        <div class="stage__layer stage__prov">
+          <span class="label">Provider layer</span>
+          <span class="stage__provname mono">
+            <span data-v="0">DockerProvider</span>
+            <span data-v="1">KubernetesProvider</span>
+            <span data-v="2">KubernetesProvider · vcluster</span>
+          </span>
+        </div>
+        <div class="stage__link"></div>
+
+        <div class="stage__infra">
+          <div class="infra" data-v="0">
+            <div class="box">
+              <span class="box__label mono">host-01 · docker</span>
+              <div class="pods"><i>api</i><i>api</i><i>api</i><i class="d">pg-main</i><i class="d">cache-eu</i></div>
+            </div>
+          </div>
+          <div class="infra infra--nodes" data-v="1">
+            {["node-a", "node-b", "node-c"].map((n, i) => (
+              <div class="box">
+                <span class="box__label mono">{n}</span>
+                <div class="pods">{i === 0 ? <><i>api</i><i class="d">pg-main</i></> : i === 1 ? <><i>api</i><i class="d">cache-eu</i></> : <i>api</i>}</div>
+              </div>
+            ))}
+          </div>
+          <div class="infra" data-v="2">
+            <div class="box box--cluster">
+              <span class="box__label mono">k8s cluster</span>
+              <div class="vcs">
+                <div class="box box--vc">
+                  <span class="box__label mono">vcluster · customer-a</span>
+                  <div class="pods"><i>api</i><i>api</i><i class="d">pg</i></div>
+                  <span class="kubectl mono">kubectl</span>
+                </div>
+                <div class="box box--vc">
+                  <span class="box__label mono">vcluster · customer-b</span>
+                  <div class="pods"><i>web</i><i class="d">pg</i></div>
+                  <span class="kubectl mono">kubectl</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .arch .sec-head { margin-bottom: 56px; }
+  .arch__body { align-items: center; row-gap: 48px; }
+  .arch__steps { grid-column: 1 / span 5; list-style: none; }
+  .stage { grid-column: 7 / span 6; }
+  @media (max-width: 960px) {
+    .arch__steps, .stage { grid-column: 1 / -1; }
+    .stage { order: -1; }
+  }
+  @media (max-width: 520px) { .stage__ui .stage__dim { display: none; } }
+
+  .arch__step {
+    display: grid; grid-template-columns: 2px 40px 1fr; column-gap: 20px;
+    width: 100%; text-align: left; padding: 22px 0;
+    border-top: 1px solid var(--night-rule);
+    opacity: 0.42;
+    transition: opacity 400ms var(--ease);
+  }
+  li:last-child .arch__step { border-bottom: 1px solid var(--night-rule); }
+  .arch__step:hover, .arch__step.is-on { opacity: 1; }
+  .arch__bar { background: var(--night-rule); position: relative; overflow: hidden; }
+  .arch__bar span {
+    position: absolute; inset: 0; background: var(--signal);
+    transform: scaleY(0); transform-origin: top; transition: transform 500ms var(--ease);
+  }
+  .is-on .arch__bar span { transform: scaleY(1); }
+  .arch__n { font-size: 12px; color: var(--night-ink-3); padding-top: 3px; }
+  .arch__st { display: grid; gap: 6px; }
+  .arch__title { font-size: 20px; font-weight: 500; letter-spacing: -0.01em; }
+  .arch__prov { font-size: 12px; color: var(--signal); }
+  .arch__text { font-size: 15px; color: var(--night-ink-2); line-height: 1.55; }
+
+  .stage {
+    background: var(--night-2);
+    border: 1px solid var(--night-rule);
+    border-radius: 4px;
+    padding: 28px;
+    font-size: 12.5px;
+  }
+  .stage__layer {
+    border: 1px solid var(--night-rule); border-radius: 3px; background: var(--night-3);
+    padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .stage__dim { color: var(--night-ink-3); }
+  .stage__link { width: 1px; height: 20px; background: var(--night-rule); margin: 0 auto; }
+  .stage__app { display: block; border-color: #3a414b; background: #222831; }
+  .stage__apphead { display: flex; justify-content: space-between; align-items: center; }
+  .stage__appname { font-size: 14px; color: var(--night-ink); }
+  .stage__unchanged { font-size: 11px; color: var(--night-ink-3); }
+  .stage__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .stage__chips span { font-size: 11px; padding: 2px 8px; border: 1px solid var(--night-rule); border-radius: 2px; color: var(--night-ink-2); }
+  .stage__prov { border-color: var(--signal); }
+  .stage__provname { position: relative; display: grid; justify-items: end; color: var(--night-ink); }
+  .stage__provname span {
+    grid-area: 1 / 1; opacity: 0; transform: translateY(6px);
+    transition: opacity 350ms var(--ease), transform 350ms var(--ease);
+  }
+
+  .stage__infra { display: grid; }
+  .infra {
+    grid-area: 1 / 1; opacity: 0; transform: translateY(8px);
+    transition: opacity 450ms var(--ease), transform 450ms var(--ease);
+    display: grid;
+  }
+  .infra--nodes { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  [data-stage="0"] [data-v="0"],
+  [data-stage="1"] [data-v="1"],
+  [data-stage="2"] [data-v="2"] { opacity: 1; transform: none; }
+
+  .box { border: 1px dashed #3a414b; border-radius: 3px; padding: 12px; display: grid; gap: 12px; align-content: start; position: relative; }
+  .box__label { font-size: 11px; color: var(--night-ink-3); }
+  .box--cluster { gap: 10px; }
+  .vcs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .box--vc { border-style: solid; border-color: var(--night-rule); background: var(--night-3); }
+  .kubectl {
+    justify-self: start; font-size: 10.5px; color: var(--night-ink);
+    border: 1px solid var(--signal); border-radius: 2px; padding: 1px 6px;
+  }
+  .pods { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pods i {
+    font-style: normal; font-family: var(--mono); font-size: 11px; line-height: 1; white-space: nowrap;
+    padding: 8px 10px; border-radius: 2px; background: var(--night-ink-2); color: var(--night);
+  }
+  .pods i.d { background: transparent; border: 1px solid var(--night-ink-3); color: var(--night-ink-2); padding: 7px 9px; }
+
+  @media (max-width: 520px) {
+    .stage { padding: 16px; }
+    .vcs { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const root = document.querySelector<HTMLElement>("[data-arch]");
+  const stage = root?.querySelector<HTMLElement>(".stage");
+  const buttons = Array.from(root?.querySelectorAll<HTMLButtonElement>("[data-step]") ?? []);
+
+  const setStep = (i: number) => {
+    if (!stage || stage.dataset.stage === String(i)) return;
+    stage.dataset.stage = String(i);
+    buttons.forEach((b, j) => b.classList.toggle("is-on", j === i));
+  };
+
+  let trigger: ScrollTrigger | undefined;
+  const mm = gsap.matchMedia();
+  mm.add("(min-width: 961px) and (prefers-reduced-motion: no-preference)", () => {
+    trigger = ScrollTrigger.create({
+      trigger: root,
+      start: "center center",
+      end: "+=1500",
+      pin: true,
+      onUpdate: (self) => setStep(Math.min(2, Math.floor(self.progress * 3))),
+    });
+    return () => { trigger = undefined; };
+  });
+
+  let cycle: number | undefined;
+  mm.add("(max-width: 960px) and (prefers-reduced-motion: no-preference)", () => {
+    let i = 0;
+    cycle = window.setInterval(() => setStep((i = (i + 1) % 3)), 3500);
+    return () => window.clearInterval(cycle);
+  });
+
+  buttons.forEach((b, i) =>
+    b.addEventListener("click", () => {
+      window.clearInterval(cycle);
+      if (trigger) {
+        const y = trigger.start + ((i + 0.5) / 3) * (trigger.end - trigger.start);
+        window.scrollTo({ top: y, behavior: "smooth" });
+      } else {
+        setStep(i);
+      }
+    }),
+  );
+</script>

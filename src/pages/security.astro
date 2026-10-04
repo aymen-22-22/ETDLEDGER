@@ -1,0 +1,188 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHead from "../components/SectionHead.astro";
+import SpecSection from "../components/SpecSection.astro";
+import IsoFigure from "../components/IsoFigure.astro";
+import Cta from "../components/Cta.astro";
+
+const index = [
+  { num: "01", label: "The ledger approach", href: "#approach" },
+  { num: "02", label: "Services", href: "#services" },
+  { num: "03", label: "Platform controls", href: "#controls" },
+  { num: "04", label: "How we work", href: "#engagement" },
+];
+
+const services = [
+  {
+    code: "SEC-01",
+    title: "Threat detection & monitoring",
+    text: "Detection rules and alerting built on the audit ledger and infrastructure telemetry, tuned to how your teams actually deploy and operate.",
+    scope: ["Detection rules on deploy, access and config events", "Alert routing to your on-call channels", "Anomaly review of authentication activity", "Regular tuning against false positives"],
+  },
+  {
+    code: "SEC-02",
+    title: "Security assessments",
+    text: "Reviews of infrastructure and applications, for self-hosted and cloud-native environments alike.",
+    scope: ["Infrastructure and network configuration review", "Application penetration testing", "Container and Kubernetes hardening", "Prioritized findings with remediation steps"],
+  },
+  {
+    code: "SEC-03",
+    title: "Compliance readiness",
+    text: "Access controls, audit trails and tenant isolation, mapped to the frameworks your auditors work with.",
+    scope: ["Control mapping against your target framework", "Evidence from audit logs and access records", "Gap analysis and remediation plan", "Support during auditor review"],
+  },
+];
+
+const steps = [
+  ["01", "Scope", "Agree on the systems, environments and outcomes in a short scoping call."],
+  ["02", "Assess", "Review configuration, access and activity records, and test where it's in scope."],
+  ["03", "Report", "Findings ranked by risk, each with a concrete fix and an owner."],
+  ["04", "Operate", "Optionally, keep detection running on the ledger after the engagement ends."],
+];
+---
+<Base
+  title="Security — ETDLedger"
+  description="Threat detection built on an audit ledger of every infrastructure change, plus security assessments and compliance readiness from ETDLedger."
+>
+  <PageHero
+    label="ETDLedger / Security"
+    title="Detection starts with a complete record."
+    lead="ETDLedger stands for Enterprise Threat Detection Ledger. Every deploy, login, configuration change and network decision on InfraLedger becomes an entry with an actor, a time and an outcome. Our security team builds detection on that record, and on the systems around it."
+    index={index}
+  />
+
+  <section class="sec" id="approach">
+    <div class="wrap">
+      <SectionHead
+        num="01"
+        label="The ledger approach"
+        title="You can't detect what you didn't record."
+        lead="Most incidents are found late because the evidence is scattered across tools. InfraLedger records the platform's activity in one place by design."
+      />
+      <div class="grid appr">
+        <IsoFigure />
+        <ol class="appr__list">
+          {[
+            ["Record", "Platform actions are written to the audit log with actor, timestamp and outcome."],
+            ["Enforce", "Roles and network boundaries are checked on every request, and denials are logged."],
+            ["Detect", "Rules and reviews run against the record to surface activity that doesn't fit."],
+            ["Respond", "Alerts go to the channels your team already uses, with the history attached."],
+          ].map(([t, d], i) => (
+            <li data-rise>
+              <span class="mono appr__n">0{i + 1}</span>
+              <div><p class="appr__t">{t}</p><p class="body-2">{d}</p></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec night" id="services">
+    <div class="wrap">
+      <SectionHead
+        num="02"
+        label="Services"
+        title="Security work, scoped to your environment."
+        lead="Each service can run on its own, or alongside an InfraLedger deployment."
+      />
+      <div class="svcs">
+        {services.map((s) => (
+          <article class="grid svcs__row" data-rise>
+            <p class="mono svcs__code">{s.code}</p>
+            <div class="svcs__main">
+              <h3 class="h3">{s.title}</h3>
+              <p class="body-2">{s.text}</p>
+            </div>
+            <ul class="svcs__scope mono">
+              {s.scope.map((x) => <li>{x}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <SpecSection
+    id="controls"
+    num="03"
+    label="Platform controls"
+    title="Security controls built into InfraLedger."
+    lead="These are part of the platform itself, not add-ons, so they apply to every organization and project."
+    items={[
+      ["Tenant isolation", "Each organization's resources are isolated from every other, with private networks per project."],
+      ["Role-based access", "Owner, Admin and Member roles, enforced on every API call."],
+      ["Audit log", "Every deploy, restart, delete, config change and admin action, with actor, timestamp and outcome."],
+      ["Encrypted secrets", "Environment variables and service credentials encrypted at rest."],
+      ["Application firewall", "IP allow-lists, basic auth and rate limits per application."],
+      ["Self-hosted by design", "No third-party cloud API in the critical path. Your data stays on infrastructure you control."],
+    ]}
+  />
+
+  <section class="sec" id="engagement">
+    <div class="wrap">
+      <SectionHead num="04" label="How we work" title="A clear engagement, start to finish." />
+      <div class="grid">
+        <ol class="flow">
+          {steps.map(([n, t, d]) => (
+            <li data-rise>
+              <span class="mono flow__n">{n}</span>
+              <p class="flow__t">{t}</p>
+              <p class="body-2">{d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    num="05"
+    title="Find out what your infrastructure is telling you."
+    interest="security"
+    button="Talk to our security team"
+    steps={[
+      ["01", "Tell us about your environment", "Platforms, team size and what you need to protect."],
+      ["02", "Agree on scope", "Assessment, detection, compliance readiness, or a combination."],
+      ["03", "Get a proposal", "Timeline, deliverables and the people doing the work."],
+    ]}
+  />
+</Base>
+
+<style>
+  .appr { align-items: center; row-gap: 48px; }
+  .appr > :global(.iso) { grid-column: 1 / span 7; }
+  .appr__list { grid-column: 9 / span 4; list-style: none; border-top: 1px solid var(--ink); }
+  .appr__list li { display: grid; grid-template-columns: 40px 1fr; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .appr__n { font-size: 12px; color: var(--signal); padding-top: 3px; }
+  .appr__t { font-weight: 500; margin-bottom: 4px; }
+  @media (max-width: 960px) {
+    .appr > :global(.iso), .appr__list { grid-column: 1 / -1; }
+  }
+
+  .svcs { border-top: 1px solid var(--night-ink-3); }
+  .svcs__row { padding: 40px 0; border-bottom: 1px solid var(--night-rule); row-gap: 20px; }
+  .svcs__code { grid-column: 1 / span 3; font-size: 12px; color: var(--signal); padding-top: 6px; }
+  .svcs__main { grid-column: 4 / span 5; }
+  .svcs__main .body-2 { margin-top: 10px; }
+  .svcs__scope { grid-column: 9 / span 4; list-style: none; font-size: 12.5px; color: var(--night-ink-2); }
+  .svcs__scope li { padding: 9px 0; border-top: 1px solid var(--night-rule); }
+  @media (max-width: 900px) {
+    .svcs__code, .svcs__main, .svcs__scope { grid-column: 1 / -1; }
+  }
+
+  .flow {
+    grid-column: 1 / -1; list-style: none;
+    display: grid; grid-template-columns: repeat(4, 1fr); column-gap: var(--gutter);
+  }
+  .flow li { border-top: 1px solid var(--ink); padding-top: 18px; }
+  .flow__n { font-size: 12px; color: var(--signal); }
+  .flow__t { font-size: 20px; font-weight: 500; margin: 16px 0 8px; }
+  @media (max-width: 900px) { .flow { grid-template-columns: 1fr 1fr; row-gap: 36px; } }
+  @media (max-width: 520px) { .flow { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  import "../scripts/motion.ts";
+</script>

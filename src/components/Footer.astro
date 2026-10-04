@@ -1,0 +1,48 @@
+---
+import Logo from "./Logo.astro";
+const cols = [
+  { title: "Platform", links: [["Deploy", "/platform#deploy"], ["Data services", "/platform#data"], ["Networking", "/platform#network"], ["Architecture", "/platform#architecture"], ["Observability", "/platform#observe"]] },
+  { title: "Services", links: [["Security", "/security"], ["SAP", "/enterprise#sap"], ["Oracle", "/enterprise#oracle"], ["Managed Kubernetes", "/enterprise#kubernetes"], ["About", "/about"], ["Contact", "/contact"]] },
+];
+const year = new Date().getFullYear();
+---
+<footer class="ftr night">
+  <div class="wrap">
+    <div class="grid ftr__top">
+      <div class="ftr__brand">
+        <Logo inverted />
+        <p class="body-2">Enterprise Threat Detection Ledger.<br />Self-hosted infrastructure, enterprise systems and security.</p>
+      </div>
+      {cols.map((c) => (
+        <div class="ftr__col">
+          <p class="label">{c.title}</p>
+          <ul>
+            {c.links.map(([label, href]) => <li><a class="ulink" href={href}>{label}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="rule"></div>
+    <div class="ftr__base mono">
+      <span>© {year} ETDLedger</span>
+      <span>InfraLedger is a product of ETDLedger</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr { padding: 88px 0 40px; }
+  .ftr__top { row-gap: 48px; padding-bottom: 72px; }
+  .ftr__brand { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 20px; }
+  .ftr__col { grid-column: span 3; }
+  .ftr__col ul { list-style: none; margin-top: 18px; display: grid; gap: 10px; font-size: 15px; color: var(--night-ink-2); }
+  .ftr__col a:hover { color: var(--night-ink); }
+  .ftr__base {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding-top: 24px; font-size: 12px; color: var(--night-ink-3);
+  }
+  @media (max-width: 720px) {
+    .ftr__brand { grid-column: 1 / -1; }
+    .ftr__col { grid-column: span 6; }
+  }
+</style>

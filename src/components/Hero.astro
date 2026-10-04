@@ -1,0 +1,221 @@
+---
+const seed = [
+  { t: "14:02:41", actor: "m.okafor", text: "Deployment succeeded", res: "api-prod", ref: "a3f9c1e", s: "ok" },
+  { t: "14:02:17", actor: "system", text: "Backup completed", res: "pg-main", ref: "7c21d04", s: "ok" },
+  { t: "14:01:58", actor: "unknown", text: "Anomalous login — 6 failed attempts", res: "auth/sso", ref: "e90b3fa", s: "bad", status: "Blocked" },
+  { t: "14:01:30", actor: "l.duarte", text: "Scaled to 4 replicas", res: "web-frontend", ref: "1d4e8b2", s: "ok" },
+  { t: "14:01:04", actor: "s.haddad", text: "Env var DATABASE_URL updated", res: "billing-svc", ref: "f03a6c9", s: "ok" },
+  { t: "14:00:39", actor: "system", text: "Redis instance provisioned", res: "cache-eu", ref: "b58e271", s: "ok" },
+  { t: "14:00:12", actor: "m.okafor", text: "Routing rule added /v2/*", res: "api-prod", ref: "4ac9d10", s: "ok" },
+];
+const facts = [
+  ["Runs on", "Docker · Kubernetes"],
+  ["Cloud dependencies", "None"],
+  ["Tenancy", "Isolated per organization"],
+  ["Audit trail", "Every action, every actor"],
+];
+---
+<section class="hero">
+  <div class="wrap">
+    <div class="grid hero__top">
+      <p class="label hero__kicker">InfraLedger — the self-hosted cloud platform</p>
+      <h1 class="display hero__title">
+        Your own cloud.{" "}<br />Every change <span class="hero__em">on the ledger.</span>
+      </h1>
+      <div class="hero__copy">
+        <p class="lead">
+          InfraLedger turns your servers into a self-service platform for deploying applications and
+          databases, and records every action in an audit ledger your security team can act on.
+        </p>
+        <div class="hero__ctas">
+          <a href="/contact?interest=platform" class="btn btn--solid">Request a demo <span class="arrow">→</span></a>
+          <a href="#architecture" class="btn btn--line">How it works</a>
+        </div>
+      </div>
+      <dl class="hero__facts">
+        {facts.map(([k, v]) => (
+          <div class="hero__fact">
+            <dt class="label">{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="frame ledger" data-ledger aria-label="Example audit ledger">
+      <div class="frame__bar">
+        <div class="frame__crumbs"><span>acme</span><span>/</span><b>audit ledger</b></div>
+        <div class="ledger__live"><span class="ledger__dot"></span>Live</div>
+      </div>
+      <div class="ledger__row ledger__row--head">
+        <span>Time</span><span>Actor</span><span>Event</span><span class="c-res">Resource</span><span class="c-ref">Ref</span><span class="c-st">Status</span>
+      </div>
+      <div class="ledger__body" data-ledger-body>
+        {seed.map((r) => (
+          <div class:list={["ledger__row", { "is-bad": r.s === "bad" }]}>
+            <span class="mono c-t">{r.t}</span>
+            <span class="mono">{r.actor}</span>
+            <span class="c-ev">{r.text}</span>
+            <span class="mono c-res">{r.res}</span>
+            <span class="mono c-ref">{r.ref}</span>
+            <span class="c-st"><span class:list={["pill", r.s === "bad" ? "pill--bad" : "pill--ok"]}>{r.status ?? "Recorded"}</span></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding: 88px 0 24px; }
+  .hero__top { row-gap: 32px; margin-bottom: 72px; }
+  .hero__kicker { grid-column: 1 / -1; }
+  .hero__title { grid-column: 1 / span 11; }
+  .hero__em { color: var(--ink-3); }
+  .hero__copy { grid-column: 1 / span 6; margin-top: 16px; }
+  .hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .hero__facts {
+    grid-column: 9 / span 4;
+    margin-top: 20px;
+    border-top: 1px solid var(--ink);
+  }
+  .hero__fact {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+    padding: 12px 0; border-bottom: 1px solid var(--rule);
+  }
+  .hero__fact dd { font-size: 14px; text-align: right; }
+
+  @media (max-width: 1000px) {
+    .hero__title, .hero__copy, .hero__facts { grid-column: 1 / -1; }
+    .hero__title br { display: none; }
+  }
+</style>
+
+<style is:global>
+  .ledger { --row: 46px; }
+  .ledger__live { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
+  .ledger__dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--ok);
+    box-shadow: 0 0 0 0 rgba(47, 125, 91, 0.5);
+    animation: pulse 2.4s var(--ease) infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(47, 125, 91, 0.45); }
+    70%, 100% { box-shadow: 0 0 0 7px rgba(47, 125, 91, 0); }
+  }
+
+  .ledger__body { height: calc(var(--row) * 7); overflow: hidden; }
+  .ledger__row {
+    display: grid;
+    grid-template-columns: 92px 104px minmax(0, 1fr) 132px 92px 112px;
+    align-items: center;
+    column-gap: 16px;
+    height: var(--row);
+    padding: 0 16px;
+    border-bottom: 1px solid var(--rule-soft);
+    overflow: hidden;
+    position: relative;
+  }
+  .ledger__row > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ledger__row .mono { font-size: 12.5px; color: var(--ink-2); }
+  .ledger__row .c-t { color: var(--ink-3); }
+  .ledger__row--head {
+    height: 34px; background: var(--paper-2);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .c-st { justify-self: end; }
+  .ledger__row.is-bad { background: #fdf3f0; }
+  .ledger__row.is-bad::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--signal);
+  }
+  .ledger__row.is-bad .c-ev { color: var(--signal); font-weight: 500; }
+
+  @media (max-width: 860px) {
+    .ledger__row { grid-template-columns: 76px minmax(0, 1fr) 96px; }
+    .ledger__row > :nth-child(2), .c-res, .c-ref { display: none; }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  const events = [
+    { actor: "m.okafor", text: "Deployment succeeded", res: "api-prod" },
+    { actor: "l.duarte", text: "Scaled to 3 replicas", res: "web-frontend" },
+    { actor: "system", text: "Backup completed", res: "pg-main" },
+    { actor: "s.haddad", text: "Role changed Member → Admin", res: "org/acme" },
+    { actor: "system", text: "Scheduled job ran", res: "nightly-report" },
+    { actor: "a.kim", text: "Rolled back to 4ac9d10", res: "checkout" },
+    { actor: "l.duarte", text: "Preview environment created", res: "pr-218" },
+    { actor: "system", text: "TLS certificate renewed", res: "api.acme.io" },
+    { actor: "a.kim", text: "Postgres 16 database created", res: "pg-analytics" },
+    { actor: "s.haddad", text: "IP allow-list updated", res: "admin-panel" },
+  ];
+  const threats = [
+    { actor: "web-frontend", text: "Cross-project network access denied", res: "pg-main", status: "Denied" },
+    { actor: "unknown", text: "Anomalous login — 9 failed attempts", res: "auth/sso", status: "Blocked" },
+    { actor: "j.weber", text: "Console exec outside change window", res: "billing-svc", status: "Flagged" },
+  ];
+
+  const body = document.querySelector<HTMLElement>("[data-ledger-body]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (body && !reduce) {
+    const hex = () => Math.random().toString(16).slice(2, 9).padEnd(7, "0");
+    const pad = (n: number) => String(n).padStart(2, "0");
+    let clock = new Date();
+    clock.setHours(14, 2, 41);
+    let i = 0;
+    let ti = 0;
+
+    const cell = (cls: string, text: string) => {
+      const s = document.createElement("span");
+      s.className = cls;
+      s.textContent = text;
+      return s;
+    };
+
+    const makeRow = () => {
+      i++;
+      const bad = i % 5 === 0;
+      const e = bad ? threats[ti++ % threats.length] : events[(i * 3) % events.length];
+      clock = new Date(clock.getTime() + (12 + Math.floor(Math.random() * 30)) * 1000);
+      const row = document.createElement("div");
+      row.className = "ledger__row" + (bad ? " is-bad" : "");
+      row.append(
+        cell("mono c-t", `${pad(clock.getHours())}:${pad(clock.getMinutes())}:${pad(clock.getSeconds())}`),
+        cell("mono", e.actor),
+        cell("c-ev", e.text),
+        cell("mono c-res", e.res),
+        cell("mono c-ref", hex()),
+      );
+      const st = cell("c-st", "");
+      st.append(cell(`pill ${bad ? "pill--bad" : "pill--ok"}`, bad ? (e as { status: string }).status : "Recorded"));
+      row.append(st);
+      return row;
+    };
+
+    const tick = () => {
+      const row = makeRow();
+      body.prepend(row);
+      const h = getComputedStyle(body.parentElement!).getPropertyValue("--row") || "46px";
+      gsap.fromTo(row, { height: 0, opacity: 0 }, { height: h, opacity: 1, duration: 0.45, ease: "power3.out" });
+      if (row.classList.contains("is-bad")) {
+        gsap.fromTo(row, { backgroundColor: "#f9d8cf" }, { backgroundColor: "#fdf3f0", duration: 1.6, ease: "power2.out", delay: 0.2 });
+      }
+      while (body.children.length > 9) body.lastElementChild?.remove();
+    };
+
+    let timer: number | undefined;
+    const start = () => { if (!timer) timer = window.setInterval(tick, 2200); };
+    const stop = () => { window.clearInterval(timer); timer = undefined; };
+
+    let inView = false;
+    new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      inView ? start() : stop();
+    }).observe(body);
+    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : inView && start()));
+  }
+</script>

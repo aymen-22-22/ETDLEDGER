@@ -1,0 +1,41 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  lead: string;
+  index: { num: string; label: string; href: string }[];
+}
+const { label, title, lead, index } = Astro.props;
+---
+<section class="phero">
+  <div class="wrap">
+    <div class="grid phero__in">
+      <p class="label phero__label">{label}</p>
+      <h1 class="display phero__title">{title}</h1>
+      <p class="lead phero__lead">{lead}</p>
+      <nav class="phero__idx" aria-label="On this page">
+        <p class="label">On this page</p>
+        <ol>
+          {index.map((i) => (
+            <li><a href={i.href}><span class="mono">§{i.num}</span><span class="ulink">{i.label}</span></a></li>
+          ))}
+        </ol>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<style>
+  .phero { padding: 88px 0 96px; }
+  .phero__in { row-gap: 28px; }
+  .phero__label { grid-column: 1 / -1; }
+  .phero__title { grid-column: 1 / span 10; font-size: clamp(40px, 5.6vw, 76px); }
+  .phero__lead { grid-column: 1 / span 6; margin-top: 12px; }
+  .phero__idx { grid-column: 9 / span 4; margin-top: 12px; border-top: 1px solid var(--ink); padding-top: 14px; }
+  .phero__idx ol { list-style: none; margin-top: 8px; }
+  .phero__idx a { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 15px; }
+  .phero__idx .mono { font-size: 12px; color: var(--signal); padding-top: 3px; width: 28px; }
+  @media (max-width: 1000px) {
+    .phero__title, .phero__lead, .phero__idx { grid-column: 1 / -1; }
+  }
+</style>

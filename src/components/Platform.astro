@@ -1,0 +1,261 @@
+---
+import SectionHead from "./SectionHead.astro";
+
+const deploys = [
+  { n: "#412", sha: "a3f9c1e", msg: "Add rate limiting to /v2", who: "m.okafor", when: "2 min ago", s: "Live" },
+  { n: "#411", sha: "4ac9d10", msg: "Upgrade Prisma to 6.2", who: "l.duarte", when: "1 h ago", s: "Superseded" },
+  { n: "#410", sha: "1d4e8b2", msg: "Fix pagination on /orders", who: "a.kim", when: "3 h ago", s: "Superseded" },
+  { n: "#409", sha: "f03a6c9", msg: "Preview: pr-218 checkout flow", who: "s.haddad", when: "5 h ago", s: "Preview" },
+];
+const services = [
+  { name: "pg-main", eng: "PostgreSQL 16", size: "2 vCPU · 4 GB", bk: "03:00 today" },
+  { name: "pg-analytics", eng: "PostgreSQL 16", size: "4 vCPU · 16 GB", bk: "03:00 today" },
+  { name: "cache-eu", eng: "Redis 7.4", size: "1 vCPU · 2 GB", bk: "AOF on" },
+  { name: "assets", eng: "Object storage", size: "184 GB", bk: "Versioned" },
+  { name: "events", eng: "RabbitMQ 4.0", size: "1 vCPU · 2 GB", bk: "Durable" },
+];
+const rules = [
+  { p: "10", m: "/v2/*", a: "Rate limit", t: "120 req/min" },
+  { p: "20", m: "/admin/*", a: "IP allow-list", t: "10.0.0.0/8" },
+  { p: "30", m: "/docs", a: "Redirect 301", t: "docs.acme.io" },
+  { p: "40", m: "/*", a: "Route", t: "api-prod :8080" },
+];
+---
+<section class="sec" id="platform">
+  <div class="wrap">
+    <SectionHead
+      num="03"
+      label="The platform"
+      title="Everything a platform team builds, already built."
+      lead="Deploys, databases, networking and observability behind one dashboard and one API, so developers never need to touch Docker commands, YAML or SSH."
+    />
+
+    <!-- Deploy -->
+    <article class="cap grid">
+      <div class="cap__text">
+        <p class="label cap__num">03.1 · Deploy</p>
+        <h3 class="h3">Push code, get a running service.</h3>
+        <p class="body-2">Connect a repository or point at a container image. InfraLedger builds it, issues an HTTPS certificate and runs it behind a load balancer.</p>
+        <ul class="cap__spec mono">
+          <li>Git or registry image deploys</li>
+          <li>A preview environment per branch</li>
+          <li>Replicas with health checks</li>
+          <li>In-browser console, no SSH</li>
+        </ul>
+      </div>
+      <div class="cap__ui" data-panel>
+        <div class="frame">
+          <div class="frame__bar">
+            <div class="frame__crumbs"><span>acme</span><span>/</span><span>prod</span><span>/</span><b>api-prod</b></div>
+            <span class="pill pill--ok">3/3 healthy</span>
+          </div>
+          <div class="ui-meta">
+            <div><p class="ui-k">Domain</p><p class="ui-v mono">api.acme.io</p></div>
+            <div><p class="ui-k">Source</p><p class="ui-v mono">acme/api · main</p></div>
+            <div><p class="ui-k">Replicas</p><p class="ui-v mono">3</p></div>
+          </div>
+          <div class="ui-table">
+            {deploys.map((d) => (
+              <div class="ui-tr ui-tr--dep">
+                <span class="mono ui-dim">{d.n}</span>
+                <span class="ui-main">{d.msg}<span class="mono ui-dim"> {d.sha}</span></span>
+                <span class="mono ui-dim hide-sm">{d.who}</span>
+                <span class="mono ui-dim hide-sm">{d.when}</span>
+                <span class:list={["pill", d.s === "Live" ? "pill--ok" : "pill--idle"]}>{d.s}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Data -->
+    <article class="cap grid">
+      <div class="cap__text">
+        <p class="label cap__num">03.2 · Data</p>
+        <h3 class="h3">Databases in a few clicks, isolated by default.</h3>
+        <p class="body-2">PostgreSQL, MySQL, MariaDB, Redis, S3-compatible storage and RabbitMQ, each on persistent storage inside its project's private network.</p>
+        <ul class="cap__spec mono">
+          <li>Scheduled backups and restore</li>
+          <li>Per-project network isolation</li>
+          <li>Resource limits per service</li>
+          <li>Credentials encrypted at rest</li>
+        </ul>
+      </div>
+      <div class="cap__ui" data-panel>
+        <div class="frame">
+          <div class="frame__bar">
+            <div class="frame__crumbs"><span>acme</span><span>/</span><span>prod</span><span>/</span><b>services</b></div>
+            <span>5 services</span>
+          </div>
+          <div class="ui-table">
+            <div class="ui-tr ui-tr--svc ui-th">
+              <span>Name</span><span>Engine</span><span class="hide-sm">Resources</span><span class="hide-sm">Backup</span><span></span>
+            </div>
+            {services.map((s) => (
+              <div class="ui-tr ui-tr--svc">
+                <span class="mono ui-main">{s.name}</span>
+                <span class="ui-dim">{s.eng}</span>
+                <span class="mono ui-dim hide-sm">{s.size}</span>
+                <span class="mono ui-dim hide-sm">{s.bk}</span>
+                <span class="pill pill--ok">Running</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Network -->
+    <article class="cap grid">
+      <div class="cap__text">
+        <p class="label cap__num">03.3 · Network</p>
+        <h3 class="h3">Routing, DNS and firewalls, without config files.</h3>
+        <p class="body-2">Define rules in the dashboard and InfraLedger compiles them into reverse-proxy configuration. Every project gets its own private network.</p>
+        <ul class="cap__spec mono">
+          <li>Path routing, redirects, rate limits</li>
+          <li>IP allow-lists and basic auth</li>
+          <li>DNS zones for your own domains</li>
+          <li>Automatic HTTPS certificates</li>
+        </ul>
+      </div>
+      <div class="cap__ui" data-panel>
+        <div class="frame">
+          <div class="frame__bar">
+            <div class="frame__crumbs"><span>api-prod</span><span>/</span><b>routing rules</b></div>
+            <span>api.acme.io</span>
+          </div>
+          <div class="ui-table">
+            <div class="ui-tr ui-tr--rule ui-th">
+              <span>Priority</span><span>Match</span><span>Action</span><span class="hide-sm">Target</span>
+            </div>
+            {rules.map((r) => (
+              <div class="ui-tr ui-tr--rule">
+                <span class="mono ui-dim">{r.p}</span>
+                <span class="mono ui-main">{r.m}</span>
+                <span>{r.a}</span>
+                <span class="mono ui-dim hide-sm">{r.t}</span>
+              </div>
+            ))}
+          </div>
+          <div class="ui-foot mono">
+            <span>Compiled to proxy config</span><span class="ui-ok">✓ applied 14:02:41</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Observe -->
+    <article class="cap grid">
+      <div class="cap__text">
+        <p class="label cap__num">03.4 · Observe</p>
+        <h3 class="h3">See what's running, and what changed.</h3>
+        <p class="body-2">Prometheus metrics, centralized logs and alerts sit next to the deploy history, so an error spike lines up with the change that caused it.</p>
+        <ul class="cap__spec mono">
+          <li>CPU, memory, request and error rate</li>
+          <li>Searchable logs per service</li>
+          <li>Alerts to Slack, email or webhooks</li>
+          <li>Rollback with a preview of what reverts</li>
+        </ul>
+      </div>
+      <div class="cap__ui" data-panel>
+        <div class="frame">
+          <div class="frame__bar">
+            <div class="frame__crumbs"><span>api-prod</span><span>/</span><b>error rate</b></div>
+            <span>last 60 min</span>
+          </div>
+          <div class="chart">
+            <svg viewBox="0 0 600 220" preserveAspectRatio="none" class="chart__svg" aria-label="Error rate rises after deployment 412 and falls after rollback">
+              <g class="chart__grid">
+                <line x1="0" y1="55" x2="600" y2="55" />
+                <line x1="0" y1="110" x2="600" y2="110" />
+                <line x1="0" y1="165" x2="600" y2="165" />
+              </g>
+              <line class="chart__mark" x1="300" y1="0" x2="300" y2="220" />
+              <line class="chart__mark chart__mark--rb" x1="450" y1="0" x2="450" y2="220" />
+              <path class="chart__area" d="M0,190 L30,188 L60,191 L90,187 L120,189 L150,186 L180,190 L210,188 L240,189 L270,187 L300,188 L320,150 L340,95 L360,70 L380,62 L400,74 L420,66 L450,70 L470,140 L490,182 L510,188 L540,187 L570,189 L600,188 L600,220 L0,220 Z" />
+              <path class="chart__line" data-chart-line d="M0,190 L30,188 L60,191 L90,187 L120,189 L150,186 L180,190 L210,188 L240,189 L270,187 L300,188 L320,150 L340,95 L360,70 L380,62 L400,74 L420,66 L450,70 L470,140 L490,182 L510,188 L540,187 L570,189 L600,188" />
+            </svg>
+            <span class="chart__tag mono" style="left:50%">deploy #412</span>
+            <span class="chart__tag chart__tag--rb mono" style="left:75%">rollback → #411</span>
+          </div>
+          <div class="ui-foot mono">
+            <span class="ui-bad">▲ Alert · error rate &gt; 2% for 3 min</span><span class="hide-sm">sent to #ops-alerts</span>
+          </div>
+        </div>
+      </div>
+    </article>
+    <a class="more" href="/platform">Explore the full platform <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<style>
+  .more {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+    font-size: 17px; font-weight: 500; transition: padding 300ms var(--ease);
+  }
+  .more:hover { padding-left: 8px; padding-right: 8px; }
+  .cap { padding: 72px 0; border-top: 1px solid var(--rule); row-gap: 40px; align-items: start; }
+  .cap__text { grid-column: 1 / span 4; position: sticky; top: 108px; }
+  .cap__num { margin-bottom: 18px; }
+  .cap__text .body-2 { margin-top: 14px; }
+  .cap__spec { list-style: none; margin-top: 28px; font-size: 12.5px; color: var(--ink-2); }
+  .cap__spec li { padding: 10px 0; border-top: 1px solid var(--rule); }
+  .cap__spec li:last-child { border-bottom: 1px solid var(--rule); }
+  .cap__ui { grid-column: 6 / span 7; }
+  @media (max-width: 960px) {
+    .cap__text, .cap__ui { grid-column: 1 / -1; position: static; }
+  }
+
+  .ui-meta {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    padding: 16px; border-bottom: 1px solid var(--rule-soft);
+  }
+  .ui-k { font-size: 11px; color: var(--ink-3); margin-bottom: 2px; }
+  .ui-v { font-size: 12.5px; }
+  .ui-table { display: grid; }
+  .ui-tr {
+    display: grid; align-items: center; column-gap: 14px;
+    min-height: 46px; padding: 0 16px; border-bottom: 1px solid var(--rule-soft);
+  }
+  .ui-tr:last-child { border-bottom: 0; }
+  .ui-tr > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ui-tr .pill { justify-self: end; }
+  .ui-th { min-height: 34px; background: var(--paper-2); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-3); }
+  .ui-tr--dep { grid-template-columns: 44px minmax(0, 1fr) 80px 76px 104px; }
+  .ui-tr--svc { grid-template-columns: 1.1fr 1.2fr 1.1fr 0.9fr 88px; }
+  .ui-tr--rule { grid-template-columns: 64px 1fr 1fr 1.2fr; }
+  .ui-main { color: var(--ink); }
+  .ui-dim { color: var(--ink-3); font-size: 12px; }
+  .mono.ui-main { font-size: 12.5px; }
+  .ui-foot {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 12px 16px; border-top: 1px solid var(--rule-soft); background: var(--paper);
+    font-size: 11.5px; color: var(--ink-3);
+  }
+  .ui-ok { color: var(--ok); }
+  .ui-bad { color: var(--signal); }
+
+  .chart { position: relative; padding: 28px 16px 12px; }
+  .chart__svg { width: 100%; height: 220px; overflow: visible; }
+  .chart__grid line { stroke: var(--rule-soft); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .chart__mark { stroke: var(--ink); stroke-dasharray: 3 4; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .chart__mark--rb { stroke: var(--ink-3); }
+  .chart__line { fill: none; stroke: var(--signal); stroke-width: 1.75; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  .chart__area { fill: var(--signal); opacity: 0.07; }
+  .chart__tag {
+    position: absolute; top: 8px; transform: translateX(-50%);
+    font-size: 10.5px; background: var(--ink); color: var(--paper); padding: 2px 6px; border-radius: 2px; white-space: nowrap;
+  }
+  .chart__tag--rb { background: var(--surface); color: var(--ink-2); border: 1px solid var(--rule); }
+
+  @media (max-width: 600px) {
+    .hide-sm { display: none !important; }
+    .ui-tr--dep { grid-template-columns: 40px minmax(0, 1fr) 96px; }
+    .ui-tr--svc { grid-template-columns: 1fr 1fr 80px; }
+    .ui-tr--rule { grid-template-columns: 44px 1fr 1fr; }
+    .ui-meta { grid-template-columns: 1fr 1fr; }
+    .ui-meta > div:last-child { display: none; }
+  }
+</style>

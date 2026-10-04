@@ -1,0 +1,15 @@
+---
+interface Props { num: string; label: string; title: string; lead?: string }
+const { num, label, title, lead } = Astro.props;
+---
+<div class="rule" data-draw></div>
+<div class="grid sec-head">
+  <div class="sec-head__meta">
+    <span class="sec-head__num">§{num}</span>
+    <span class="label">{label}</span>
+  </div>
+  <div class="sec-head__body">
+    <h2 class="h2" data-rise>{title}</h2>
+    {lead && <p class="lead" data-rise>{lead}</p>}
+  </div>
+</div>
