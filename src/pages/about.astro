@@ -32,6 +32,13 @@ const principles = [
   ["Say what's true", "We describe what our products do today, and label what's still in progress."],
 ];
 
+const facts = [
+  ["Founded", "2023"],
+  ["Headquarters", "Sidi Bel Abbès, Algeria"],
+  ["Team", "20 people"],
+  ["Focus", "Platform · Security · Enterprise"],
+];
+
 const stack = [
   ["Backend", "NestJS and Prisma"],
   ["Frontend", "React and Vite"],
@@ -48,6 +55,16 @@ const stack = [
     lead="ETDLedger is an engineering company. We make InfraLedger, a self-hosted cloud platform, and we deliver the security and enterprise systems work that surrounds it, for organizations that want to own and understand their infrastructure."
     index={index}
   />
+
+  <section class="facts">
+    <div class="wrap">
+      <dl class="facts__row">
+        {facts.map(([k, v]) => (
+          <div class="facts__cell"><dt class="label">{k}</dt><dd>{v}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
 
   <section class="sec" id="name">
     <div class="wrap">
@@ -126,6 +143,20 @@ const stack = [
 </Base>
 
 <style>
+  .facts { padding-bottom: 24px; }
+  .facts__row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+  }
+  .facts__cell { padding: 20px 24px 22px 0; display: grid; gap: 8px; align-content: start; }
+  .facts__cell + .facts__cell { border-left: 1px solid var(--rule); padding-left: 24px; }
+  .facts__cell dd { font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -0.015em; }
+  @media (max-width: 900px) {
+    .facts__row { grid-template-columns: 1fr 1fr; }
+    .facts__row .facts__cell:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .facts__row .facts__cell:nth-child(even) { padding-left: 16px; }
+    .facts__cell:nth-child(n + 3) { border-top: 1px solid var(--rule); }
+  }
   .nm { grid-column: 4 / span 9; border-top: 1px solid var(--ink); }
   .nm__row {
     display: grid; grid-template-columns: 80px minmax(0, 1fr) minmax(0, 1.6fr); column-gap: var(--gutter);
