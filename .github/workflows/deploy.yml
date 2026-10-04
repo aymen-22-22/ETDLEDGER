@@ -51,8 +51,10 @@ jobs:
         run: |
           set -euo pipefail
           install -m 700 -d ~/.ssh
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null || { echo "::error::SSH_PRIVATE_KEY is not a valid private key. Paste the whole key, including the BEGIN and END lines."; exit 1; }
+          echo "Using key: $(ssh-keygen -l -f ~/.ssh/deploy_key)"
           ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" \
             -o StrictHostKeyChecking=accept-new -o BatchMode=yes -o ConnectTimeout=20 \
             "$SSH_USER@$SSH_HOST" "bash -s" -- "$CPANEL_REPO" <<'REMOTE'
