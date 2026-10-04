@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import SectionHead from "../components/SectionHead.astro";
@@ -88,7 +89,7 @@ const stack = [
       <SectionHead num="02" label="What we do" title="One product, two practices." lead="InfraLedger is our core product. Our security and enterprise teams work on the systems around it, and often on systems that never touch it." />
       <div class="wk">
         {work.map((w) => (
-          <a class="wk__col" href={w.href} data-rise>
+          <a class="wk__col" href={u(w.href)} data-rise>
             <span class="mono wk__code">{w.code}</span>
             <h3 class="h3">{w.title}</h3>
             <p class="body-2">{w.text}</p>

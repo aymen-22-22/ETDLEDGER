@@ -1,4 +1,5 @@
 ---
+import { u, stripBase } from "../lib/url";
 import Logo from "./Logo.astro";
 const links = [
   { href: "/platform", label: "Platform" },
@@ -7,18 +8,18 @@ const links = [
   { href: "/enterprise", label: "Enterprise" },
   { href: "/about", label: "Company" },
 ];
-const path = Astro.url.pathname.replace(/\/$/, "");
+const path = stripBase(Astro.url.pathname).replace(/\/$/, "");
 ---
 <header class="hdr" data-hdr>
   <div class="wrap hdr__in">
-    <a href="/" aria-label="ETDLedger home"><Logo /></a>
+    <a href={u("/")} aria-label="ETDLedger home"><Logo /></a>
     <nav class="hdr__nav" aria-label="Primary">
       {links.map((l) => (
-        <a class="ulink" href={l.href} aria-current={!l.href.includes("#") && path === l.href ? "page" : undefined}>{l.label}</a>
+        <a class="ulink" href={u(l.href)} aria-current={!l.href.includes("#") && path === l.href ? "page" : undefined}>{l.label}</a>
       ))}
     </nav>
     <div class="hdr__cta">
-      <a href="/contact" class="btn btn--solid hdr__btn">Request a demo</a>
+      <a href={u("/contact")} class="btn btn--solid hdr__btn">Request a demo</a>
     </div>
   </div>
 </header>

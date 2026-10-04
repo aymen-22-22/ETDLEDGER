@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 import SectionHead from "./SectionHead.astro";
 import IsoFigure from "./IsoFigure.astro";
 const security = [
@@ -36,14 +37,14 @@ const enterprise = [
     </div>
 
     <div class="idx" data-rise>
-      <p class="label idx__h">Security services <a class="ulink idx__more" href="/security">All security services →</a></p>
+      <p class="label idx__h">Security services <a class="ulink idx__more" href={u("/security")}>All security services →</a></p>
       {security.map(([c, t, d]) => (
         <div class="idx__row"><span class="mono idx__c">{c}</span><span class="idx__t">{t}</span><span class="idx__d">{d}</span></div>
       ))}
     </div>
 
     <div class="idx" id="enterprise" data-rise>
-      <p class="label idx__h">Enterprise systems <a class="ulink idx__more" href="/enterprise">All enterprise services →</a></p>
+      <p class="label idx__h">Enterprise systems <a class="ulink idx__more" href={u("/enterprise")}>All enterprise services →</a></p>
       {enterprise.map(([c, t, d]) => (
         <div class="idx__row"><span class="mono idx__c">{c}</span><span class="idx__t">{t}</span><span class="idx__d">{d}</span></div>
       ))}
