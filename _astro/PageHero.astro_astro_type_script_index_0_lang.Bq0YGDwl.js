@@ -1,0 +1,1 @@
+import{t as e}from"./gsap.CvDoa17S.js";e.matchMedia().add(`(prefers-reduced-motion: no-preference)`,()=>{e.from(`[data-phero-in]`,{y:18,opacity:0,duration:.9,ease:`power3.out`,stagger:.08})});

@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/
+    - /bin/find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .cpanel.yml ! -name .nojekyll -exec /bin/cp -R {} $DEPLOYPATH \;
