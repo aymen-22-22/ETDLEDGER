@@ -60,7 +60,7 @@ const services = [
     items={[]}
   >
     <div class="grid">
-      <div class="svc" data-rise>
+      <div class="svc card" data-rise>
         <div class="svc__row svc__row--head"><span class="label">Service</span><span class="label">Included</span></div>
         {services.map(([n, d]) => (
           <div class="svc__row"><span class="svc__n">{n}</span><span class="svc__d">{d}</span></div>
@@ -121,13 +121,14 @@ const services = [
 </Base>
 
 <style>
-  .svc { grid-column: 4 / span 9; border-top: 1px solid var(--ink); }
+  .svc { grid-column: 4 / span 9; padding: 4px 24px; }
   .svc__row {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: var(--gutter);
-    padding: 18px 0; border-bottom: 1px solid var(--rule);
+    padding: 18px 0; border-bottom: 1px solid var(--rule-soft);
   }
+  .svc__row:last-child { border-bottom: 0; }
   .svc__row--head { padding: 14px 0; }
-  .svc__n { font-weight: 500; }
+  .svc__n { font-weight: 600; letter-spacing: -0.01em; }
   .svc__d { color: var(--ink-2); font-size: 15px; }
   @media (max-width: 900px) {
     .svc { grid-column: 1 / -1; }

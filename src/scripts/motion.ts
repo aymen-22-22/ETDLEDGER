@@ -52,7 +52,7 @@ mm.add("(prefers-reduced-motion: no-preference)", () => {
 
 mm.add("(hover: hover) and (pointer: fine)", () => {
   const onMove = (e: PointerEvent) => {
-    const frame = (e.target as Element | null)?.closest<HTMLElement>(".frame");
+    const frame = (e.target as Element | null)?.closest<HTMLElement>(".frame, .card");
     if (!frame) return;
     const r = frame.getBoundingClientRect();
     frame.style.setProperty("--mx", `${e.clientX - r.left}px`);

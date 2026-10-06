@@ -82,7 +82,7 @@ const models = [
             <p class="mono prac__code">{p.code}</p>
             <div class="prac__items">
               {p.items.map(([t, d]) => (
-                <div class="prac__row" data-rise>
+                <div class="prac__row card" data-rise>
                   <p class="prac__t">{t}</p>
                   <p class="prac__d">{d}</p>
                 </div>
@@ -105,7 +105,7 @@ const models = [
       <div class="grid">
         <div class="models">
           {models.map(([t, d], i) => (
-            <div class="models__col" data-rise>
+            <div class="models__col card" data-rise>
               <span class="mono models__n">0{i + 1}</span>
               <p class="models__t">{t}</p>
               <p class="body-2">{d}</p>
@@ -131,15 +131,11 @@ const models = [
 
 <style>
   .prac { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
-  .prac__code { grid-column: 1 / span 3; font-size: 12px; color: var(--signal); padding-top: 24px; }
+  .prac__code { grid-column: 1 / span 3; font-size: 12px; color: var(--signal); padding-top: 26px; }
   .prac__items {
-    grid-column: 4 / span 9; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--gutter);
-    border-top: 1px solid var(--ink);
+    grid-column: 4 / span 9; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
   }
-  .night .prac__items { border-top-color: var(--night-ink-3); }
-  .prac__row { padding: 22px 0 26px; border-bottom: 1px solid var(--rule); }
-  .night .prac__row { border-bottom-color: var(--night-rule); }
-  .prac__t { font-weight: 500; font-size: 17px; margin-bottom: 6px; }
+  .prac__t { font-weight: 600; font-size: 17px; letter-spacing: -0.015em; margin-bottom: 8px; }
   .prac__d { font-size: 15px; color: var(--ink-2); }
   .night .prac__d { color: var(--night-ink-2); }
   @media (max-width: 900px) {
@@ -147,12 +143,11 @@ const models = [
     .prac__items { grid-column: 1 / -1; grid-template-columns: 1fr; }
   }
 
-  .models { grid-column: 4 / span 9; display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--gutter); }
-  .models__col { border-top: 1px solid var(--ink); padding-top: 18px; }
+  .models { grid-column: 4 / span 9; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .models__n { font-size: 12px; color: var(--signal); }
-  .models__t { font-size: 20px; font-weight: 500; margin: 16px 0 8px; }
+  .models__t { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin: 28px 0 8px; }
   @media (max-width: 900px) {
-    .models { grid-column: 1 / -1; grid-template-columns: 1fr; row-gap: 32px; }
+    .models { grid-column: 1 / -1; grid-template-columns: 1fr; }
   }
 </style>
 
