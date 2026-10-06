@@ -32,6 +32,10 @@ Everything below was written without confirmed information. Replace or confirm e
 - The SAP integration map, Oracle health view, Odoo modules view, managed clusters view and detections view are illustrations with example figures, not client data.
 - Oracle has no logo in Simple Icons, so it uses a database icon. Don't add an unofficial Oracle logo.
 
+## Cyber labs — `src/pages/labs.astro`
+- Lab types, delivery steps, safety commitments (expiring VPN credentials, teardown after the engagement) and the technology logos describe a planned offering. Confirm each before relying on the page.
+- The lab network view is an illustration.
+
 ## Audiences — `src/pages/index.astro`
 - "Who it's for" (banks, telecom, public sector, software teams) describes target markets, not customers.
 

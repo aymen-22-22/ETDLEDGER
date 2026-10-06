@@ -29,6 +29,7 @@ const reasons = [
 ];
 const services = [
   ["Security services", "Threat detection, assessments and compliance readiness.", "/services#security", "icon:ShieldCheck"],
+  ["Cyber labs", "Isolated training environments for security teams.", "/labs", "icon:FlaskConical"],
   ["SAP", "Implementation, migration and integration.", "/services#sap", "brand:siSap"],
   ["Oracle", "Database administration, migration and support.", "/services#oracle", "icon:Database"],
   ["Odoo", "ERP implementation, hosted on your servers.", "/services#odoo", "brand:siOdoo"],
@@ -225,8 +226,7 @@ const faq: [string, string][] = [
   .split__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
   @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
 
-  .svc-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
-  @media (max-width: 1100px) { .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .svc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   @media (max-width: 760px) { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 480px) { .svc-grid { grid-template-columns: minmax(0, 1fr); } }
   .svc { position: relative; display: block; }
