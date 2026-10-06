@@ -38,8 +38,23 @@ const steps = [
   { icon: "Wrench", title: "Deliver", text: "Our engineers do the work with your team, in agreed stages." },
   { icon: "LifeBuoy", title: "Support", text: "Handover, documentation and ongoing support if you need it." },
 ] as const;
+const servicesLd = [
+  ["Security services", "Threat detection, security assessments and compliance readiness.", "security"],
+  ["SAP implementation and integration", "SAP implementation, migration, integration and operations.", "sap"],
+  ["Oracle database administration", "Oracle database administration, migration and application support.", "oracle"],
+  ["Odoo implementation and hosting", "Odoo ERP implementation, customization and hosting on your own servers.", "odoo"],
+  ["Managed Kubernetes", "Isolated virtual Kubernetes clusters run as a managed service.", "kubernetes"],
+].map(([name, description, id]) => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name,
+  description,
+  url: `https://etdledger.com/services#${id}`,
+  provider: { "@id": "https://etdledger.com/#organization" },
+  areaServed: "DZ",
+}));
 ---
-<Base title="Services — ETDLedger" description="Security, SAP, Oracle, Odoo and managed Kubernetes services from ETDLedger's engineering team.">
+<Base jsonld={servicesLd} title="Services — ETDLedger" description="Security, SAP, Oracle, Odoo and managed Kubernetes services from ETDLedger's engineering team.">
   <PageHeader eyebrow="Services" title="Engineers for the systems your business runs on" lead="Alongside InfraLedger, ETDLedger's team works on security, SAP, Oracle, Odoo and Kubernetes, on-premises or hybrid.">
     <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to our team <span class="arrow">→</span></a>
   </PageHeader>

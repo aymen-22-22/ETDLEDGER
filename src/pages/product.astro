@@ -38,8 +38,18 @@ const stack = [
   ["Metrics", "Prometheus", ["siPrometheus"]],
   ["Runtimes", "Docker, Kubernetes, vcluster", ["siDocker", "siKubernetes"]],
 ] as const;
+const productLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "InfraLedger",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Linux",
+  description: "A self-hosted, multi-tenant cloud platform for deploying applications and databases on your own servers, with an audit log of every action.",
+  url: "https://etdledger.com/product",
+  publisher: { "@id": "https://etdledger.com/#organization" },
+};
 ---
-<Base title="Product — InfraLedger" description="Deploys, managed databases, networking, observability and an audit log of every action, on infrastructure you run.">
+<Base jsonld={[productLd]} title="Product — InfraLedger" description="Deploys, managed databases, networking, observability and an audit log of every action, on infrastructure you run.">
   <PageHeader eyebrow="Product" title="Everything a platform team would build, ready to run" lead="InfraLedger turns raw servers into a self-service platform. Developers deploy, provision and operate from a dashboard, and you keep full control of the infrastructure.">
     <a class="btn btn--primary" href={u("/docs")}>Get started <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href={u("/contact?interest=platform")}>Request a demo</a>

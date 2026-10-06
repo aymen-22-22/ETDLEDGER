@@ -41,8 +41,13 @@ const faq: [string, string][] = [
   ["Is support included?", "Every edition includes support. Business and Enterprise add faster response times, guided onboarding and, for Enterprise, operation by our engineers."],
   ["Can we change editions later?", "Yes. You can move between editions as your usage grows, without reinstalling the platform."],
 ];
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+};
 ---
-<Base title="Pricing — InfraLedger" description="InfraLedger editions for evaluation, production teams and enterprises. Pricing is based on your infrastructure and support needs.">
+<Base jsonld={[faqLd]} title="Pricing — InfraLedger" description="InfraLedger editions for evaluation, production teams and enterprises. Pricing is based on your infrastructure and support needs.">
   <PageHeader eyebrow="Pricing" title="Editions that grow with your infrastructure" lead="Every edition runs on your own servers. Pricing is based on the size of your deployment and the support you need." />
 
   <section class="section">

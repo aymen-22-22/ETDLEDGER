@@ -42,8 +42,20 @@ const faq: [string, string][] = [
   ["Do you provide support?", "Yes. ETDLedger's engineers help with installation, onboarding and ongoing support, and can operate the platform for you."],
   ["Where is my data stored?", "On your infrastructure. Applications, databases, logs and the audit log all stay on servers you control. ETDLedger only has access if you grant it."],
 ];
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "ETDLedger",
+  url: "https://etdledger.com/",
+  publisher: { "@id": "https://etdledger.com/#organization" },
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+};
 ---
-<Base title="InfraLedger — the self-hosted cloud platform | ETDLedger" description="InfraLedger turns your servers into a self-service platform for apps and databases, with an audit log of every action. Built by ETDLedger.">
+<Base jsonld={[websiteLd, faqLd]} title="InfraLedger — the self-hosted cloud platform | ETDLedger" description="InfraLedger turns your servers into a self-service platform for apps and databases, with an audit log of every action. Built by ETDLedger.">
   <section class="hero">
     <div class="hero__racks" aria-hidden="true">
       <div class="hero__rack hero__rack--l"><ServerRack units={18} seed={3} /></div>
