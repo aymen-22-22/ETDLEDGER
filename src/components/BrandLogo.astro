@@ -1,0 +1,18 @@
+---
+import * as brands from "simple-icons";
+
+type Key = Extract<keyof typeof brands, `si${string}`>;
+interface Props { brand: Key; size?: number; class?: string; decorative?: boolean }
+const { brand, size = 24, class: cls, decorative = false } = Astro.props;
+const icon = brands[brand] as { title: string; path: string };
+---
+<svg
+  class:list={["brand", cls]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="currentColor"
+  role={decorative ? undefined : "img"}
+  aria-label={decorative ? undefined : icon.title}
+  aria-hidden={decorative ? "true" : undefined}
+><path d={icon.path} /></svg>

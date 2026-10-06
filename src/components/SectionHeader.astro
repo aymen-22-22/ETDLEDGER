@@ -3,6 +3,7 @@ interface Props { eyebrow?: string; title: string; lead?: string; center?: boole
 const { eyebrow, title, lead, center = false, id } = Astro.props;
 ---
 <header class:list={["section-header", { "section-header--center": center }]} data-reveal>
+  <slot name="mark" />
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
   <h2 class="h2" id={id}>{title}</h2>
   {lead && <p class="lead">{lead}</p>}

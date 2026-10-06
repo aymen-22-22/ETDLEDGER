@@ -9,7 +9,13 @@ import GrowthSteps from "../components/GrowthSteps.astro";
 import CodeBlock from "../components/CodeBlock.astro";
 import Faq from "../components/Faq.astro";
 import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import BrandLogo from "../components/BrandLogo.astro";
+import LogoCloud from "../components/LogoCloud.astro";
+import ServerRack from "../components/ServerRack.astro";
 
+const audienceIcons = ["Landmark", "RadioTower", "Building2", "Code"] as const;
+const reasonIcons = ["Server", "LayoutDashboard", "ScrollText"] as const;
 const audiences = [
   ["Banks and financial services", "Keep customer data and workloads on infrastructure you control and can audit."],
   ["Telecom operators", "Give internal teams a self-service platform across your own data centers."],
@@ -22,11 +28,11 @@ const reasons = [
   ["Every action recorded", "Each deploy, configuration change and admin action is logged with who, when and the outcome. Organizations are isolated from each other."],
 ];
 const services = [
-  ["Security services", "Threat detection, assessments and compliance readiness.", "/services#security"],
-  ["SAP", "Implementation, migration and integration.", "/services#sap"],
-  ["Oracle", "Database administration, migration and support.", "/services#oracle"],
-  ["Managed Kubernetes", "Virtual clusters you can offer to your customers.", "/services#kubernetes"],
-];
+  ["Security services", "Threat detection, assessments and compliance readiness.", "/services#security", "icon:ShieldCheck"],
+  ["SAP", "Implementation, migration and integration.", "/services#sap", "brand:siSap"],
+  ["Oracle", "Database administration, migration and support.", "/services#oracle", "icon:Database"],
+  ["Managed Kubernetes", "Virtual clusters you can offer to your customers.", "/services#kubernetes", "brand:siKubernetes"],
+] as const;
 const faq: [string, string][] = [
   ["How is InfraLedger different from Heroku, Render or Railway?", "Those platforms run your apps on their cloud. InfraLedger gives you the same self-service workflow on servers you own, from a single machine to a Kubernetes cluster, and records every action in an audit log you control."],
   ["What do I need to run it?", "A Linux server with Docker and Docker Compose is enough to start. To grow, connect a Kubernetes cluster. We help size the servers for your workload during onboarding."],
@@ -37,7 +43,11 @@ const faq: [string, string][] = [
 ---
 <Base title="InfraLedger — the self-hosted cloud platform | ETDLedger" description="InfraLedger turns your servers into a self-service platform for apps and databases, with an audit log of every action. Built by ETDLedger.">
   <section class="hero">
-    <div class="container">
+    <div class="hero__racks" aria-hidden="true">
+      <div class="hero__rack hero__rack--l"><ServerRack units={18} seed={3} /></div>
+      <div class="hero__rack hero__rack--r"><ServerRack units={18} seed={11} /></div>
+    </div>
+    <div class="container hero__in">
       <div class="hero__copy">
         <h1 class="h1">The self-hosted cloud platform.</h1>
         <p class="lead hero__lead">InfraLedger turns your servers into a platform where developers deploy apps and databases themselves, and every action is recorded in an audit log.</p>
@@ -47,6 +57,12 @@ const faq: [string, string][] = [
         </div>
       </div>
       <div class="hero__shot"><DashboardMock /></div>
+      <div class="hero__runs">
+        <LogoCloud label="Runs on the infrastructure you already have" items={[
+          ["siDocker", "Docker"], ["siKubernetes", "Kubernetes"], ["siUbuntu", "Ubuntu"],
+          ["siDebian", "Debian"], ["siRedhat", "Red Hat"], ["siRockylinux", "Rocky Linux"],
+        ]} />
+      </div>
     </div>
   </section>
 
@@ -56,6 +72,7 @@ const faq: [string, string][] = [
       <div class="grid-4">
         {audiences.map(([t, d], i) => (
           <div class="card" data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon"><Icon name={audienceIcons[i]} /></span>
             <p class="card__title">{t}</p>
             <p class="card__text">{d}</p>
           </div>
@@ -70,6 +87,7 @@ const faq: [string, string][] = [
       <div class="reasons">
         {reasons.map(([t, d], i) => (
           <div class="reason" data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon"><Icon name={reasonIcons[i]} /></span>
             <p class="h3">{t}</p>
             <p class="muted">{d}</p>
           </div>
@@ -83,6 +101,19 @@ const faq: [string, string][] = [
       <SectionHeader eyebrow="Product" title="Everything a platform team would build" lead="Deploys, databases, networking and observability in one dashboard." />
       <ProductTour />
       <p class="more"><a class="link" href={u("/product")}>See all features</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader center eyebrow="Open source inside" title="Built on tools your team already trusts" lead="Provision the data services you need in a few clicks. InfraLedger runs them on proven open-source components." />
+      <LogoCloud label="Data services you can provision" items={[
+        ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"], ["siMariadb", "MariaDB"], ["siRedis", "Redis"], ["siRabbitmq", "RabbitMQ"],
+      ]} />
+      <div class="oss-gap"></div>
+      <LogoCloud label="Under the hood" items={[
+        ["siDocker", "Docker"], ["siKubernetes", "Kubernetes"], ["siTraefikproxy", "Traefik"], ["siLetsencrypt", "Let's Encrypt"], ["siPrometheus", "Prometheus"],
+      ]} />
     </div>
   </section>
 
@@ -137,8 +168,11 @@ const faq: [string, string][] = [
     <div class="container">
       <SectionHeader eyebrow="Services" title="Engineers for the systems around it" lead="ETDLedger's team also works on the systems most organizations run alongside their platform." />
       <div class="grid-4">
-        {services.map(([t, d, href], i) => (
+        {services.map(([t, d, href, mark], i) => (
           <a class="card svc" href={u(href)} data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon">
+              {mark.startsWith("icon:") ? <Icon name={mark.slice(5) as "Database"} /> : <BrandLogo brand={mark.slice(6) as "siSap"} size={20} decorative />}
+            </span>
             <p class="card__title">{t}</p>
             <p class="card__text">{d}</p>
             <span class="svc__arrow" aria-hidden="true">→</span>
@@ -159,7 +193,19 @@ const faq: [string, string][] = [
 </Base>
 
 <style>
-  .hero { padding: 96px 0 112px; }
+  .hero { position: relative; padding: 96px 0 112px; overflow: hidden; }
+  .hero__in { position: relative; }
+  .hero__racks { position: absolute; inset: 0; pointer-events: none; }
+  .hero__rack {
+    position: absolute; top: 40px; width: 230px; opacity: 0.7;
+    -webkit-mask: linear-gradient(to bottom, #000 20%, transparent 78%);
+    mask: linear-gradient(to bottom, #000 20%, transparent 78%);
+  }
+  .hero__rack--l { left: max(12px, calc(50% - 760px)); }
+  .hero__rack--r { right: max(12px, calc(50% - 760px)); }
+  @media (max-width: 1260px) { .hero__racks { display: none; } }
+  .hero__runs { margin-top: 72px; }
+  .oss-gap { height: 40px; }
   .hero__copy { max-width: 760px; margin: 0 auto; text-align: center; }
   .hero__lead { margin: 24px auto 0; max-width: 620px; }
   .hero__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }

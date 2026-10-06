@@ -1,5 +1,6 @@
 ---
 import { u } from "../lib/url";
+import ServerRack from "./ServerRack.astro";
 interface Props { title?: string; text?: string; interest?: string }
 const {
   title = "Run your own cloud.",
@@ -8,21 +9,42 @@ const {
 } = Astro.props;
 ---
 <section class="cta">
-  <div class="container cta__in" data-reveal>
-    <div>
-      <h2 class="h2">{title}</h2>
-      <p class="lead cta__text">{text}</p>
-    </div>
-    <div class="cta__actions">
-      <a class="btn btn--primary" href={u(`/contact?interest=${interest}`)}>Request a demo <span class="arrow">→</span></a>
-      <a class="btn btn--secondary" href={u("/docs")}>Read the docs</a>
+  <div class="container">
+    <div class="cta__panel" data-reveal>
+      <div class="cta__copy">
+        <h2 class="h2">{title}</h2>
+        <p class="lead cta__text">{text}</p>
+        <div class="cta__actions">
+          <a class="btn btn--primary" href={u(`/contact?interest=${interest}`)}>Request a demo <span class="arrow">→</span></a>
+          <a class="btn btn--secondary" href={u("/docs")}>Read the docs</a>
+        </div>
+      </div>
+      <div class="cta__racks" aria-hidden="true">
+        <ServerRack units={9} seed={5} />
+        <ServerRack units={9} seed={8} />
+        <ServerRack units={9} seed={13} />
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .cta { padding: 96px 0; border-top: 1px solid var(--border); }
-  .cta__in { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
-  .cta__text { margin-top: 14px; max-width: 520px; }
-  .cta__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cta__panel {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: end;
+    padding: 56px 56px 0; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); overflow: hidden;
+  }
+  .cta__copy { padding-bottom: 56px; }
+  .cta__text { margin-top: 14px; max-width: 480px; }
+  .cta__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .cta__racks {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-self: end; margin-bottom: -28px;
+    -webkit-mask: linear-gradient(to top, transparent, #000 45%);
+    mask: linear-gradient(to top, transparent, #000 45%);
+  }
+  @media (max-width: 900px) {
+    .cta__panel { grid-template-columns: minmax(0, 1fr); padding: 32px 24px 0; }
+    .cta__copy { padding-bottom: 32px; }
+    .cta__racks { display: none; }
+  }
 </style>

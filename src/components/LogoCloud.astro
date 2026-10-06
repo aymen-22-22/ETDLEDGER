@@ -1,0 +1,36 @@
+---
+import BrandLogo from "./BrandLogo.astro";
+
+interface Props { items: [Parameters<typeof BrandLogo>[0]["brand"], string][]; label?: string; compact?: boolean }
+const { items, label, compact = false } = Astro.props;
+---
+<div class:list={["lc", { "lc--compact": compact }]}>
+  {label && <p class="lc__label">{label}</p>}
+  <ul class="lc__list">
+    {items.map(([brand, name], i) => (
+      <li class="lc__item" data-reveal style={`--d:${i * 40}ms`}>
+        <BrandLogo brand={brand} size={compact ? 22 : 30} decorative />
+        <span>{name}</span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .lc__label { text-align: center; font-size: 14px; color: var(--text-2); margin-bottom: 24px; }
+  .lc__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .lc__item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    width: 140px; height: 112px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
+    color: var(--text-2); font-size: 13.5px; font-weight: 500;
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .lc__item:hover { color: var(--text); border-color: var(--border-strong); }
+  .lc__item :global(.brand) { color: var(--text); }
+  .lc--compact .lc__list { justify-content: flex-start; gap: 8px; }
+  .lc--compact .lc__item { flex-direction: row; width: auto; height: 44px; padding: 0 14px; gap: 10px; }
+  @media (max-width: 640px) {
+    .lc__item { width: calc(50% - 6px); }
+    .lc--compact .lc__item { width: auto; }
+  }
+</style>

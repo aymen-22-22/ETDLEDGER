@@ -3,18 +3,19 @@ import DeployMock from "./ui/DeployMock.astro";
 import DataMock from "./ui/DataMock.astro";
 import NetworkMock from "./ui/NetworkMock.astro";
 import ObserveMock from "./ui/ObserveMock.astro";
+import Icon from "./Icon.astro";
 
 const tabs = [
-  { id: "deploy", label: "Deploy", title: "Push code, get a running service", points: ["Deploy from Git or any container image", "Automatic HTTPS for every app", "Replicas with health checks", "A preview environment per branch"] },
-  { id: "data", label: "Data", title: "Databases in a few clicks", points: ["PostgreSQL, MySQL, MariaDB and Redis", "S3-compatible storage and RabbitMQ", "Scheduled backups with restore", "Isolated in each project's network"] },
-  { id: "network", label: "Network", title: "Routing without config files", points: ["Path routing, redirects and rate limits", "IP allow-lists and basic auth", "DNS zones for your own domains", "A private network per project"] },
-  { id: "observe", label: "Observe", title: "See what's running and what changed", points: ["CPU, memory, request and error rates", "Searchable logs for every service", "Alerts to Slack, email or webhooks", "Deploys marked on every chart"] },
-];
+  { id: "deploy", icon: "Rocket", label: "Deploy", title: "Push code, get a running service", points: ["Deploy from Git or any container image", "Automatic HTTPS for every app", "Replicas with health checks", "A preview environment per branch"] },
+  { id: "data", icon: "Database", label: "Data", title: "Databases in a few clicks", points: ["PostgreSQL, MySQL, MariaDB and Redis", "S3-compatible storage and RabbitMQ", "Scheduled backups with restore", "Isolated in each project's network"] },
+  { id: "network", icon: "Network", label: "Network", title: "Routing without config files", points: ["Path routing, redirects and rate limits", "IP allow-lists and basic auth", "DNS zones for your own domains", "A private network per project"] },
+  { id: "observe", icon: "Activity", label: "Observe", title: "See what's running and what changed", points: ["CPU, memory, request and error rates", "Searchable logs for every service", "Alerts to Slack, email or webhooks", "Deploys marked on every chart"] },
+] as const;
 ---
 <div class="tour" data-tour>
   <div class="tour__tabs" role="tablist" aria-label="Product features">
     {tabs.map((t, i) => (
-      <button class="tour__tab" role="tab" id={`tab-${t.id}`} aria-controls={`panel-${t.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} type="button">{t.label}</button>
+      <button class="tour__tab" role="tab" id={`tab-${t.id}`} aria-controls={`panel-${t.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} type="button"><Icon name={t.icon} size={16} />{t.label}</button>
     ))}
   </div>
   {tabs.map((t, i) => (
@@ -40,7 +41,7 @@ const tabs = [
     max-width: 100%; overflow-x: auto;
   }
   .tour__tab {
-    height: 34px; padding: 0 16px; border-radius: 7px; font-size: 15px; font-weight: 500; color: var(--text-2);
+    display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 16px; border-radius: 7px; font-size: 15px; font-weight: 500; color: var(--text-2);
     transition: color 150ms var(--ease), background-color 150ms var(--ease);
   }
   .tour__tab:hover { color: var(--text); }

@@ -14,6 +14,10 @@ Everything below was written without confirmed information. Replace or confirm e
 - Requirements (64-bit Linux, Docker Engine and Compose plugin, ports 80/443, a domain) and the dashboard flow (create account, organization, project) should be checked against the real product.
 - `app.localhost` for local evaluation comes from the platform overview.
 
+## Supported platforms — `src/pages/index.astro`, `src/pages/docs/index.astro`
+- The "Runs on the infrastructure you already have" logos (Ubuntu, Debian, Red Hat, Rocky Linux) and the Docs requirement logos assume any 64-bit Linux with Docker works. Confirm which distributions you support.
+- Logos come from Simple Icons (CC0) and are shown in one color, as nominative references to the technologies InfraLedger runs on.
+
 ## Pricing — `src/pages/pricing.astro`
 - Editions (Community, Business, Enterprise), their contents and "Pricing on request" are placeholders.
 - FAQ answers on evaluation, support levels and changing editions are assumptions.

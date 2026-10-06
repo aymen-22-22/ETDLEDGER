@@ -7,6 +7,9 @@ import SectionHeader from "../components/SectionHeader.astro";
 import IsoDiagram from "../components/IsoDiagram.astro";
 import LedgerMock from "../components/ui/LedgerMock.astro";
 import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+
+const controlIcons = ["Building2", "KeyRound", "ScrollText", "Lock", "BrickWall", "ShieldCheck"] as const;
 
 const controls = [
   ["Tenant isolation", "Each organization's resources are isolated from every other organization, and each project runs on its own private network."],
@@ -37,6 +40,7 @@ const controls = [
       <div class="grid-3">
         {controls.map(([t, d], i) => (
           <div class="card" data-reveal style={`--d:${i * 50}ms`}>
+            <span class="card__icon"><Icon name={controlIcons[i]} /></span>
             <p class="card__title">{t}</p>
             <p class="card__text">{d}</p>
           </div>

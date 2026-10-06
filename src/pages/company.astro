@@ -5,6 +5,9 @@ import { site } from "../lib/site";
 import PageHeader from "../components/PageHeader.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+
+const principleIcons = ["Server", "ScrollText", "Lock", "Layers", "Terminal", "CircleCheck"] as const;
 
 const facts = [
   ["Founded", site.founded],
@@ -56,6 +59,7 @@ const principles = [
       <div class="grid-3">
         {principles.map(([t, d], i) => (
           <div class="card" data-reveal style={`--d:${i * 40}ms`}>
+            <span class="card__icon"><Icon name={principleIcons[i]} /></span>
             <p class="card__title">{t}</p>
             <p class="card__text">{d}</p>
           </div>

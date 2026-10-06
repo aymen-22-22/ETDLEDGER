@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import { u } from "../../lib/url";
 import { site } from "../../lib/site";
 import CodeBlock from "../../components/CodeBlock.astro";
+import LogoCloud from "../../components/LogoCloud.astro";
 
 const toc: [string, string][] = [
   ["overview", "Overview"],
@@ -46,6 +47,9 @@ const toc: [string, string][] = [
         <li>Ports 80 and 443 reachable, so InfraLedger can serve apps over HTTPS</li>
         <li>A domain or subdomain that points to the server, for the dashboard and your apps</li>
       </ul>
+      <div class="req-logos">
+        <LogoCloud compact items={[["siUbuntu", "Ubuntu"], ["siDebian", "Debian"], ["siRedhat", "Red Hat"], ["siRockylinux", "Rocky Linux"], ["siDocker", "Docker"]]} />
+      </div>
       <p>Server sizing depends on how many applications and databases you plan to run. We size it with you during onboarding.</p>
 
       <h2 id="install">Install</h2>
@@ -101,6 +105,7 @@ const toc: [string, string][] = [
   .docs__body .checklist { margin: 4px 0 16px; }
   .docs__body :global(.code) { margin: 8px 0 18px; }
   .docs__body code.mono { padding: 1px 6px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); }
+  .req-logos { margin: 4px 0 20px; }
   .callout { margin-top: 28px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-size: 15px; }
   .steps { counter-reset: s; display: grid; gap: 12px; margin: 4px 0 16px; }
   .steps li { counter-increment: s; position: relative; padding-left: 38px; color: var(--text-2); }

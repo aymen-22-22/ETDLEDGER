@@ -1,14 +1,21 @@
 ---
-interface Props { id: string; eyebrow: string; title: string; text: string; items: string[]; note?: string }
-const { id, eyebrow, title, text, items, note } = Astro.props;
+import Icon from "./Icon.astro";
+import LogoCloud from "./LogoCloud.astro";
+interface Props {
+  id: string; eyebrow: string; title: string; text: string; items: string[]; note?: string;
+  icon?: Parameters<typeof Icon>[0]["name"];
+  logos?: Parameters<typeof LogoCloud>[0]["items"];
+}
+const { id, eyebrow, title, text, items, note, icon, logos } = Astro.props;
 ---
 <section class="section fr" id={id}>
   <div class="container fr__in">
     <div class="fr__copy" data-reveal>
-      <p class="eyebrow">{eyebrow}</p>
+      <p class="eyebrow fr__eyebrow">{icon && <span class="fr__icon"><Icon name={icon} size={16} /></span>}{eyebrow}</p>
       <h2 class="h2 fr__title">{title}</h2>
       <p class="lead">{text}</p>
       <ul class="checklist">{items.map((i) => <li>{i}</li>)}</ul>
+      {logos && <LogoCloud compact items={logos} />}
       {note && <p class="fr__note">{note}</p>}
     </div>
     <div class="fr__ui" data-reveal><slot /></div>
@@ -18,6 +25,8 @@ const { id, eyebrow, title, text, items, note } = Astro.props;
 <style>
   .fr__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 64px; align-items: center; }
   .fr__copy { display: grid; gap: 18px; align-content: start; }
+  .fr__eyebrow { display: inline-flex; align-items: center; gap: 10px; }
+  .fr__icon { display: inline-grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); background: var(--surface); }
   .fr__title { font-size: clamp(28px, 3.2vw, 40px); }
   .fr__note { font-size: 14px; color: var(--text-2); padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
   .fr__ui:empty { display: none; }

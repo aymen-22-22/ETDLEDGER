@@ -11,6 +11,8 @@ import DeployMock from "../components/ui/DeployMock.astro";
 import DataMock from "../components/ui/DataMock.astro";
 import NetworkMock from "../components/ui/NetworkMock.astro";
 import ObserveMock from "../components/ui/ObserveMock.astro";
+import BrandLogo from "../components/BrandLogo.astro";
+import Icon from "../components/Icon.astro";
 
 const sub: [string, string][] = [
   ["deploy", "Deploy"],
@@ -21,6 +23,7 @@ const sub: [string, string][] = [
   ["architecture", "Architecture"],
   ["stack", "Under the hood"],
 ];
+const accessIcons = ["Building2", "KeyRound", "ScrollText", "LayoutDashboard"] as const;
 const access = [
   ["Organizations and projects", "Organizations are the tenant boundary. Projects group the apps, databases and services that belong together."],
   ["Roles enforced on every request", "Owner, Admin and Member roles are checked by the API on every call, not just hidden in the interface."],
@@ -28,13 +31,13 @@ const access = [
   ["Platform administration", "A separate console to manage organizations, suspend abusive tenants and view system health."],
 ];
 const stack = [
-  ["API", "NestJS and Prisma"],
-  ["Dashboard", "React and Vite"],
-  ["Platform data", "PostgreSQL"],
-  ["Routing and TLS", "Traefik with Let's Encrypt"],
-  ["Metrics", "Prometheus"],
-  ["Runtimes", "Docker, Kubernetes, vcluster"],
-];
+  ["API", "NestJS and Prisma", ["siNestjs", "siPrisma"]],
+  ["Dashboard", "React and Vite", ["siReact", "siVite"]],
+  ["Platform data", "PostgreSQL", ["siPostgresql"]],
+  ["Routing and TLS", "Traefik with Let's Encrypt", ["siTraefikproxy", "siLetsencrypt"]],
+  ["Metrics", "Prometheus", ["siPrometheus"]],
+  ["Runtimes", "Docker, Kubernetes, vcluster", ["siDocker", "siKubernetes"]],
+] as const;
 ---
 <Base title="Product — InfraLedger" description="Deploys, managed databases, networking, observability and an audit log of every action, on infrastructure you run.">
   <PageHeader eyebrow="Product" title="Everything a platform team would build, ready to run" lead="InfraLedger turns raw servers into a self-service platform. Developers deploy, provision and operate from a dashboard, and you keep full control of the infrastructure.">
@@ -43,7 +46,7 @@ const stack = [
   </PageHeader>
   <SubNav label="Product sections" items={sub} />
 
-  <FeatureRow id="deploy" eyebrow="Deploy" title="Push code, get a running service"
+  <FeatureRow id="deploy" eyebrow="Deploy" icon="Rocket" logos={[["siGit", "Git"], ["siDocker", "Container images"]]} title="Push code, get a running service"
     text="Connect a Git repository or point at any container image. InfraLedger builds it, issues a certificate and runs it behind a load balancer."
     items={[
       "Git deploys with Dockerfile detection or buildpacks",
@@ -58,7 +61,7 @@ const stack = [
     <DeployMock />
   </FeatureRow>
 
-  <FeatureRow id="data" eyebrow="Data services" title="Databases in a few clicks, isolated by default"
+  <FeatureRow id="data" eyebrow="Data services" icon="Database" logos={[["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"], ["siMariadb", "MariaDB"], ["siRedis", "Redis"], ["siRabbitmq", "RabbitMQ"]]} title="Databases in a few clicks, isolated by default"
     text="Every data service runs on persistent storage inside its project's private network, with resource monitoring and scheduled backups."
     items={[
       "PostgreSQL, MySQL and MariaDB with versioned engines",
@@ -71,7 +74,7 @@ const stack = [
     <DataMock />
   </FeatureRow>
 
-  <FeatureRow id="network" eyebrow="Networking" title="Routing, DNS and firewalls without config files"
+  <FeatureRow id="network" eyebrow="Networking" icon="Network" logos={[["siTraefikproxy", "Traefik"], ["siLetsencrypt", "Let's Encrypt"]]} title="Routing, DNS and firewalls without config files"
     text="Set rules in the dashboard and InfraLedger compiles them into reverse-proxy configuration. Each project gets its own private network."
     items={[
       "Path-based routing, redirects and rate limits",
@@ -83,7 +86,7 @@ const stack = [
     <NetworkMock />
   </FeatureRow>
 
-  <FeatureRow id="observe" eyebrow="Observability" title="See what's running, and what changed"
+  <FeatureRow id="observe" eyebrow="Observability" icon="Activity" logos={[["siPrometheus", "Prometheus"]]} title="See what's running, and what changed"
     text="Metrics, logs and alerts sit next to the deploy history, so a spike lines up with the change that caused it."
     items={[
       "CPU, memory, request and error rates per service",
@@ -101,6 +104,7 @@ const stack = [
       <div class="grid-2">
         {access.map(([t, d], i) => (
           <div class="card" data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon"><Icon name={accessIcons[i]} /></span>
             <p class="card__title">{t}</p>
             <p class="card__text">{d}</p>
           </div>
@@ -121,7 +125,7 @@ const stack = [
     <div class="container stack">
       <SectionHeader eyebrow="Under the hood" title="Built on open, conventional technology" lead="A monorepo of widely used open-source tools, so the engineers who run it can understand it." />
       <dl class="stack__list" data-reveal>
-        {stack.map(([k, v]) => <div><dt>{k}</dt><dd class="mono">{v}</dd></div>)}
+        {stack.map(([k, v, logos]) => <div><dt>{k}</dt><dd><span class="stack__logos">{logos.map((l) => <BrandLogo brand={l} size={18} decorative />)}</span><span class="mono">{v}</span></dd></div>)}
       </dl>
     </div>
   </section>
@@ -136,5 +140,7 @@ const stack = [
   .stack__list { border-top: 1px solid var(--border); }
   .stack__list div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); }
   .stack__list dt { color: var(--text-2); }
+  .stack__list dd { display: flex; align-items: center; gap: 12px; text-align: right; }
+  .stack__logos { display: inline-flex; gap: 8px; color: var(--text); }
   @media (max-width: 900px) { .stack { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
 </style>
