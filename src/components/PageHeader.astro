@@ -1,0 +1,21 @@
+---
+interface Props { eyebrow: string; title: string; lead: string }
+const { eyebrow, title, lead } = Astro.props;
+---
+<section class="ph">
+  <div class="container">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="h1 ph__title">{title}</h1>
+    <p class="lead ph__lead">{lead}</p>
+    <div class="ph__actions"><slot /></div>
+  </div>
+</section>
+
+<style>
+  .ph { padding: 104px 0 72px; border-bottom: 1px solid var(--border); }
+  .ph__title { margin-top: 16px; max-width: 18ch; }
+  .ph__lead { margin-top: 20px; max-width: 640px; }
+  .ph__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .ph__actions:empty { display: none; }
+  @media (max-width: 720px) { .ph { padding: 72px 0 56px; } }
+</style>

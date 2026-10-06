@@ -1,0 +1,104 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import SubNav from "../components/SubNav.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const sub: [string, string][] = [
+  ["security", "Security services"],
+  ["sap", "SAP"],
+  ["oracle", "Oracle"],
+  ["kubernetes", "Managed Kubernetes"],
+  ["engagement", "How we work"],
+];
+const security = [
+  { title: "Threat detection and monitoring", text: "Detection rules and alerting built on audit logs and infrastructure telemetry, tuned to how your teams deploy and operate.", scope: ["Rules for deploy, access and configuration events", "Alert routing to your on-call channels", "Regular tuning to reduce false positives"] },
+  { title: "Security assessments", text: "Reviews of infrastructure and applications, for self-hosted and cloud-native environments.", scope: ["Infrastructure and network configuration review", "Application penetration testing", "Container and Kubernetes hardening", "Findings ranked by risk, with fixes"] },
+  { title: "Compliance readiness", text: "Access controls, audit trails and isolation, mapped to the frameworks your auditors use.", scope: ["Control mapping to your target framework", "Evidence from audit logs and access records", "Gap analysis and remediation plan"] },
+];
+const practices = [
+  {
+    id: "sap", eyebrow: "SAP", title: "SAP, connected to infrastructure you control",
+    lead: "Implementation, migration and integration across SAP landscapes, with the surrounding services on infrastructure you own.",
+    items: [["Implementation", "Planning and rollout of SAP modules, aligned to your processes."], ["Migration", "Moves between versions and hosting models, with cutover and rollback plans."], ["Integration", "Connecting SAP to the applications, APIs and data around it."], ["Operations", "Ongoing administration, monitoring and change management."]],
+  },
+  {
+    id: "oracle", eyebrow: "Oracle", title: "Oracle databases and applications, run well",
+    lead: "Database administration, migration and application support for Oracle estates, on-premises or hybrid.",
+    items: [["Database administration", "Performance tuning, patching, backup and recovery."], ["Migration", "Upgrades and platform moves, including to containerized environments."], ["Licensing review", "Understand your current usage and where it can be optimized."], ["Application support", "Maintenance and integration for Oracle-based applications."]],
+  },
+  {
+    id: "kubernetes", eyebrow: "Managed Kubernetes", title: "Kubernetes clusters you can offer as a product",
+    lead: "InfraLedger can create isolated virtual clusters with vcluster. We help you run them as a managed service for your customers or business units.",
+    items: [["Virtual clusters", "Each customer gets an isolated cluster with direct kubectl access."], ["One platform", "Clusters are managed from InfraLedger, alongside apps and databases."], ["Cluster setup", "Design and rollout of the underlying Kubernetes infrastructure."], ["Day-two operations", "Upgrades, capacity planning and incident support."]],
+  },
+];
+const models = [
+  ["Project", "A defined scope with a fixed outcome, such as a migration or an assessment."],
+  ["Retained team", "Ongoing capacity from engineers who know your systems."],
+  ["Advisory", "Architecture reviews and decision support for your own team."],
+];
+---
+<Base title="Services — ETDLedger" description="Security services, SAP, Oracle and managed Kubernetes from ETDLedger's engineering team.">
+  <PageHeader eyebrow="Services" title="Engineers for the systems your business runs on" lead="Alongside InfraLedger, ETDLedger's team works on security, SAP, Oracle and Kubernetes, on-premises or hybrid.">
+    <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to our team <span class="arrow">→</span></a>
+  </PageHeader>
+  <SubNav label="Services" items={sub} />
+
+  <section class="section" id="security">
+    <div class="container">
+      <SectionHeader eyebrow="Security services" title="Security work, scoped to your environment" lead="Each service can run on its own or alongside an InfraLedger deployment." />
+      <div class="grid-3">
+        {security.map((s, i) => (
+          <div class="card sec" data-reveal style={`--d:${i * 60}ms`}>
+            <p class="card__title">{s.title}</p>
+            <p class="card__text">{s.text}</p>
+            <ul class="checklist">{s.scope.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {practices.map((p, i) => (
+    <section class:list={["section", { "section--subtle": i === 1 }]} id={p.id}>
+      <div class="container prac">
+        <SectionHeader eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+        <div class="grid-2">
+          {p.items.map(([t, d], j) => (
+            <div class="card" data-reveal style={`--d:${j * 50}ms`}>
+              <p class="card__title">{t}</p>
+              <p class="card__text">{d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section" id="engagement">
+    <div class="container">
+      <SectionHeader eyebrow="How we work" title="Every engagement starts with a conversation" lead="We agree on the scope and outcome first, then work in one of three ways." />
+      <div class="grid-3">
+        {models.map(([t, d], i) => (
+          <div class="card" data-reveal style={`--d:${i * 60}ms`}>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Tell us what you run." text="SAP, Oracle, Kubernetes or security: we'll put the right engineer on the first call." interest="other" />
+</Base>
+
+<style>
+  .sec { display: grid; gap: 6px; align-content: start; }
+  .sec .checklist { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .prac { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 64px; align-items: start; }
+  .prac :global(.section-header) { margin-bottom: 0; }
+  @media (max-width: 900px) { .prac { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+</style>

@@ -1,0 +1,26 @@
+---
+import Base from "../layouts/Base.astro";
+interface Props { title: string; description: string; updated: string }
+const { title, description, updated } = Astro.props;
+---
+<Base title={`${title} — ETDLedger`} description={description}>
+  <article class="container legal">
+    <p class="eyebrow">Legal</p>
+    <h1 class="h1 legal__title">{title}</h1>
+    <p class="legal__updated">Last updated {updated}</p>
+    <div class="legal__body"><slot /></div>
+  </article>
+</Base>
+
+<style>
+  .legal { max-width: 760px; padding-top: 96px; padding-bottom: 120px; }
+  .legal__title { margin-top: 14px; font-size: clamp(36px, 4.6vw, 52px); }
+  .legal__updated { margin-top: 14px; color: var(--text-2); font-size: 15px; }
+  .legal__body { margin-top: 40px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .legal__body :global(h2) { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; margin: 40px 0 12px; }
+  .legal__body :global(p), .legal__body :global(li) { color: var(--text-2); }
+  .legal__body :global(p) { margin-bottom: 14px; }
+  .legal__body :global(ul) { display: grid; gap: 8px; margin: 0 0 16px; padding-left: 20px; list-style: disc; }
+  .legal__body :global(a) { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 720px) { .legal { padding-top: 64px; } }
+</style>

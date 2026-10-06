@@ -1,188 +1,84 @@
 ---
 import Base from "../layouts/Base.astro";
-import PageHero from "../components/PageHero.astro";
-import SectionHead from "../components/SectionHead.astro";
-import SpecSection from "../components/SpecSection.astro";
-import IsoFigure from "../components/IsoFigure.astro";
-import Cta from "../components/Cta.astro";
+import { u } from "../lib/url";
+import { site } from "../lib/site";
+import PageHeader from "../components/PageHeader.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import IsoDiagram from "../components/IsoDiagram.astro";
+import LedgerMock from "../components/ui/LedgerMock.astro";
+import CtaBand from "../components/CtaBand.astro";
 
-const index = [
-  { num: "01", label: "The ledger approach", href: "#approach" },
-  { num: "02", label: "Services", href: "#services" },
-  { num: "03", label: "Platform controls", href: "#controls" },
-  { num: "04", label: "How we work", href: "#engagement" },
-];
-
-const services = [
-  {
-    code: "SEC-01",
-    title: "Threat detection & monitoring",
-    text: "Detection rules and alerting built on the audit ledger and infrastructure telemetry, tuned to how your teams actually deploy and operate.",
-    scope: ["Detection rules on deploy, access and config events", "Alert routing to your on-call channels", "Anomaly review of authentication activity", "Regular tuning against false positives"],
-  },
-  {
-    code: "SEC-02",
-    title: "Security assessments",
-    text: "Reviews of infrastructure and applications, for self-hosted and cloud-native environments alike.",
-    scope: ["Infrastructure and network configuration review", "Application penetration testing", "Container and Kubernetes hardening", "Prioritized findings with remediation steps"],
-  },
-  {
-    code: "SEC-03",
-    title: "Compliance readiness",
-    text: "Access controls, audit trails and tenant isolation, mapped to the frameworks your auditors work with.",
-    scope: ["Control mapping against your target framework", "Evidence from audit logs and access records", "Gap analysis and remediation plan", "Support during auditor review"],
-  },
-];
-
-const steps = [
-  ["01", "Scope", "Agree on the systems, environments and outcomes in a short scoping call."],
-  ["02", "Assess", "Review configuration, access and activity records, and test where it's in scope."],
-  ["03", "Report", "Findings ranked by risk, each with a concrete fix and an owner."],
-  ["04", "Operate", "Optionally, keep detection running on the ledger after the engagement ends."],
+const controls = [
+  ["Tenant isolation", "Each organization's resources are isolated from every other organization, and each project runs on its own private network."],
+  ["Roles on every request", "Owner, Admin and Member roles are enforced by the API on every call, not only hidden in the interface."],
+  ["Audit log", "Every deploy, restart, deletion, configuration change and admin action is recorded with the actor, time and outcome."],
+  ["Encrypted secrets", "Environment variables and service credentials are encrypted at rest."],
+  ["Application firewall", "IP allow-lists, basic auth and rate limits can be set for each application."],
+  ["HTTPS by default", "Every application gets a certificate from Let's Encrypt, renewed automatically."],
 ];
 ---
-<Base
-  title="Security — ETDLedger"
-  description="Threat detection built on an audit ledger of every infrastructure change, plus security assessments and compliance readiness from ETDLedger."
->
-  <PageHero
-    label="ETDLedger / Security"
-    title="Detection starts with a complete record."
-    lead="ETDLedger stands for Enterprise Threat Detection Ledger. Every deploy, login, configuration change and network decision on InfraLedger becomes an entry with an actor, a time and an outcome. Our security team builds detection on that record, and on the systems around it."
-    index={index}
-  />
+<Base title="Security — InfraLedger" description="How InfraLedger protects your data: self-hosted by design, tenant isolation, roles enforced on every request, encrypted secrets and a complete audit log.">
+  <PageHeader eyebrow="Security" title="Your data stays on your infrastructure" lead="InfraLedger is self-hosted by design. Applications, databases, logs and the audit log all live on servers you control, and nothing depends on a third-party cloud API." />
 
-  <section class="sec" id="approach">
-    <div class="wrap">
-      <SectionHead
-        num="01"
-        label="The ledger approach"
-        title="You can't detect what you didn't record."
-        lead="Most incidents are found late because the evidence is scattered across tools. InfraLedger records the platform's activity in one place by design."
-      />
-      <div class="grid appr">
-        <IsoFigure />
-        <ol class="appr__list">
-          {[
-            ["Record", "Platform actions are written to the audit log with actor, timestamp and outcome."],
-            ["Enforce", "Roles and network boundaries are checked on every request, and denials are logged."],
-            ["Detect", "Rules and reviews run against the record to surface activity that doesn't fit."],
-            ["Respond", "Alerts go to the channels your team already uses, with the history attached."],
-          ].map(([t, d], i) => (
-            <li class="card" data-rise>
-              <span class="mono appr__n">0{i + 1}</span>
-              <div><p class="appr__t">{t}</p><p class="body-2">{d}</p></div>
-            </li>
-          ))}
-        </ol>
+  <section class="section">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <p class="eyebrow">Isolation</p>
+        <h2 class="h2">Enforced boundaries, not naming conventions</h2>
+        <p class="lead">Organizations are the tenant boundary, and projects inside them get separate private networks. A workload in one project can't open a connection to another project's services.</p>
       </div>
+      <div data-reveal><IsoDiagram /></div>
     </div>
   </section>
 
-  <section class="sec night" id="services">
-    <div class="wrap">
-      <SectionHead
-        num="02"
-        label="Services"
-        title="Security work, scoped to your environment."
-        lead="Each service can run on its own, or alongside an InfraLedger deployment."
-      />
-      <div class="svcs">
-        {services.map((s) => (
-          <article class="grid svcs__row" data-rise>
-            <p class="mono svcs__code">{s.code}</p>
-            <div class="svcs__main">
-              <h3 class="h3">{s.title}</h3>
-              <p class="body-2">{s.text}</p>
-            </div>
-            <ul class="svcs__scope mono">
-              {s.scope.map((x) => <li>{x}</li>)}
-            </ul>
-          </article>
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Built-in controls" title="Security that's part of the platform" lead="These controls apply to every organization and project. There's nothing to add on." />
+      <div class="grid-3">
+        {controls.map(([t, d], i) => (
+          <div class="card" data-reveal style={`--d:${i * 50}ms`}>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+          </div>
         ))}
       </div>
     </div>
   </section>
 
-  <SpecSection
-    id="controls"
-    num="03"
-    label="Platform controls"
-    title="Security controls built into InfraLedger."
-    lead="These are part of the platform itself, not add-ons, so they apply to every organization and project."
-    items={[
-      ["Tenant isolation", "Each organization's resources are isolated from every other, with private networks per project."],
-      ["Role-based access", "Owner, Admin and Member roles, enforced on every API call."],
-      ["Audit log", "Every deploy, restart, delete, config change and admin action, with actor, timestamp and outcome."],
-      ["Encrypted secrets", "Environment variables and service credentials encrypted at rest."],
-      ["Application firewall", "IP allow-lists, basic auth and rate limits per application."],
-      ["Self-hosted by design", "No third-party cloud API in the critical path. Your data stays on infrastructure you control."],
-    ]}
-  />
+  <section class="section section--subtle">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <p class="eyebrow">Audit log</p>
+        <h2 class="h2">A complete record, stored where you choose</h2>
+        <p class="lead">The audit log is kept in InfraLedger's own database on your servers. It records successful and failed actions, so you can answer who changed what, and when.</p>
+        <p class="muted">ETDLedger's security team can build threat detection on top of this record. <a class="link" href={u("/services#security")}>See security services</a></p>
+      </div>
+      <LedgerMock />
+    </div>
+  </section>
 
-  <section class="sec" id="engagement">
-    <div class="wrap">
-      <SectionHead num="04" label="How we work" title="A clear engagement, start to finish." />
-      <div class="grid">
-        <ol class="flow">
-          {steps.map(([n, t, d]) => (
-            <li class="card" data-rise>
-              <span class="mono flow__n">{n}</span>
-              <p class="flow__t">{t}</p>
-              <p class="body-2">{d}</p>
-            </li>
-          ))}
-        </ol>
+  <section class="section">
+    <div class="container access">
+      <div data-reveal>
+        <p class="eyebrow">Access</p>
+        <h2 class="h2">Who can reach your platform</h2>
+      </div>
+      <div class="access__text" data-reveal>
+        <p class="lead">Only people you invite. ETDLedger staff have no access to your installation unless you grant it, for example for a support request, and you can revoke it at any time.</p>
+        <p class="muted">Found a vulnerability? Email <a class="link" href={`mailto:${site.email}`}>{site.email}</a> and we'll respond as quickly as we can.</p>
       </div>
     </div>
   </section>
 
-  <Cta
-    num="05"
-    title="Find out what your infrastructure is telling you."
-    interest="security"
-    button="Talk to our security team"
-    steps={[
-      ["01", "Tell us about your environment", "Platforms, team size and what you need to protect."],
-      ["02", "Agree on scope", "Assessment, detection, compliance readiness, or a combination."],
-      ["03", "Get a proposal", "Timeline, deliverables and the people doing the work."],
-    ]}
-  />
+  <CtaBand title="Review InfraLedger with your security team." text="We'll walk your team through the architecture, controls and audit log." />
 </Base>
 
 <style>
-  .appr { align-items: center; row-gap: 48px; }
-  .appr > :global(.iso) { grid-column: 1 / span 7; }
-  .appr__list { grid-column: 9 / span 4; list-style: none; display: grid; gap: 10px; }
-  .appr__list li { display: grid; grid-template-columns: 40px 1fr; padding: 18px 20px; }
-  .appr__n { font-size: 12px; color: var(--signal); padding-top: 3px; }
-  .appr__t { font-weight: 600; margin-bottom: 4px; letter-spacing: -0.01em; }
-  @media (max-width: 960px) {
-    .appr > :global(.iso), .appr__list { grid-column: 1 / -1; }
-  }
-
-  .svcs { display: grid; gap: 12px; }
-  .svcs__row { padding: 36px 32px; row-gap: 20px; border: 1px solid var(--night-rule); border-radius: 14px; background: linear-gradient(180deg, var(--night-2), var(--night)); }
-  .svcs__code { grid-column: 1 / span 2; font-size: 12px; color: var(--signal); padding-top: 6px; }
-  .svcs__main { grid-column: 3 / span 6; }
-  .svcs__main .body-2 { margin-top: 10px; }
-  .svcs__scope { grid-column: 9 / span 4; list-style: none; font-size: 12.5px; color: var(--night-ink-2); }
-  .svcs__scope li { padding: 9px 0; border-top: 1px solid var(--night-rule); }
-  @media (max-width: 900px) {
-    .svcs__code, .svcs__main, .svcs__scope { grid-column: 1 / -1; }
-  }
-
-  .flow {
-    grid-column: 1 / -1; list-style: none;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-  }
-  .flow li { padding: 22px; }
-  .flow__n { font-size: 12px; color: var(--signal); }
-  .flow__t { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin: 28px 0 8px; }
-  @media (max-width: 900px) { .flow { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px) { .flow { grid-template-columns: 1fr; } }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 64px; align-items: center; }
+  .split__copy { display: grid; gap: 18px; align-content: start; }
+  @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  .access { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 64px; }
+  .access .eyebrow { margin-bottom: 16px; }
+  .access__text { display: grid; gap: 18px; }
+  @media (max-width: 900px) { .access { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
 </style>
-
-<script>
-  import "../scripts/motion.ts";
-</script>
