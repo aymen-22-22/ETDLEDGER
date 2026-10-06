@@ -1,0 +1,27 @@
+---
+import Window from "./Window.astro";
+const rows = [
+  { sev: ["bad", "High"], rule: "Admin role granted outside business hours", src: "audit log", t: "02:14" },
+  { sev: ["warn", "Medium"], rule: "Deploy outside the change window", src: "audit log", t: "23:41" },
+  { sev: ["warn", "Medium"], rule: "Repeated failed deploys on one service", src: "audit log", t: "18:07" },
+  { sev: ["", "Low"], rule: "New IP allow-list entry on admin panel", src: "routing rules", t: "11:32" },
+];
+---
+<Window title="Detections · last 7 days" caption="Illustration of a threat detection engagement">
+  <span slot="bar" class="ui-dim">4 open · 27 resolved</span>
+  <div class="ui-scroll">
+    <table class="ui-table">
+      <thead><tr><th>Severity</th><th>Detection</th><th class="ui-hide-sm">Source</th><th class="ui-hide-sm">Time</th></tr></thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr class:list={{ "ui-row-bad": r.sev[0] === "bad" }}>
+            <td><span class:list={["status", r.sev[0] && `status--${r.sev[0]}`]}>{r.sev[1]}</span></td>
+            <td class="ui-strong">{r.rule}</td>
+            <td class="ui-dim ui-hide-sm">{r.src}</td>
+            <td class="num ui-hide-sm">{r.t}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Window>

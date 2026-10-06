@@ -1,49 +1,58 @@
 ---
 import { u } from "../lib/url";
 import Logo from "./Logo.astro";
+import { site } from "../lib/site";
+
 const cols = [
-  { title: "Platform", links: [["Deploy", "/platform#deploy"], ["Data services", "/platform#data"], ["Networking", "/platform#network"], ["Architecture", "/platform#architecture"], ["Observability", "/platform#observe"]] },
-  { title: "Services", links: [["Security", "/security"], ["SAP", "/enterprise#sap"], ["Oracle", "/enterprise#oracle"], ["Managed Kubernetes", "/enterprise#kubernetes"], ["About", "/about"], ["Contact", "/contact"]] },
+  { title: "Product", links: [["Overview", "/product"], ["Docs", "/docs"], ["Pricing", "/pricing"], ["Security", "/security"]] },
+  { title: "Services", links: [["Security services", "/services#security"], ["Cyber labs", "/labs"], ["SAP", "/services#sap"], ["Oracle", "/services#oracle"], ["Odoo", "/services#odoo"], ["Managed Kubernetes", "/services#kubernetes"]] },
+  { title: "Company", links: [["About", "/company"], ["Contact", "/contact"]] },
+  { title: "Legal", links: [["Privacy policy", "/legal/privacy"], ["Terms of use", "/legal/terms"]] },
 ];
 const year = new Date().getFullYear();
 ---
-<footer class="ftr night">
-  <div class="wrap">
-    <div class="grid ftr__top">
+<footer class="ftr">
+  <div class="container">
+    <div class="ftr__top">
       <div class="ftr__brand">
-        <Logo inverted />
-        <p class="body-2">Enterprise Threat Detection Ledger.<br />Self-hosted infrastructure, enterprise systems and security.</p>
+        <Logo />
+        <p class="small muted">The self-hosted cloud platform, from ETDLedger.</p>
+        <address class="small muted">
+          {site.city}<br />
+          <a class="link" href={`mailto:${site.email}`}>{site.email}</a>
+        </address>
       </div>
       {cols.map((c) => (
         <div class="ftr__col">
-          <p class="label">{c.title}</p>
+          <p class="ftr__title">{c.title}</p>
           <ul>
-            {c.links.map(([label, href]) => <li><a class="ulink" href={href.startsWith("/") ? u(href) : href}>{label}</a></li>)}
+            {c.links.map(([label, href]) => <li><a href={u(href)}>{label}</a></li>)}
           </ul>
         </div>
       ))}
     </div>
-    <div class="rule"></div>
-    <div class="ftr__base mono">
-      <span>© {year} ETDLedger</span>
-      <span>InfraLedger is a product of ETDLedger</span>
+    <div class="ftr__base">
+      <span>© {year} ETDLedger. All rights reserved.</span>
+      <span>InfraLedger is a product of ETDLedger.</span>
     </div>
   </div>
 </footer>
 
 <style>
-  .ftr { padding: 88px 0 40px; }
-  .ftr__top { row-gap: 48px; padding-bottom: 72px; }
-  .ftr__brand { grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 20px; }
-  .ftr__col { grid-column: span 3; }
-  .ftr__col ul { list-style: none; margin-top: 18px; display: grid; gap: 10px; font-size: 15px; color: var(--night-ink-2); }
-  .ftr__col a:hover { color: var(--night-ink); }
+  .ftr { border-top: 1px solid var(--border); background: var(--bg-subtle); padding: 64px 0 32px; }
+  .ftr__top { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 32px; padding-bottom: 48px; }
+  .ftr__brand { display: grid; gap: 14px; align-content: start; }
+  .ftr__brand address { font-style: normal; line-height: 1.7; }
+  .ftr__title { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+  .ftr__col ul { display: grid; gap: 10px; font-size: 15px; color: var(--text-2); }
+  .ftr__col a { transition: color 150ms var(--ease); }
+  .ftr__col a:hover { color: var(--text); }
   .ftr__base {
     display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-    padding-top: 24px; font-size: 12px; color: var(--night-ink-3);
+    padding-top: 24px; border-top: 1px solid var(--border); font-size: 13.5px; color: var(--text-2);
   }
-  @media (max-width: 720px) {
+  @media (max-width: 900px) {
+    .ftr__top { grid-template-columns: repeat(2, 1fr); }
     .ftr__brand { grid-column: 1 / -1; }
-    .ftr__col { grid-column: span 6; }
   }
 </style>

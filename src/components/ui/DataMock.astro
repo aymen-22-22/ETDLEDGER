@@ -1,0 +1,29 @@
+---
+import Window from "./Window.astro";
+const services = [
+  { name: "pg-main", engine: "PostgreSQL 16", size: "2 vCPU · 4 GB", backup: "Daily · 03:00" },
+  { name: "mysql-legacy", engine: "MySQL 8.4", size: "2 vCPU · 4 GB", backup: "Daily · 03:30" },
+  { name: "cache", engine: "Redis 7", size: "1 vCPU · 2 GB", backup: "AOF" },
+  { name: "assets", engine: "Object storage", size: "184 GB", backup: "Versioned" },
+  { name: "events", engine: "RabbitMQ", size: "1 vCPU · 2 GB", backup: "Durable queues" },
+];
+---
+<Window title="production / databases & services">
+  <span slot="bar" class="ui-btn">Add service</span>
+  <div class="ui-scroll">
+    <table class="ui-table">
+      <thead><tr><th>Name</th><th>Engine</th><th class="ui-hide-sm">Resources</th><th class="ui-hide-sm">Backups</th><th>Status</th></tr></thead>
+      <tbody>
+        {services.map((s) => (
+          <tr>
+            <td class="ui-strong">{s.name}</td>
+            <td class="ui-dim">{s.engine}</td>
+            <td class="num ui-hide-sm">{s.size}</td>
+            <td class="ui-dim ui-hide-sm">{s.backup}</td>
+            <td><span class="status status--ok">Running</span></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Window>

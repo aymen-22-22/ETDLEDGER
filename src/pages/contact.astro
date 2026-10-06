@@ -1,42 +1,45 @@
 ---
 import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import { site } from "../lib/site";
 
-const email = "hello@etdledger.com";
 const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
 const interests = [
-  ["platform", "InfraLedger platform"],
-  ["kubernetes", "Managed Kubernetes"],
+  ["platform", "InfraLedger"],
   ["security", "Security services"],
+  ["labs", "Cyber labs"],
   ["sap", "SAP"],
   ["oracle", "Oracle"],
+  ["odoo", "Odoo"],
+  ["kubernetes", "Managed Kubernetes"],
   ["other", "Something else"],
 ];
-const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or a Kubernetes cluster", "Not sure yet"];
+const sizes = ["1 server", "2–10 servers", "11–50 servers", "More than 50 servers or a Kubernetes cluster", "Not sure yet"];
 ---
 <Base title="Contact — ETDLedger" description="Request an InfraLedger demo or talk to ETDLedger about security, SAP, Oracle and managed Kubernetes.">
   <section class="ct">
-    <div class="ct__bg" aria-hidden="true"></div>
-    <div class="wrap grid ct__in">
+    <div class="container ct__in">
       <div class="ct__intro">
-        <p class="label">ETDLedger / Contact</p>
-        <h1 class="display ct__title">Tell us what you run.</h1>
-        <p class="lead">Whether it's a demo of InfraLedger or help with security, SAP or Oracle, a few details help us bring the right engineer to the first conversation.</p>
+        <p class="eyebrow">Contact</p>
+        <h1 class="h1 ct__title">Tell us what you run</h1>
+        <p class="lead">Whether it's a demo of InfraLedger or help with security, SAP, Oracle or Odoo, a few details help us bring the right engineer to the first call.</p>
         <dl class="ct__facts">
-          <div><dt class="label">Email</dt><dd><a class="ulink mono" href={`mailto:${email}`}>{email}</a></dd></div>
-          <div><dt class="label">What happens next</dt><dd>An engineer reviews your request and replies to schedule a call.</dd></div>
+          <div><dt>Email</dt><dd><a class="link" href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt>Location</dt><dd>{site.city}</dd></div>
+          <div><dt>What happens next</dt><dd>An engineer reviews your request and replies by email to schedule a call.</dd></div>
         </dl>
       </div>
 
-      <form class="form card" data-form data-endpoint={endpoint} data-email={email} novalidate>
+      <form class="form" data-form data-endpoint={endpoint} data-email={site.email} novalidate>
         <div class="form__grid">
-          <label class="f"><span class="label">Name</span><input name="name" autocomplete="name" required /><em class="f__err">Please enter your name.</em></label>
-          <label class="f"><span class="label">Work email</span><input name="email" type="email" autocomplete="email" required /><em class="f__err">Please enter a valid email address.</em></label>
-          <label class="f"><span class="label">Company</span><input name="company" autocomplete="organization" required /><em class="f__err">Please enter your company.</em></label>
-          <label class="f"><span class="label">Role <i>optional</i></span><input name="role" autocomplete="organization-title" /></label>
+          <label class="f"><span class="f__label">Name</span><input name="name" autocomplete="name" required /><em class="f__err">Please enter your name.</em></label>
+          <label class="f"><span class="f__label">Work email</span><input name="email" type="email" autocomplete="email" required /><em class="f__err">Please enter a valid email address.</em></label>
+          <label class="f"><span class="f__label">Company</span><input name="company" autocomplete="organization" required /><em class="f__err">Please enter your company.</em></label>
+          <label class="f"><span class="f__label">Role <i>optional</i></span><input name="role" autocomplete="organization-title" /></label>
         </div>
 
         <fieldset class="f f--set">
-          <legend class="label">Interested in</legend>
+          <legend class="f__label">Interested in</legend>
           <div class="chips">
             {interests.map(([v, l]) => (
               <label class="chip"><input type="checkbox" name="interest" value={v} /><span>{l}</span></label>
@@ -45,14 +48,14 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or 
           <em class="f__err">Choose at least one.</em>
         </fieldset>
 
-        <label class="f"><span class="label">Infrastructure today <i>optional</i></span>
+        <label class="f"><span class="f__label">Infrastructure today <i>optional</i></span>
           <select name="size">
             <option value="">Select…</option>
             {sizes.map((s) => <option>{s}</option>)}
           </select>
         </label>
 
-        <label class="f"><span class="label">Message</span>
+        <label class="f"><span class="f__label">Message</span>
           <textarea name="message" rows="5" required placeholder="What are you running today, and what would you like to change?"></textarea>
           <em class="f__err">Please add a short message.</em>
         </label>
@@ -60,73 +63,70 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or 
         <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
         <div class="form__foot">
-          <button class="btn btn--signal" type="submit" data-submit>Send request <span class="arrow">→</span></button>
+          <button class="btn btn--primary" type="submit" data-submit>Send request <span class="arrow">→</span></button>
           <p class="form__status" data-status role="status" aria-live="polite"></p>
         </div>
+        <p class="form__legal">We use these details only to reply to your request. See our <a class="link" href={u("/legal/privacy")}>privacy policy</a>.</p>
       </form>
     </div>
   </section>
 </Base>
 
 <style>
-  .ct { position: relative; margin-top: -64px; padding: 168px 0 136px; overflow: hidden; }
-  .ct__bg {
-    position: absolute; inset: 0; pointer-events: none;
-    background:
-      radial-gradient(800px 380px at 18% -60px, color-mix(in srgb, var(--signal) 16%, transparent), transparent 70%),
-      repeating-linear-gradient(to bottom, transparent 0 47px, var(--rule-soft) 47px 48px);
-    -webkit-mask: radial-gradient(1200px 600px at 30% 0, #000 30%, transparent 78%);
-    mask: radial-gradient(1200px 600px at 30% 0, #000 30%, transparent 78%);
-  }
-  .ct .wrap { position: relative; }
-  .ct__in { row-gap: 56px; align-items: start; }
-  .ct__intro { grid-column: 1 / span 5; position: sticky; top: 112px; }
-  .ct__title { font-size: clamp(44px, 5.4vw, 76px); margin: 24px 0 24px; }
-  .ct__facts { margin-top: 40px; border-top: 1px solid var(--rule-strong); }
-  .ct__facts > div { padding: 14px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 4px; }
-  .ct__facts dd { font-size: 15px; }
-  .form { grid-column: 7 / span 6; display: grid; gap: 26px; min-width: 0; padding: 32px; }
-  .form:hover { background: color-mix(in srgb, var(--surface) 70%, transparent); }
-  .form > *, .form__grid > * { min-width: 0; }
-  @media (max-width: 960px) {
-    .ct__intro, .form { grid-column: 1 / -1; position: static; }
+  .ct { padding: 96px 0 120px; }
+  .ct__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
+  .ct__intro { position: sticky; top: 104px; display: grid; gap: 20px; }
+  .ct__title { font-size: clamp(38px, 4.8vw, 60px); }
+  .ct__facts { margin-top: 12px; border-top: 1px solid var(--border); }
+  .ct__facts div { display: grid; gap: 2px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .ct__facts dt { font-size: 14px; color: var(--text-2); }
+  @media (max-width: 900px) {
+    .ct { padding: 64px 0 88px; }
+    .ct__in { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .ct__intro { position: static; }
   }
 
-  .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px var(--gutter); }
-  @media (max-width: 600px) { .form__grid { grid-template-columns: 1fr; } }
+  .form { display: grid; gap: 24px; min-width: 0; padding: 32px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+  .form > *, .form__grid > * { min-width: 0; }
+  .form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 600px) { .form { padding: 20px; } .form__grid { grid-template-columns: minmax(0, 1fr); } }
 
   .f { display: grid; gap: 8px; border: 0; min-width: 0; }
-  .f .label i { font-style: normal; text-transform: none; letter-spacing: 0; color: var(--ink-3); opacity: 0.8; margin-left: 6px; }
+  .f__label { font-size: 14px; font-weight: 500; }
+  .f__label i { font-style: normal; font-weight: 400; color: var(--text-2); margin-left: 4px; }
   .f input, .f select, .f textarea {
-    width: 100%; font: inherit; font-size: 16px; color: var(--ink);
-    background: var(--paper); border: 1px solid var(--rule);
-    padding: 11px 14px; border-radius: 10px; outline: none;
-    transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
+    width: 100%; font: inherit; font-size: 16px; color: var(--text);
+    background: var(--bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
+    padding: 10px 12px; outline: none; transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease);
   }
   .f textarea { resize: vertical; }
-  .f select { appearance: none; background: linear-gradient(45deg, transparent 50%, var(--ink) 50%) right 18px center / 5px 5px no-repeat, linear-gradient(-45deg, transparent 50%, var(--ink) 50%) right 13px center / 5px 5px no-repeat, var(--paper); }
-  .f input:focus, .f select:focus, .f textarea:focus { border-color: color-mix(in srgb, var(--signal) 60%, transparent); box-shadow: 0 0 0 4px var(--signal-soft); }
-  .f__err { display: none; font-style: normal; font-size: 13px; color: var(--signal); }
-  .f.is-invalid .f__err { display: block; }
-  .f.is-invalid input, .f.is-invalid textarea { border-color: var(--signal); }
-
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .chip { position: relative; }
-  .chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; pointer-events: none; }
-  .chip span {
-    display: inline-block; padding: 8px 14px; font-size: 14px; cursor: pointer;
-    border: 1px solid var(--rule); border-radius: 999px; background: var(--paper);
-    transition: background-color 200ms var(--ease), color 200ms var(--ease), border-color 200ms var(--ease);
+  .f select {
+    appearance: none; padding-right: 36px;
+    background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3.5 5 6.5 8 3.5' fill='none' stroke='%23888' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
   }
-  .chip span:hover { border-color: var(--ink-3); }
-  .chip input:checked + span { background: var(--ink); color: var(--on-solid); border-color: var(--ink); }
-  .chip input:focus-visible + span { outline: 2px solid var(--signal); outline-offset: 2px; }
+  .f input:focus, .f select:focus, .f textarea:focus { border-color: var(--text); box-shadow: 0 0 0 3px color-mix(in srgb, var(--text) 14%, transparent); }
+  .f__err { display: none; font-style: normal; font-size: 13.5px; color: var(--red-text); }
+  .f.is-invalid .f__err { display: block; }
+  .f.is-invalid input, .f.is-invalid textarea { border-color: var(--red); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; }
+  .chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .chip span {
+    display: inline-block; padding: 7px 14px; font-size: 14px; border-radius: 999px;
+    border: 1px solid var(--border-strong); background: var(--bg);
+    transition: background-color 150ms var(--ease), color 150ms var(--ease), border-color 150ms var(--ease);
+  }
+  .chip:hover span { border-color: var(--text-2); }
+  .chip input:checked + span { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .chip input:focus-visible + span { outline: 2px solid var(--text); outline-offset: 2px; }
 
   .hp { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
-  .form__foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--rule-soft); padding-top: 24px; }
-  .form__status { font-size: 14px; color: var(--ink-2); }
-  .form__status.is-ok { color: var(--ok); }
-  .form__status.is-bad { color: var(--signal); }
+  .form__foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--border); }
+  .form__status { font-size: 14px; color: var(--text-2); }
+  .form__status.is-ok { color: var(--green-text); }
+  .form__status.is-bad { color: var(--red-text); }
+  .form__legal { font-size: 13.5px; color: var(--text-2); margin-top: -8px; }
   .btn[disabled] { opacity: 0.6; cursor: progress; }
 </style>
 

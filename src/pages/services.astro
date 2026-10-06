@@ -1,0 +1,203 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import SubNav from "../components/SubNav.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import LogoCloud from "../components/LogoCloud.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import DetectionsMock from "../components/ui/DetectionsMock.astro";
+import SapIntegrationMock from "../components/ui/SapIntegrationMock.astro";
+import OracleMock from "../components/ui/OracleMock.astro";
+import OdooMock from "../components/ui/OdooMock.astro";
+import ClustersMock from "../components/ui/ClustersMock.astro";
+
+const sub: [string, string][] = [
+  ["security", "Security"],
+  ["sap", "SAP"],
+  ["oracle", "Oracle"],
+  ["odoo", "Odoo"],
+  ["kubernetes", "Managed Kubernetes"],
+  ["engagement", "How we work"],
+];
+const securityServices = [
+  { icon: "Radar", title: "Threat detection and monitoring", text: "Detection rules and alerting on audit logs and infrastructure telemetry." },
+  { icon: "ScanSearch", title: "Security assessments", text: "Infrastructure reviews, penetration testing and container hardening." },
+  { icon: "ClipboardCheck", title: "Compliance readiness", text: "Controls, audit trails and isolation mapped to your auditors' framework." },
+] as const;
+const models = [
+  { icon: "Workflow", title: "Project", text: "A defined scope with a fixed outcome, such as a migration, an implementation or an assessment." },
+  { icon: "Users", title: "Retained team", text: "Ongoing capacity from engineers who know your systems, for operations and continuous change." },
+  { icon: "Compass", title: "Advisory", text: "Architecture reviews and decision support for your own team." },
+] as const;
+const steps = [
+  { icon: "MessagesSquare", title: "Discover", text: "We map your systems, constraints and goals in a scoping call." },
+  { icon: "ClipboardCheck", title: "Plan", text: "A written plan with scope, timeline, risks and rollback." },
+  { icon: "Wrench", title: "Deliver", text: "Our engineers do the work with your team, in agreed stages." },
+  { icon: "LifeBuoy", title: "Support", text: "Handover, documentation and ongoing support if you need it." },
+] as const;
+const servicesLd = [
+  ["Security services", "Threat detection, security assessments and compliance readiness.", "security"],
+  ["SAP implementation and integration", "SAP implementation, migration, integration and operations.", "sap"],
+  ["Oracle database administration", "Oracle database administration, migration and application support.", "oracle"],
+  ["Odoo implementation and hosting", "Odoo ERP implementation, customization and hosting on your own servers.", "odoo"],
+  ["Managed Kubernetes", "Isolated virtual Kubernetes clusters run as a managed service.", "kubernetes"],
+].map(([name, description, id]) => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name,
+  description,
+  url: `https://etdledger.com/services#${id}`,
+  provider: { "@id": "https://etdledger.com/#organization" },
+  areaServed: "DZ",
+}));
+---
+<Base jsonld={servicesLd} title="Services — ETDLedger" description="Security, SAP, Oracle, Odoo and managed Kubernetes services from ETDLedger's engineering team.">
+  <PageHeader eyebrow="Services" title="Engineers for the systems your business runs on" lead="Alongside InfraLedger, ETDLedger's team works on security, SAP, Oracle, Odoo and Kubernetes, on-premises or hybrid.">
+    <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to our team <span class="arrow">→</span></a>
+  </PageHeader>
+  <SubNav label="Services" items={sub} />
+
+  <section class="section systems">
+    <div class="container">
+      <LogoCloud label="Systems we work with" items={[
+        ["siSap", "SAP"], ["siOdoo", "Odoo"], ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"],
+        ["siKubernetes", "Kubernetes"], ["siRedhat", "Red Hat"], ["siDocker", "Docker"],
+      ]} />
+      <p class="systems__note">We also administer and migrate Oracle databases and applications.</p>
+    </div>
+  </section>
+
+  <FeatureRow id="security" eyebrow="Security services" icon="ShieldCheck"
+    title="Security work, scoped to your environment"
+    text="Each service runs on its own or alongside an InfraLedger deployment, and builds on the records your systems already keep."
+    items={[
+      "Detection rules for deploy, access and configuration events",
+      "Alert routing to your on-call channels",
+      "Penetration testing and configuration reviews",
+      "Findings ranked by risk, each with a fix",
+    ]}
+    logos={[["siOwasp", "OWASP"], ["siKalilinux", "Kali Linux"], ["siTrivy", "Trivy"], ["siElasticstack", "Elastic Stack"]]}>
+    <DetectionsMock />
+  </FeatureRow>
+  <div class="container secgrid">
+    <div class="grid-3">
+      {securityServices.map((s, i) => (
+        <div class="card" data-reveal style={`--d:${i * 60}ms`}>
+          <span class="card__icon"><Icon name={s.icon} /></span>
+          <p class="card__title">{s.title}</p>
+          <p class="card__text">{s.text}</p>
+        </div>
+      ))}
+    </div>
+    <a class="card labs-band" href={u("/labs")} data-reveal>
+      <span class="card__icon"><Icon name="FlaskConical" /></span>
+      <span class="labs-band__copy">
+        <span class="card__title">Cyber labs</span>
+        <span class="card__text">Isolated training environments where your team practices perimeter defense, detection and incident response.</span>
+      </span>
+      <span class="labs-band__cta">Explore labs →</span>
+    </a>
+  </div>
+
+  <FeatureRow id="sap" eyebrow="SAP" brand="siSap" subtle
+    title="SAP, connected to the rest of your systems"
+    text="Implementation, migration and integration across SAP landscapes, with the surrounding services running on infrastructure you own."
+    items={[
+      "Planning and rollout of SAP modules, aligned to your processes",
+      "Migration between versions and hosting models, with cutover and rollback plans",
+      "Integration with web apps, APIs, data warehouses and message queues",
+      "Ongoing administration, monitoring and change management",
+    ]}>
+    <SapIntegrationMock />
+  </FeatureRow>
+
+  <FeatureRow id="oracle" eyebrow="Oracle" icon="Database"
+    title="Oracle databases and applications, run well"
+    text="Database administration, migration and application support for Oracle estates, on-premises or hybrid."
+    items={[
+      "Performance tuning, patching, backup and recovery",
+      "Standby databases and disaster recovery testing",
+      "Upgrades and platform moves, including to containers",
+      "Licensing review to understand and optimize usage",
+      "Maintenance and integration for Oracle-based applications",
+    ]}>
+    <OracleMock />
+  </FeatureRow>
+
+  <FeatureRow id="odoo" eyebrow="Odoo" brand="siOdoo" subtle
+    title="Odoo ERP, implemented and hosted on your servers"
+    text="We implement and customize Odoo for your processes, and run it on InfraLedger so your business data stays on infrastructure you control."
+    items={[
+      "Implementation of CRM, sales, inventory, accounting and manufacturing",
+      "Custom modules and integrations with your other systems",
+      "Migration from spreadsheets, older ERPs or earlier Odoo versions",
+      "Hosting on InfraLedger with PostgreSQL, backups and monitoring",
+      "Training for your teams and ongoing support",
+    ]}
+    logos={[["siOdoo", "Odoo"], ["siPostgresql", "PostgreSQL"], ["siPython", "Python"]]}>
+    <OdooMock />
+  </FeatureRow>
+
+  <FeatureRow id="kubernetes" eyebrow="Managed Kubernetes" brand="siKubernetes"
+    title="Kubernetes clusters you can offer as a product"
+    text="InfraLedger can create isolated virtual clusters with vcluster. We help you run them as a managed service for your customers or business units."
+    items={[
+      "An isolated virtual cluster per customer, with direct kubectl access",
+      "Clusters managed from InfraLedger alongside apps and databases",
+      "Design and rollout of the underlying Kubernetes infrastructure",
+      "Upgrades, capacity planning and incident support",
+    ]}
+    logos={[["siKubernetes", "Kubernetes"], ["siHelm", "Helm"], ["siRedhat", "Red Hat"]]}>
+    <ClustersMock />
+  </FeatureRow>
+
+  <section class="section section--subtle" id="engagement">
+    <div class="container">
+      <SectionHeader eyebrow="How we work" title="A clear path from first call to support" lead="Every engagement follows the same four steps, whatever the system." />
+      <ol class="steps4">
+        {steps.map((s, i) => (
+          <li class="card" data-reveal style={`--d:${i * 60}ms`}>
+            <div class="steps4__top"><span class="card__icon"><Icon name={s.icon} /></span><span class="steps4__n">0{i + 1}</span></div>
+            <p class="card__title">{s.title}</p>
+            <p class="card__text">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="models">
+        <p class="eyebrow models__label">Ways to work with us</p>
+        <div class="grid-3">
+          {models.map((m, i) => (
+            <div class="card" data-reveal style={`--d:${i * 60}ms`}>
+              <span class="card__icon"><Icon name={m.icon} /></span>
+              <p class="card__title">{m.title}</p>
+              <p class="card__text">{m.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Tell us what you run." text="Security, SAP, Oracle, Odoo or Kubernetes: we'll put the right engineer on the first call." interest="other" />
+</Base>
+
+<style>
+  .labs-band { display: flex; align-items: center; gap: 20px; margin-top: 16px; }
+  .labs-band .card__icon { margin-bottom: 0; }
+  .labs-band__copy { display: grid; gap: 4px; flex: 1; }
+  .labs-band__cta { font-size: 15px; font-weight: 500; white-space: nowrap; }
+  @media (max-width: 640px) { .labs-band { flex-wrap: wrap; } }
+  .systems { padding: 64px 0; }
+  .systems__note { margin-top: 20px; text-align: center; font-size: 14px; color: var(--text-2); }
+  .secgrid { margin-top: -48px; padding-bottom: 112px; }
+  .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; }
+  .steps4__top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .steps4__n { font-family: var(--mono); font-size: 13px; color: var(--text-3); }
+  .models { margin-top: 64px; }
+  .models__label { margin-bottom: 16px; }
+  @media (max-width: 960px) { .steps4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .steps4 { grid-template-columns: minmax(0, 1fr); } }
+</style>

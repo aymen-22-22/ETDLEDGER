@@ -1,0 +1,62 @@
+---
+import Window from "./Window.astro";
+import Icon from "../Icon.astro";
+
+const zones = [
+  { title: "DMZ", icon: "Globe", nodes: ["Web services", "Public APIs"] },
+  { title: "Internal network", icon: "Building2", nodes: ["Servers", "Workstations"] },
+  { title: "Monitoring", icon: "Activity", nodes: ["SIEM", "Network capture"] },
+] as const;
+---
+<Window title="Lab · team-blue-03" caption="Illustration of an isolated training lab">
+  <span slot="bar" class="status status--ok">Session active</span>
+  <div class="lab">
+    <div class="lab__row">
+      <div class="lab__node lab__node--edge"><Icon name="Users" size={16} /><span><b>Participants</b><small>VPN access</small></span></div>
+      <span class="lab__link"></span>
+      <div class="lab__node"><Icon name="BrickWall" size={16} /><span><b>Firewall</b><small>Segmentation rules</small></span></div>
+      <span class="lab__link"></span>
+      <div class="lab__node"><Icon name="ShieldCheck" size={16} /><span><b>WAF</b><small>Request filtering</small></span></div>
+    </div>
+    <div class="lab__boundary">
+      <span class="lab__tag">Isolated lab network · no route to production</span>
+      <div class="lab__zones">
+        {zones.map((z) => (
+          <div class="lab__zone">
+            <p class="lab__zt"><Icon name={z.icon} size={15} />{z.title}</p>
+            <ul>{z.nodes.map((n) => <li>{n}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+  <p class="lab__foot"><span class="ui-dim">All activity logged · resets to a clean state after the session</span><span class="mono ui-dim ui-hide-sm">2 h 14 min left</span></p>
+</Window>
+
+<style>
+  .lab { padding: 20px; display: grid; gap: 18px; }
+  .lab__row { display: flex; align-items: center; }
+  .lab__node {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px; flex: 1; min-width: 0;
+    border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--bg);
+  }
+  .lab__node--edge { border-style: dashed; }
+  .lab__node b { display: block; font-size: 13px; font-weight: 500; }
+  .lab__node small { display: block; font-size: 12px; color: var(--text-2); }
+  .lab__link { width: 22px; height: 1px; background: var(--border-strong); flex-shrink: 0; }
+  .lab__boundary { position: relative; padding: 26px 14px 14px; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); }
+  .lab__tag {
+    position: absolute; top: -10px; left: 14px; padding: 0 8px; background: var(--surface);
+    font-size: 12px; color: var(--text-2);
+  }
+  .lab__zones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .lab__zone { padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+  .lab__zt { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+  .lab__zone li { font-size: 12.5px; color: var(--text-2); padding: 3px 0; }
+  .lab__foot { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; }
+  @media (max-width: 720px) {
+    .lab__row { flex-direction: column; align-items: stretch; }
+    .lab__link { width: 1px; height: 12px; margin: 0 auto; }
+    .lab__zones { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

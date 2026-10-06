@@ -1,24 +1,250 @@
 ---
 import Base from "../layouts/Base.astro";
-import Hero from "../components/Hero.astro";
-import Problem from "../components/Problem.astro";
-import Platform from "../components/Platform.astro";
-import Architecture from "../components/Architecture.astro";
-import Security from "../components/Security.astro";
-import Cta from "../components/Cta.astro";
+import { u } from "../lib/url";
+import DashboardMock from "../components/ui/DashboardMock.astro";
+import LedgerMock from "../components/ui/LedgerMock.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProductTour from "../components/ProductTour.astro";
+import GrowthSteps from "../components/GrowthSteps.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+import Faq from "../components/Faq.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import BrandLogo from "../components/BrandLogo.astro";
+import LogoCloud from "../components/LogoCloud.astro";
+import ServerRack from "../components/ServerRack.astro";
+
+const audienceIcons = ["Landmark", "RadioTower", "Building2", "Code"] as const;
+const reasonIcons = ["Server", "LayoutDashboard", "ScrollText"] as const;
+const audiences = [
+  ["Banks and financial services", "Keep customer data and workloads on infrastructure you control and can audit."],
+  ["Telecom operators", "Give internal teams a self-service platform across your own data centers."],
+  ["Public sector", "Meet data residency requirements without depending on a foreign cloud provider."],
+  ["Software teams", "Get a Heroku-style workflow on your own servers, without per-seat cloud pricing."],
+];
+const reasons = [
+  ["Own your infrastructure", "InfraLedger runs on your servers or your Kubernetes cluster. It doesn't depend on any third-party cloud API."],
+  ["Self-service for developers", "Deploys, databases, domains and logs from one dashboard. No Docker commands, YAML or SSH."],
+  ["Every action recorded", "Each deploy, configuration change and admin action is logged with who, when and the outcome. Organizations are isolated from each other."],
+];
+const services = [
+  ["Security services", "Threat detection, assessments and compliance readiness.", "/services#security", "icon:ShieldCheck"],
+  ["Cyber labs", "Isolated training environments for security teams.", "/labs", "icon:FlaskConical"],
+  ["SAP", "Implementation, migration and integration.", "/services#sap", "brand:siSap"],
+  ["Oracle", "Database administration, migration and support.", "/services#oracle", "icon:Database"],
+  ["Odoo", "ERP implementation, hosted on your servers.", "/services#odoo", "brand:siOdoo"],
+  ["Managed Kubernetes", "Virtual clusters you can offer to your customers.", "/services#kubernetes", "brand:siKubernetes"],
+] as const;
+const faq: [string, string][] = [
+  ["How is InfraLedger different from Heroku, Render or Railway?", "Those platforms run your apps on their cloud. InfraLedger gives you the same self-service workflow on servers you own, from a single machine to a Kubernetes cluster, and records every action in an audit log you control."],
+  ["What do I need to run it?", "A Linux server with Docker and Docker Compose is enough to start. To grow, connect a Kubernetes cluster. We help size the servers for your workload during onboarding."],
+  ["How is InfraLedger licensed?", "Licensing depends on the size of your deployment and the support you need. Contact us for a quote."],
+  ["Do you provide support?", "Yes. ETDLedger's engineers help with installation, onboarding and ongoing support, and can operate the platform for you."],
+  ["Where is my data stored?", "On your infrastructure. Applications, databases, logs and the audit log all stay on servers you control. ETDLedger only has access if you grant it."],
+];
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "ETDLedger",
+  url: "https://etdledger.com/",
+  publisher: { "@id": "https://etdledger.com/#organization" },
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+};
 ---
-<Base
-  title="ETDLedger — InfraLedger, the self-hosted cloud platform"
-  description="InfraLedger turns your servers into a self-service platform for apps and databases, with an audit ledger of every change. Plus SAP, Oracle and security services from ETDLedger."
->
-  <Hero />
-  <Problem />
-  <Platform />
-  <Architecture />
-  <Security />
-  <Cta />
+<Base jsonld={[websiteLd, faqLd]} title="InfraLedger — the self-hosted cloud platform | ETDLedger" description="InfraLedger turns your servers into a self-service platform for apps and databases, with an audit log of every action. Built by ETDLedger.">
+  <section class="hero">
+    <div class="hero__racks" aria-hidden="true">
+      <div class="hero__rack hero__rack--l"><ServerRack units={18} seed={3} /></div>
+      <div class="hero__rack hero__rack--r"><ServerRack units={18} seed={11} /></div>
+    </div>
+    <div class="container hero__in">
+      <div class="hero__copy">
+        <h1 class="h1">The self-hosted cloud platform.</h1>
+        <p class="lead hero__lead">InfraLedger turns your servers into a platform where developers deploy apps and databases themselves, and every action is recorded in an audit log.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href={u("/docs")}>Get started <span class="arrow">→</span></a>
+          <a class="btn btn--secondary" href={u("/contact?interest=platform")}>Request a demo</a>
+        </div>
+      </div>
+      <div class="hero__shot"><DashboardMock /></div>
+      <div class="hero__runs">
+        <LogoCloud label="Runs on the infrastructure you already have" items={[
+          ["siDocker", "Docker"], ["siKubernetes", "Kubernetes"], ["siUbuntu", "Ubuntu"],
+          ["siDebian", "Debian"], ["siRedhat", "Red Hat"], ["siRockylinux", "Rocky Linux"],
+        ]} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Who it's for" title="Built for teams that must keep their data at home" />
+      <div class="grid-4">
+        {audiences.map(([t, d], i) => (
+          <div class="card" data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon"><Icon name={audienceIcons[i]} /></span>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Why InfraLedger" title="The convenience of a cloud platform, on servers you own" />
+      <div class="reasons">
+        {reasons.map(([t, d], i) => (
+          <div class="reason" data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon"><Icon name={reasonIcons[i]} /></span>
+            <p class="h3">{t}</p>
+            <p class="muted">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--subtle">
+    <div class="container">
+      <SectionHeader eyebrow="Product" title="Everything a platform team would build" lead="Deploys, databases, networking and observability in one dashboard." />
+      <ProductTour />
+      <p class="more"><a class="link" href={u("/product")}>See all features</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader center eyebrow="Open source inside" title="Built on tools your team already trusts" lead="Provision the data services you need in a few clicks. InfraLedger runs them on proven open-source components." />
+      <LogoCloud label="Data services you can provision" items={[
+        ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"], ["siMariadb", "MariaDB"], ["siRedis", "Redis"], ["siRabbitmq", "RabbitMQ"],
+      ]} />
+      <div class="oss-gap"></div>
+      <LogoCloud label="Under the hood" items={[
+        ["siDocker", "Docker"], ["siKubernetes", "Kubernetes"], ["siTraefikproxy", "Traefik"], ["siLetsencrypt", "Let's Encrypt"], ["siPrometheus", "Prometheus"],
+      ]} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <p class="eyebrow">Audit log</p>
+        <h2 class="h2">Every change, on the record</h2>
+        <p class="lead">Every deploy, restart, deletion, configuration change and admin action is recorded with who did it, when, and what happened.</p>
+        <ul class="checklist">
+          <li>A complete history for every organization</li>
+          <li>Failed actions are recorded, not just successful ones</li>
+          <li>Stored on your own infrastructure</li>
+        </ul>
+      </div>
+      <LedgerMock />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Architecture" title="Start small. Grow without a rewrite." lead="The same platform runs on Docker or Kubernetes, through the same dashboard and API." />
+      <GrowthSteps />
+    </div>
+  </section>
+
+  <section class="section section--subtle">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <p class="eyebrow">Quickstart</p>
+        <h2 class="h2">Up and running with Docker Compose</h2>
+        <p class="lead">Install InfraLedger on one server, open the dashboard and deploy your first app.</p>
+        <p class="muted small">Installation files are provided with early access.</p>
+        <div class="split__actions">
+          <a class="btn btn--primary" href={u("/contact?interest=platform")}>Request early access</a>
+          <a class="btn btn--secondary" href={u("/docs")}>Read the guide</a>
+        </div>
+      </div>
+      <div data-reveal>
+        <CodeBlock lines={[
+          "# 1. Get the files (provided with access)",
+          "git clone <your-access-url> infraledger",
+          "cd infraledger",
+          "# 2. Start the platform",
+          "docker compose up -d",
+        ]} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Services" title="Engineers for the systems around it" lead="ETDLedger's team also works on the systems most organizations run alongside their platform." />
+      <div class="svc-grid">
+        {services.map(([t, d, href, mark], i) => (
+          <a class="card svc" href={u(href)} data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon">
+              {mark.startsWith("icon:") ? <Icon name={mark.slice(5) as "Database"} /> : <BrandLogo brand={mark.slice(6) as "siSap"} size={20} decorative />}
+            </span>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+            <span class="svc__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container faq-wrap">
+      <SectionHeader eyebrow="FAQ" title="Questions, answered" />
+      <Faq items={faq} />
+    </div>
+  </section>
+
+  <CtaBand />
 </Base>
 
-<script>
-  import "../scripts/motion.ts";
-</script>
+<style>
+  .hero { position: relative; padding: 96px 0 112px; overflow: hidden; }
+  .hero__in { position: relative; }
+  .hero__racks { position: absolute; inset: 0; pointer-events: none; }
+  .hero__rack {
+    position: absolute; top: 40px; width: 230px; opacity: 0.7;
+    -webkit-mask: linear-gradient(to bottom, #000 20%, transparent 78%);
+    mask: linear-gradient(to bottom, #000 20%, transparent 78%);
+  }
+  .hero__rack--l { left: max(12px, calc(50% - 760px)); }
+  .hero__rack--r { right: max(12px, calc(50% - 760px)); }
+  @media (max-width: 1260px) { .hero__racks { display: none; } }
+  .hero__runs { margin-top: 72px; }
+  .oss-gap { height: 40px; }
+  .hero__copy { max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero__lead { margin: 24px auto 0; max-width: 620px; }
+  .hero__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+  .hero__shot { margin-top: 72px; }
+  @media (max-width: 720px) { .hero { padding: 64px 0 72px; } .hero__shot { margin-top: 48px; } }
+
+  .reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  .reason { display: grid; gap: 10px; align-content: start; padding-top: 20px; border-top: 1px solid var(--border-strong); }
+  @media (max-width: 900px) { .reasons { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+
+  .more { margin-top: 32px; font-size: 15px; }
+
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 64px; align-items: center; }
+  .split__copy { display: grid; gap: 18px; align-content: start; }
+  .split__copy .h2 { margin-top: -4px; }
+  .split__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+
+  .svc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 760px) { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .svc-grid { grid-template-columns: minmax(0, 1fr); } }
+  .svc { position: relative; display: block; }
+  .svc__arrow { position: absolute; top: 22px; right: 22px; color: var(--text-3); transition: transform 200ms var(--ease), color 200ms var(--ease); }
+  .svc:hover .svc__arrow { transform: translateX(2px); color: var(--text); }
+  .svc .card__title { padding-right: 24px; }
+
+  .faq-wrap { max-width: 880px; }
+</style>

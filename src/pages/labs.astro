@@ -1,0 +1,122 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import LogoCloud from "../components/LogoCloud.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import LabTopologyMock from "../components/ui/LabTopologyMock.astro";
+
+const templates = [
+  { icon: "BrickWall", title: "Perimeter defense", text: "Practice firewall rules, network segmentation and VPN access on a realistic company network." },
+  { icon: "ShieldCheck", title: "Web application protection", text: "Configure and tune a web application firewall against realistic traffic, without risk to live services." },
+  { icon: "Users", title: "Red team vs. blue team", text: "One team works within an agreed scope while the other detects and responds, with a debrief at the end." },
+  { icon: "Radar", title: "Detection engineering", text: "Build and test SIEM detections and dashboards on telemetry generated inside the lab." },
+  { icon: "LifeBuoy", title: "Incident response drills", text: "Run a timed scenario from first alert to containment, and review how the team handled it." },
+  { icon: "Sparkles", title: "Training events", text: "Capture-the-flag style challenges for training days, onboarding or recruiting." },
+] as const;
+const delivery = [
+  { icon: "MessagesSquare", title: "Scope", text: "We agree on goals, participants, skills to practice and rules of engagement." },
+  { icon: "Wrench", title: "Build", text: "We build the lab network, services and scenarios to match your environment." },
+  { icon: "Activity", title: "Run", text: "Your team connects over VPN. Every action in the lab is logged." },
+  { icon: "ClipboardCheck", title: "Reset and report", text: "The lab is rebuilt to a clean state, and you receive a session report." },
+] as const;
+const safety = [
+  ["Fully isolated", "Each lab runs on its own network with no route to the internet or your production systems."],
+  ["Controlled access", "Participants connect with individual VPN credentials that expire when the session ends."],
+  ["Everything recorded", "Activity in the lab is logged, so sessions can be reviewed and debriefed."],
+  ["Written scope", "Every engagement has an agreed scope and rules of engagement before anyone connects."],
+  ["Clean resets", "Labs are rebuilt from a known state between sessions, so every team starts the same."],
+  ["Torn down after", "When the engagement ends, the lab and its data are removed."],
+] as const;
+---
+<Base title="Cyber labs — ETDLedger" description="Custom, isolated training labs where security teams practice perimeter defense, web application protection, detection and incident response.">
+  <PageHeader eyebrow="Cyber labs" title="Training environments built for your security team" lead="We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session." seed={9}>
+    <a class="btn btn--primary" href={u("/contact?interest=labs")}>Plan a lab <span class="arrow">→</span></a>
+    <a class="btn btn--secondary" href="#templates">See lab types</a>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <p class="eyebrow">Inside a lab</p>
+        <h2 class="h2">A realistic network, completely separated from yours</h2>
+        <p class="lead">Each lab mirrors the shape of a real company network: a perimeter, a DMZ, an internal network and monitoring. It runs in isolation, so your team can practice without touching live systems.</p>
+        <ul class="checklist">
+          <li>Designed around your own architecture and tools</li>
+          <li>Separate environments for each team or participant</li>
+          <li>Runs on InfraLedger, on our hardware or on yours</li>
+        </ul>
+      </div>
+      <div data-reveal><LabTopologyMock /></div>
+    </div>
+  </section>
+
+  <section class="section section--subtle" id="templates">
+    <div class="container">
+      <SectionHeader eyebrow="Lab types" title="Start from a template, or build something custom" lead="Every lab is tailored to your team's level and the skills you want to build." />
+      <div class="grid-3">
+        {templates.map((t, i) => (
+          <div class="card" data-reveal style={`--d:${i * 50}ms`}>
+            <span class="card__icon"><Icon name={t.icon} /></span>
+            <p class="card__title">{t.title}</p>
+            <p class="card__text">{t.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="How it works" title="From first call to a clean reset" />
+      <ol class="steps4">
+        {delivery.map((s, i) => (
+          <li class="card" data-reveal style={`--d:${i * 60}ms`}>
+            <div class="steps4__top"><span class="card__icon"><Icon name={s.icon} /></span><span class="steps4__n">0{i + 1}</span></div>
+            <p class="card__title">{s.title}</p>
+            <p class="card__text">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--subtle">
+    <div class="container">
+      <SectionHeader eyebrow="Safety" title="Safe by design" lead="Labs are built for authorized training only, with safeguards at every layer." />
+      <div class="grid-3">
+        {safety.map(([t, d], i) => (
+          <div class="card" data-reveal style={`--d:${i * 50}ms`}>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <LogoCloud label="Technologies we build labs with" items={[
+        ["siPfsense", "pfSense"], ["siOpnsense", "OPNsense"], ["siElasticstack", "Elastic Stack"], ["siSplunk", "Splunk"],
+        ["siGrafana", "Grafana"], ["siWireshark", "Wireshark"], ["siProxmox", "Proxmox"], ["siKubernetes", "Kubernetes"],
+        ["siDocker", "Docker"], ["siWireguard", "WireGuard"],
+      ]} />
+    </div>
+  </section>
+
+  <CtaBand title="Plan a lab for your team." text="Tell us who will train and what they should practice, and we'll propose a lab." interest="labs" />
+</Base>
+
+<style>
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 64px; align-items: center; }
+  .split__copy { display: grid; gap: 18px; align-content: start; }
+  @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .steps4__top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .steps4__n { font-family: var(--mono); font-size: 13px; color: var(--text-3); }
+  @media (max-width: 960px) { .steps4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .steps4 { grid-template-columns: minmax(0, 1fr); } }
+</style>

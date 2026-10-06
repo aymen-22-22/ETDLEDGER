@@ -1,0 +1,31 @@
+---
+import Window from "./Window.astro";
+const rows = [
+  { t: "12:41:07", actor: "ci@example.com", action: "Deployed api #42", res: "api", r: ["ok", "Recorded"] },
+  { t: "12:38:52", actor: "admin@example.com", action: "Scaled web to 3 replicas", res: "web", r: ["ok", "Recorded"] },
+  { t: "12:31:15", actor: "dev@example.com", action: "Updated env var DATABASE_URL", res: "billing", r: ["ok", "Recorded"] },
+  { t: "12:30:00", actor: "system", action: "Backup completed", res: "pg-main", r: ["ok", "Recorded"] },
+  { t: "12:22:41", actor: "ci@example.com", action: "Deploy #43 failed: build error", res: "worker", r: ["bad", "Failed"] },
+  { t: "12:19:03", actor: "admin@example.com", action: "Deleted application staging-old", res: "staging-old", r: ["ok", "Recorded"] },
+  { t: "12:12:48", actor: "owner@example.com", action: "Changed role Member → Admin", res: "org", r: ["ok", "Recorded"] },
+];
+---
+<Window title="acme / audit log">
+  <span slot="bar" class="ui-dim">Filtered: all actions</span>
+  <div class="ui-scroll">
+    <table class="ui-table">
+      <thead><tr><th>Time</th><th class="ui-hide-sm">Actor</th><th>Action</th><th class="ui-hide-sm">Resource</th><th>Result</th></tr></thead>
+      <tbody>
+        {rows.map((row, i) => (
+          <tr class:list={{ "ui-row-bad": row.r[0] === "bad" }} data-reveal style={`--d:${i * 70}ms`}>
+            <td class="num">{row.t}</td>
+            <td class="ui-dim ui-hide-sm">{row.actor}</td>
+            <td class="ui-strong">{row.action}</td>
+            <td class="code-cell ui-hide-sm">{row.res}</td>
+            <td><span class={`status status--${row.r[0]}`}>{row.r[1]}</span></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Window>

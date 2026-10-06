@@ -1,102 +1,182 @@
 ---
 import { u, stripBase } from "../lib/url";
 import Logo from "./Logo.astro";
+
 const links = [
-  { href: "/platform", label: "Platform" },
-  { href: "/platform#architecture", label: "Architecture" },
-  { href: "/security", label: "Security" },
-  { href: "/enterprise", label: "Enterprise" },
-  { href: "/about", label: "Company" },
+  { href: "/product", label: "Product" },
+  { href: "/docs", label: "Docs" },
+  { href: "/pricing", label: "Pricing" },
 ];
-const path = stripBase(Astro.url.pathname).replace(/\/$/, "");
+const services = [
+  { href: "/services#security", label: "Security services", text: "Detection, assessments, compliance readiness" },
+  { href: "/labs", label: "Cyber labs", text: "Isolated training environments for your team" },
+  { href: "/services#sap", label: "SAP", text: "Implementation, migration, integration" },
+  { href: "/services#oracle", label: "Oracle", text: "Database administration and migration" },
+  { href: "/services#odoo", label: "Odoo", text: "ERP implementation and hosting" },
+  { href: "/services#kubernetes", label: "Managed Kubernetes", text: "Virtual clusters for your customers" },
+];
+const path = stripBase(Astro.url.pathname).replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => (path === href || path.startsWith(href + "/") ? "page" : undefined);
 ---
 <header class="hdr" data-hdr>
-  <div class="wrap hdr__in">
-    <a href={u("/")} aria-label="ETDLedger home"><Logo /></a>
+  <div class="container hdr__in">
+    <a class="hdr__logo" href={u("/")} aria-label="ETDLedger home"><Logo /></a>
+
     <nav class="hdr__nav" aria-label="Primary">
-      {links.map((l) => (
-        <a href={u(l.href)} aria-current={!l.href.includes("#") && path === l.href ? "page" : undefined}>{l.label}</a>
-      ))}
+      {links.map((l) => <a class="hdr__link" href={u(l.href)} aria-current={isCurrent(l.href)}>{l.label}</a>)}
+      <div class="dd" data-dd>
+        <button class="hdr__link dd__btn" type="button" aria-expanded="false" aria-controls="dd-services" aria-current={isCurrent("/services")}>
+          Services
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="dd__panel" id="dd-services">
+          {services.map((s) => (
+            <a class="dd__item" href={u(s.href)}>
+              <span class="dd__title">{s.label}</span>
+              <span class="dd__text">{s.text}</span>
+            </a>
+          ))}
+          <a class="dd__all" href={u("/services")}>All services →</a>
+        </div>
+      </div>
+      <a class="hdr__link" href={u("/company")} aria-current={isCurrent("/company")}>Company</a>
     </nav>
-    <div class="hdr__cta">
-      <button class="hdr__theme" type="button" data-theme-toggle aria-label="Switch to light theme">
+
+    <div class="hdr__actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme">
         <svg class="i-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M3 13l1.4-1.4M11.6 4.4 13 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
         <svg class="i-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
       </button>
-      <a href={u("/contact")} class="btn btn--solid hdr__btn">Request a demo</a>
+      <a class="btn btn--primary btn--sm hdr__cta" href={u("/contact")}>Request a demo</a>
+      <button class="icon-btn hdr__burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu" data-burger>
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path class="b1" d="M3 6h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path class="b2" d="M3 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
     </div>
+  </div>
+
+  <div class="mnav" id="mnav" hidden data-mnav>
+    <nav class="container mnav__in" aria-label="Mobile">
+      {links.map((l) => <a class="mnav__link" href={u(l.href)}>{l.label}</a>)}
+      <p class="mnav__group">Services</p>
+      {services.map((s) => <a class="mnav__sub" href={u(s.href)}>{s.label}</a>)}
+      <a class="mnav__link" href={u("/company")}>Company</a>
+      <a class="btn btn--primary mnav__cta" href={u("/contact")}>Request a demo</a>
+    </nav>
   </div>
 </header>
 
 <style>
   .hdr {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--hdr-bg);
-    backdrop-filter: saturate(1.6) blur(14px);
-    -webkit-backdrop-filter: saturate(1.6) blur(14px);
-    border-bottom: 1px solid transparent;
-    transition: border-color 300ms var(--ease), background-color 300ms var(--ease);
+    position: sticky; top: 0; z-index: 50;
+    background: var(--header-bg);
+    backdrop-filter: saturate(1.5) blur(12px);
+    -webkit-backdrop-filter: saturate(1.5) blur(12px);
+    border-bottom: 1px solid var(--border);
   }
-  .hdr:not(.is-scrolled) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
-  .hdr.is-scrolled { border-bottom-color: var(--rule); }
-  .hdr.is-dark {
-    background: color-mix(in srgb, var(--night) 82%, transparent);
-    border-bottom-color: var(--night-rule);
-    --ink: var(--night-ink); --ink-2: var(--night-ink-2); --on-solid: var(--night);
-    --rule: var(--night-rule); color: var(--night-ink);
+  .hdr__in { height: 64px; display: flex; align-items: center; gap: 32px; }
+  .hdr__logo { flex-shrink: 0; }
+  .hdr__nav { display: flex; align-items: center; gap: 2px; flex: 1; }
+  .hdr__link {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 34px; padding: 0 12px; border-radius: var(--radius);
+    font-size: 15px; color: var(--text-2);
+    transition: color 150ms var(--ease), background-color 150ms var(--ease);
   }
-  .hdr.is-dark :global(.logo) { color: var(--night-ink); }
-  .hdr__in { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-  .hdr__nav { display: flex; gap: 4px; font-size: 14px; color: var(--ink-2); }
-  .hdr__nav a {
-    padding: 6px 12px; border-radius: 999px;
-    transition: color 200ms var(--ease), background-color 200ms var(--ease);
+  .hdr__link:hover, .dd:hover .dd__btn, .dd__btn[aria-expanded="true"] { color: var(--text); background: var(--surface); }
+  .hdr__link[aria-current] { color: var(--text); }
+  .hdr__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+  .icon-btn {
+    width: 34px; height: 34px; display: grid; place-items: center; border-radius: var(--radius);
+    color: var(--text-2); transition: color 150ms var(--ease), background-color 150ms var(--ease);
   }
-  .hdr__nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, transparent); }
-  .hdr__nav a[aria-current] { color: var(--ink); background: color-mix(in srgb, var(--ink) 8%, transparent); }
-  .hdr__cta { display: flex; align-items: center; gap: 10px; }
-  .hdr__btn { height: 36px; padding: 0 16px; font-size: 14px; }
-  .hdr__theme {
-    width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center;
-    color: var(--ink-2); border: 1px solid var(--rule);
-    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  .icon-btn:hover { color: var(--text); background: var(--surface); }
+  .icon-btn svg { grid-area: 1 / 1; }
+  :global([data-theme="dark"]) .i-moon, :global([data-theme="light"]) .i-sun { display: none; }
+
+  .dd { position: relative; }
+  .dd__btn svg { transition: transform 200ms var(--ease); }
+  .dd__btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .dd__panel {
+    position: absolute; top: calc(100% + 8px); left: -8px; width: 340px;
+    padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 150ms var(--ease), transform 150ms var(--ease), visibility 150ms;
   }
-  .hdr__theme:hover { color: var(--ink); border-color: var(--rule-strong); }
-  .hdr__theme svg { grid-area: 1 / 1; transition: opacity 300ms var(--ease), transform 400ms var(--ease); }
-  :global([data-theme="dark"]) .i-moon, :global([data-theme="light"]) .i-sun { opacity: 0; transform: rotate(-60deg) scale(0.6); }
-  @media (max-width: 960px) { .hdr__nav { display: none; } }
+  .dd__panel::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
+  .dd.is-open .dd__panel { opacity: 1; visibility: visible; transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .dd:hover .dd__panel { opacity: 1; visibility: visible; transform: none; }
+  }
+  .dd__item { display: grid; gap: 2px; padding: 10px 12px; border-radius: var(--radius); }
+  .dd__item:hover { background: var(--surface-2); }
+  .dd__title { font-size: 15px; font-weight: 500; }
+  .dd__text { font-size: 13.5px; color: var(--text-2); }
+  .dd__all { display: block; margin-top: 4px; padding: 10px 12px; border-top: 1px solid var(--border); font-size: 14px; color: var(--text-2); }
+  .dd__all:hover { color: var(--text); }
+
+  .hdr__burger { display: none; }
+  .b1, .b2 { transition: transform 200ms var(--ease); transform-origin: center; }
+  [aria-expanded="true"] .b1 { transform: translateY(3px) rotate(45deg); }
+  [aria-expanded="true"] .b2 { transform: translateY(-3px) rotate(-45deg); }
+
+  .mnav {
+    position: fixed; inset: 64px 0 0; z-index: 49; overflow-y: auto;
+    background: var(--bg); border-top: 1px solid var(--border);
+  }
+  .mnav__in { display: flex; flex-direction: column; padding-top: 16px; padding-bottom: 32px; }
+  .mnav__link { padding: 14px 0; font-size: 20px; font-weight: 500; border-bottom: 1px solid var(--border); }
+  .mnav__group { padding: 20px 0 6px; font-size: 14px; color: var(--text-2); }
+  .mnav__sub { padding: 10px 0 10px 12px; font-size: 17px; color: var(--text-2); }
+  .mnav__sub + .mnav__link { margin-top: 8px; border-top: 1px solid var(--border); }
+  .mnav__cta { margin-top: 24px; height: 48px; }
+
+  @media (max-width: 900px) {
+    .hdr__nav, .hdr__cta { display: none; }
+    .hdr__burger { display: grid; }
+  }
 </style>
 
 <script>
-  const hdr = document.querySelector<HTMLElement>("[data-hdr]");
-  const toggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
   const root = document.documentElement;
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-
+  const toggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
   const label = () => toggle?.setAttribute("aria-label", `Switch to ${root.dataset.theme === "dark" ? "light" : "dark"} theme`);
   label();
   toggle?.addEventListener("click", () => {
     const next = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = next;
-    if (meta) meta.content = next === "light" ? "#f6f5f1" : "#0a0c0f";
+    if (meta) meta.content = next === "light" ? "#ffffff" : "#0a0a0b";
     try { localStorage.setItem("theme", next); } catch {}
     label();
-    onScroll();
   });
 
-  const darks = Array.from(document.querySelectorAll<HTMLElement>("main .night"));
-  const onScroll = () => {
-    if (!hdr) return;
-    hdr.classList.toggle("is-scrolled", window.scrollY > 8);
-    const y = hdr.offsetHeight / 2;
-    const overNight = root.dataset.theme === "light" && darks.some((el) => {
-      const r = el.getBoundingClientRect();
-      return r.top <= y && r.bottom >= y;
-    });
-    hdr.classList.toggle("is-dark", overNight);
+  const dd = document.querySelector<HTMLElement>("[data-dd]");
+  const ddBtn = dd?.querySelector<HTMLButtonElement>(".dd__btn");
+  const setDd = (open: boolean) => {
+    dd?.classList.toggle("is-open", open);
+    ddBtn?.setAttribute("aria-expanded", String(open));
   };
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
+  ddBtn?.addEventListener("click", () => setDd(!dd?.classList.contains("is-open")));
+  document.addEventListener("click", (e) => { if (dd && !dd.contains(e.target as Node)) setDd(false); });
+
+  const burger = document.querySelector<HTMLButtonElement>("[data-burger]");
+  const mnav = document.querySelector<HTMLElement>("[data-mnav]");
+  const setMenu = (open: boolean) => {
+    if (!burger || !mnav) return;
+    mnav.hidden = !open;
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  burger?.addEventListener("click", () => setMenu(mnav?.hidden ?? false));
+  mnav?.addEventListener("click", (e) => { if ((e.target as Element).closest("a")) setMenu(false); });
+  window.matchMedia("(min-width: 901px)").addEventListener("change", (e) => { if (e.matches) setMenu(false); });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (dd?.classList.contains("is-open")) { setDd(false); ddBtn?.focus(); }
+    if (mnav && !mnav.hidden) { setMenu(false); burger?.focus(); }
+  });
 </script>

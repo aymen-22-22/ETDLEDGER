@@ -1,0 +1,110 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import Faq from "../components/Faq.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const tiers = [
+  {
+    name: "Community",
+    for: "For evaluating InfraLedger and small teams.",
+    items: ["One server with the Docker provider", "Applications, databases and object storage", "Audit log", "Email support"],
+    cta: "Request access",
+  },
+  {
+    name: "Business",
+    for: "For teams running production workloads.",
+    items: ["Everything in Community", "Multiple servers and the Kubernetes provider", "Preview environments and alerting", "Priority support and guided onboarding"],
+    cta: "Talk to us",
+    featured: true,
+  },
+  {
+    name: "Enterprise",
+    for: "For organizations running InfraLedger at scale.",
+    items: ["Everything in Business", "Virtual clusters for your own customers", "Installation and operation by our engineers", "A support agreement tailored to you"],
+    cta: "Contact sales",
+  },
+];
+const included = [
+  "Runs entirely on your infrastructure",
+  "No dependency on third-party cloud APIs",
+  "Isolation between organizations and projects",
+  "Encrypted environment variables and credentials",
+  "Automatic HTTPS certificates",
+  "Role-based access on every API call",
+];
+const faq: [string, string][] = [
+  ["How is pricing calculated?", "Pricing depends on the number of servers or clusters you run and the level of support you need. Tell us about your setup and we'll send a quote."],
+  ["Can we evaluate InfraLedger first?", "Yes. Request access and we'll set you up with an evaluation on your own server."],
+  ["Is support included?", "Every edition includes support. Business and Enterprise add faster response times, guided onboarding and, for Enterprise, operation by our engineers."],
+  ["Can we change editions later?", "Yes. You can move between editions as your usage grows, without reinstalling the platform."],
+];
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+};
+---
+<Base jsonld={[faqLd]} title="Pricing — InfraLedger" description="InfraLedger editions for evaluation, production teams and enterprises. Pricing is based on your infrastructure and support needs.">
+  <PageHeader eyebrow="Pricing" title="Editions that grow with your infrastructure" lead="Every edition runs on your own servers. Pricing is based on the size of your deployment and the support you need." />
+
+  <section class="section">
+    <div class="container">
+      <div class="tiers">
+        {tiers.map((t, i) => (
+          <div class:list={["tier", { "tier--featured": t.featured }]} data-reveal style={`--d:${i * 60}ms`}>
+            <div class="tier__head">
+              <p class="tier__name">{t.name}</p>
+              {t.featured && <span class="tier__badge">Most teams</span>}
+            </div>
+            <p class="tier__for">{t.for}</p>
+            <p class="tier__price">Pricing on request</p>
+            <a class:list={["btn", t.featured ? "btn--primary" : "btn--secondary", "tier__cta"]} href={u("/contact?interest=platform")}>{t.cta}</a>
+            <ul class="checklist">{t.items.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--subtle">
+    <div class="container">
+      <SectionHeader eyebrow="Every edition" title="Included in all editions" />
+      <ul class="included">{included.map((x, i) => <li data-reveal style={`--d:${i * 40}ms`}>{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container faq-wrap">
+      <SectionHeader eyebrow="FAQ" title="Pricing questions" />
+      <Faq items={faq} />
+    </div>
+  </section>
+
+  <CtaBand title="Get a quote for your setup." text="Tell us about your servers and team, and we'll recommend an edition." />
+</Base>
+
+<style>
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+  .tier { display: flex; flex-direction: column; gap: 16px; padding: 28px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+  .tier--featured { border-color: var(--text); }
+  .tier__head { display: flex; justify-content: space-between; align-items: center; }
+  .tier__name { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; }
+  .tier__badge { font-size: 12.5px; font-weight: 500; padding: 3px 10px; border-radius: 999px; background: var(--text); color: var(--bg); }
+  .tier__for { color: var(--text-2); font-size: 15px; min-height: 48px; }
+  .tier__price { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+  .tier__cta { width: 100%; }
+  .tier .checklist { padding-top: 20px; border-top: 1px solid var(--border); }
+  @media (max-width: 900px) { .tiers { grid-template-columns: minmax(0, 1fr); } .tier__for { min-height: 0; } }
+
+  .included { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 32px; border-top: 1px solid var(--border); }
+  .included li { padding: 16px 0 16px 28px; border-bottom: 1px solid var(--border); position: relative; }
+  .included li::before {
+    content: ""; position: absolute; left: 2px; top: 23px; width: 12px; height: 7px;
+    border-left: 1.5px solid var(--text); border-bottom: 1.5px solid var(--text); transform: rotate(-45deg);
+  }
+  @media (max-width: 900px) { .included { grid-template-columns: minmax(0, 1fr); } }
+  .faq-wrap { max-width: 880px; }
+</style>

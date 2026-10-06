@@ -1,0 +1,156 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import SubNav from "../components/SubNav.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import GrowthSteps from "../components/GrowthSteps.astro";
+import CtaBand from "../components/CtaBand.astro";
+import DeployMock from "../components/ui/DeployMock.astro";
+import DataMock from "../components/ui/DataMock.astro";
+import NetworkMock from "../components/ui/NetworkMock.astro";
+import ObserveMock from "../components/ui/ObserveMock.astro";
+import BrandLogo from "../components/BrandLogo.astro";
+import Icon from "../components/Icon.astro";
+
+const sub: [string, string][] = [
+  ["deploy", "Deploy"],
+  ["data", "Data services"],
+  ["network", "Networking"],
+  ["observe", "Observability"],
+  ["access", "Access and audit"],
+  ["architecture", "Architecture"],
+  ["stack", "Under the hood"],
+];
+const accessIcons = ["Building2", "KeyRound", "ScrollText", "LayoutDashboard"] as const;
+const access = [
+  ["Organizations and projects", "Organizations are the tenant boundary. Projects group the apps, databases and services that belong together."],
+  ["Roles enforced on every request", "Owner, Admin and Member roles are checked by the API on every call, not just hidden in the interface."],
+  ["Audit log", "Every deploy, restart, deletion, configuration change and admin action, with who, when and the outcome."],
+  ["Platform administration", "A separate console to manage organizations, suspend abusive tenants and view system health."],
+];
+const stack = [
+  ["API", "NestJS and Prisma", ["siNestjs", "siPrisma"]],
+  ["Dashboard", "React and Vite", ["siReact", "siVite"]],
+  ["Platform data", "PostgreSQL", ["siPostgresql"]],
+  ["Routing and TLS", "Traefik with Let's Encrypt", ["siTraefikproxy", "siLetsencrypt"]],
+  ["Metrics", "Prometheus", ["siPrometheus"]],
+  ["Runtimes", "Docker, Kubernetes, vcluster", ["siDocker", "siKubernetes"]],
+] as const;
+const productLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "InfraLedger",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Linux",
+  description: "A self-hosted, multi-tenant cloud platform for deploying applications and databases on your own servers, with an audit log of every action.",
+  url: "https://etdledger.com/product",
+  publisher: { "@id": "https://etdledger.com/#organization" },
+};
+---
+<Base jsonld={[productLd]} title="Product — InfraLedger" description="Deploys, managed databases, networking, observability and an audit log of every action, on infrastructure you run.">
+  <PageHeader eyebrow="Product" title="Everything a platform team would build, ready to run" lead="InfraLedger turns raw servers into a self-service platform. Developers deploy, provision and operate from a dashboard, and you keep full control of the infrastructure.">
+    <a class="btn btn--primary" href={u("/docs")}>Get started <span class="arrow">→</span></a>
+    <a class="btn btn--secondary" href={u("/contact?interest=platform")}>Request a demo</a>
+  </PageHeader>
+  <SubNav label="Product sections" items={sub} />
+
+  <FeatureRow id="deploy" eyebrow="Deploy" icon="Rocket" logos={[["siGit", "Git"], ["siDocker", "Container images"]]} title="Push code, get a running service"
+    text="Connect a Git repository or point at any container image. InfraLedger builds it, issues a certificate and runs it behind a load balancer."
+    items={[
+      "Git deploys with Dockerfile detection or buildpacks",
+      "Deploy any image from a container registry",
+      "Automatic HTTPS for every app and custom domain",
+      "Replicas with health checks and sticky sessions",
+      "A disposable preview environment per branch",
+      "Deploy history with build logs and commit SHA",
+      "A console into running containers, no SSH needed",
+      "Scheduled and one-off jobs in the app's environment",
+    ]}>
+    <DeployMock />
+  </FeatureRow>
+
+  <FeatureRow id="data" eyebrow="Data services" icon="Database" logos={[["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"], ["siMariadb", "MariaDB"], ["siRedis", "Redis"], ["siRabbitmq", "RabbitMQ"]]} title="Databases in a few clicks, isolated by default"
+    text="Every data service runs on persistent storage inside its project's private network, with resource monitoring and scheduled backups."
+    items={[
+      "PostgreSQL, MySQL and MariaDB with versioned engines",
+      "Redis for caching, with persistence options",
+      "S3-compatible object storage with access keys",
+      "RabbitMQ message queues",
+      "Scheduled backups with restore",
+      "Credentials and environment variables encrypted at rest",
+    ]}>
+    <DataMock />
+  </FeatureRow>
+
+  <FeatureRow id="network" eyebrow="Networking" icon="Network" logos={[["siTraefikproxy", "Traefik"], ["siLetsencrypt", "Let's Encrypt"]]} title="Routing, DNS and firewalls without config files"
+    text="Set rules in the dashboard and InfraLedger compiles them into reverse-proxy configuration. Each project gets its own private network."
+    items={[
+      "Path-based routing, redirects and rate limits",
+      "IP allow-lists and basic auth per application",
+      "DNS zone management for your own domains",
+      "Workloads can't reach other projects unless you connect them",
+      "One-click templates for common stacks",
+    ]}>
+    <NetworkMock />
+  </FeatureRow>
+
+  <FeatureRow id="observe" eyebrow="Observability" icon="Activity" logos={[["siPrometheus", "Prometheus"]]} title="See what's running, and what changed"
+    text="Metrics, logs and alerts sit next to the deploy history, so a spike lines up with the change that caused it."
+    items={[
+      "CPU, memory, request and error rates per service",
+      "Centralized, searchable logs",
+      "Threshold alerts to Slack, email or any webhook",
+      "Usage dashboards per project and organization",
+    ]}
+    note="In progress: staged configuration changes with a diff before applying, and one-click rollback with a preview of what will revert.">
+    <ObserveMock />
+  </FeatureRow>
+
+  <section class="section" id="access">
+    <div class="container">
+      <SectionHeader eyebrow="Access and audit" title="Multi-tenant from the first line of code" lead="Organizations are fully isolated from each other, and every action is recorded." />
+      <div class="grid-2">
+        {access.map(([t, d], i) => (
+          <div class="card" data-reveal style={`--d:${i * 60}ms`}>
+            <span class="card__icon"><Icon name={accessIcons[i]} /></span>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+          </div>
+        ))}
+      </div>
+      <p class="more"><a class="link" href={u("/security")}>How InfraLedger protects your data</a></p>
+    </div>
+  </section>
+
+  <section class="section section--subtle" id="architecture">
+    <div class="container">
+      <SectionHeader eyebrow="Architecture" title="One platform, any backend underneath" lead="InfraLedger isn't hard-wired to Docker. A provider layer runs the same workloads on a single host or a Kubernetes cluster." />
+      <GrowthSteps />
+    </div>
+  </section>
+
+  <section class="section" id="stack">
+    <div class="container stack">
+      <SectionHeader eyebrow="Under the hood" title="Built on open, conventional technology" lead="A monorepo of widely used open-source tools, so the engineers who run it can understand it." />
+      <dl class="stack__list" data-reveal>
+        {stack.map(([k, v, logos]) => <div><dt>{k}</dt><dd><span class="stack__logos">{logos.map((l) => <BrandLogo brand={l} size={18} decorative />)}</span><span class="mono">{v}</span></dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .more { margin-top: 28px; font-size: 15px; }
+  .stack { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: start; }
+  .stack :global(.section-header) { margin-bottom: 0; }
+  .stack__list { border-top: 1px solid var(--border); }
+  .stack__list div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .stack__list dt { color: var(--text-2); }
+  .stack__list dd { display: flex; align-items: center; gap: 12px; text-align: right; }
+  .stack__logos { display: inline-flex; gap: 8px; color: var(--text); }
+  @media (max-width: 900px) { .stack { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+</style>

@@ -1,0 +1,50 @@
+---
+import Window from "./Window.astro";
+import BrandLogo from "../BrandLogo.astro";
+import Icon from "../Icon.astro";
+
+const modules = [
+  { icon: "Users", name: "CRM", state: "Installed" },
+  { icon: "ArrowRightLeft", name: "Sales", state: "Installed" },
+  { icon: "Boxes", name: "Inventory", state: "Installed" },
+  { icon: "ScrollText", name: "Accounting", state: "Installed" },
+  { icon: "Wrench", name: "Manufacturing", state: "Customized" },
+  { icon: "Building2", name: "Purchase", state: "Installed" },
+  { icon: "Globe", name: "Website", state: "Installed" },
+  { icon: "Users", name: "Employees", state: "Upgrading" },
+] as const;
+---
+<Window title="odoo · acme production" caption="Illustration of an Odoo deployment running on InfraLedger">
+  <span slot="bar" class="odm__brand"><BrandLogo brand="siOdoo" size={20} decorative /></span>
+  <div class="odm">
+    <ul class="odm__grid">
+      {modules.map((m) => (
+        <li class="odm__mod">
+          <span class="odm__ic"><Icon name={m.icon} size={18} /></span>
+          <b>{m.name}</b>
+          <span class:list={["status", m.state === "Upgrading" ? "status--warn" : "status--ok"]}>{m.state}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="odm__foot">
+    <span class="ui-tag">Runs on InfraLedger</span>
+    <span class="ui-tag">PostgreSQL 16</span>
+    <span class="ui-tag ui-hide-sm">2 replicas</span>
+    <span class="ui-tag ui-hide-sm">Nightly backups</span>
+  </div>
+</Window>
+
+<style>
+  .odm { padding: 16px; }
+  .odm__brand { display: inline-flex; color: var(--text); }
+  .odm__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .odm__mod {
+    display: grid; justify-items: start; gap: 8px; padding: 14px;
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg);
+  }
+  .odm__mod b { font-size: 14px; font-weight: 500; }
+  .odm__ic { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: var(--surface-2); }
+  .odm__foot { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); }
+  @media (max-width: 720px) { .odm__grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

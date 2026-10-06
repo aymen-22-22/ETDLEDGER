@@ -1,0 +1,121 @@
+---
+import Base from "../../layouts/Base.astro";
+import { u } from "../../lib/url";
+import { site } from "../../lib/site";
+import CodeBlock from "../../components/CodeBlock.astro";
+import LogoCloud from "../../components/LogoCloud.astro";
+
+const toc: [string, string][] = [
+  ["overview", "Overview"],
+  ["requirements", "Requirements"],
+  ["install", "Install"],
+  ["dashboard", "Open the dashboard"],
+  ["first-app", "Deploy your first app"],
+  ["database", "Add a database"],
+  ["domain", "Add a custom domain"],
+  ["kubernetes", "Move to Kubernetes"],
+  ["help", "Getting help"],
+];
+---
+<Base title="Getting started — InfraLedger docs" description="Install InfraLedger on a single server with Docker Compose, deploy your first app and add a database.">
+  <div class="container docs">
+    <aside class="docs__side">
+      <p class="docs__group">Getting started</p>
+      <nav aria-label="Guide sections">
+        <ol>{toc.map(([id, t]) => <li><a href={`#${id}`}>{t}</a></li>)}</ol>
+      </nav>
+    </aside>
+
+    <article class="docs__body">
+      <p class="eyebrow">Docs</p>
+      <h1 class="h1 docs__title">Getting started</h1>
+      <p class="lead">Install InfraLedger on one server, deploy an application and connect a database.</p>
+      <p class="callout">Installation files and configuration values are provided with early access. <a class="link" href={u("/contact?interest=platform")}>Request access</a></p>
+
+      <h2 id="overview">Overview</h2>
+      <p>InfraLedger is a self-hosted platform made of three parts that run together:</p>
+      <ul class="checklist">
+        <li>An API that manages organizations, projects, applications and data services</li>
+        <li>A web dashboard that developers use instead of Docker commands, YAML or SSH</li>
+        <li>A PostgreSQL database that stores the platform's own state and audit log</li>
+      </ul>
+      <p>On a single server, InfraLedger runs workloads with Docker. On a cluster, it runs the same workloads on Kubernetes.</p>
+
+      <h2 id="requirements">Requirements</h2>
+      <ul class="checklist">
+        <li>A 64-bit Linux server with Docker Engine and the Docker Compose plugin</li>
+        <li>Ports 80 and 443 reachable, so InfraLedger can serve apps over HTTPS</li>
+        <li>A domain or subdomain that points to the server, for the dashboard and your apps</li>
+      </ul>
+      <div class="req-logos">
+        <LogoCloud compact items={[["siUbuntu", "Ubuntu"], ["siDebian", "Debian"], ["siRedhat", "Red Hat"], ["siRockylinux", "Rocky Linux"], ["siDocker", "Docker"]]} />
+      </div>
+      <p>Server sizing depends on how many applications and databases you plan to run. We size it with you during onboarding.</p>
+
+      <h2 id="install">Install</h2>
+      <p>Clone the files you received with your access, then start the platform:</p>
+      <CodeBlock lines={[
+        "git clone <your-access-url> infraledger",
+        "cd infraledger",
+        "docker compose up -d",
+      ]} />
+      <p>Docker Compose starts the API, the dashboard, the platform database and the reverse proxy. Check that everything is running with <code class="mono">docker compose ps</code>.</p>
+
+      <h2 id="dashboard">Open the dashboard</h2>
+      <p>Visit the domain you configured for the dashboard. For a local evaluation, use <code class="mono">app.localhost</code>. Create your account, then create an organization and a first project. Projects group the applications and databases that belong together, and each gets its own private network.</p>
+
+      <h2 id="first-app">Deploy your first app</h2>
+      <ol class="steps">
+        <li>In your project, open <b>Applications</b> and choose <b>New application</b>.</li>
+        <li>Pick a source: a Git repository or an image from a container registry.</li>
+        <li>Add any environment variables. They're encrypted at rest.</li>
+        <li>Choose <b>Deploy</b>. InfraLedger builds the app, issues a certificate and starts it.</li>
+      </ol>
+      <p>Every deploy appears in the app's history with its build log, and in the organization's audit log.</p>
+
+      <h2 id="database">Add a database</h2>
+      <p>Open <b>Databases</b>, choose <b>Add service</b> and pick an engine: PostgreSQL, MySQL, MariaDB, Redis, object storage or RabbitMQ. Connection credentials can be shared with applications in the same project through project-level variables. Set a backup schedule from the service's settings.</p>
+
+      <h2 id="domain">Add a custom domain</h2>
+      <p>Point a DNS record for your domain at the server, then add the domain in the application's settings. InfraLedger requests a certificate from Let's Encrypt and renews it automatically. You can also manage DNS zones for your own domains from the dashboard.</p>
+
+      <h2 id="kubernetes">Move to Kubernetes</h2>
+      <p>When one server isn't enough, InfraLedger can run the same applications and databases on a Kubernetes cluster through its Kubernetes provider. Developers keep the same dashboard and workflow. Our engineers guide this move with you.</p>
+
+      <h2 id="help">Getting help</h2>
+      <p>Email <a class="link" href={`mailto:${site.email}`}>{site.email}</a> or <a class="link" href={u("/contact")}>send us a request</a>. ETDLedger engineers help with installation, onboarding and ongoing support.</p>
+    </article>
+  </div>
+</Base>
+
+<style>
+  .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; padding-top: 64px; padding-bottom: 112px; }
+  .docs__side { position: sticky; top: 96px; align-self: start; }
+  .docs__group { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .docs__side ol { display: grid; gap: 2px; border-left: 1px solid var(--border); }
+  .docs__side a { display: block; padding: 5px 0 5px 14px; margin-left: -1px; border-left: 1px solid transparent; font-size: 14.5px; color: var(--text-2); }
+  .docs__side a:hover { color: var(--text); border-left-color: var(--text); }
+
+  .docs__body { max-width: 720px; }
+  .docs__title { margin-top: 12px; font-size: clamp(36px, 4.6vw, 52px); }
+  .docs__body .lead { margin-top: 16px; }
+  .docs__body h2 { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; margin: 56px 0 14px; padding-top: 8px; }
+  .docs__body p { margin-bottom: 14px; color: var(--text-2); }
+  .docs__body p b, .steps b { color: var(--text); font-weight: 600; }
+  .docs__body .checklist { margin: 4px 0 16px; }
+  .docs__body :global(.code) { margin: 8px 0 18px; }
+  .docs__body code.mono { padding: 1px 6px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); }
+  .req-logos { margin: 4px 0 20px; }
+  .callout { margin-top: 28px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); font-size: 15px; }
+  .steps { counter-reset: s; display: grid; gap: 12px; margin: 4px 0 16px; }
+  .steps li { counter-increment: s; position: relative; padding-left: 38px; color: var(--text-2); }
+  .steps li::before {
+    content: counter(s); position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--border-strong); display: grid; place-items: center; font-size: 12.5px; font-weight: 600; color: var(--text);
+  }
+
+  @media (max-width: 900px) {
+    .docs { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-top: 40px; }
+    .docs__side { position: static; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-lg); }
+  }
+</style>

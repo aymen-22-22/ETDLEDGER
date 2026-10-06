@@ -1,0 +1,99 @@
+---
+import Window from "./Window.astro";
+
+const nav = ["Overview", "Applications", "Databases", "Networking", "Observability", "Audit log", "Settings"];
+const stats = [
+  ["Applications", "8"],
+  ["Databases", "3"],
+  ["Requests / min", "2.4k"],
+  ["Error rate", "0.08%"],
+];
+const apps = [
+  { name: "web", status: ["ok", "Running"], rep: "3/3", domain: "www.example.com", when: "2 min ago" },
+  { name: "api", status: ["ok", "Running"], rep: "4/4", domain: "api.example.com", when: "1 h ago" },
+  { name: "worker", status: ["warn", "Deploying"], rep: "1/2", domain: "—", when: "just now" },
+  { name: "billing", status: ["ok", "Running"], rep: "2/2", domain: "billing.example.com", when: "3 h ago" },
+];
+const activity = [
+  { what: "Deployed api", who: "ci@example.com", t: "12:41", bad: false },
+  { what: "Scaled web to 3", who: "admin@example.com", t: "12:38", bad: false },
+  { what: "Backup completed", who: "system", t: "12:30", bad: false },
+  { what: "Deploy failed: worker", who: "ci@example.com", t: "12:22", bad: true },
+];
+---
+<Window title="acme / production">
+  <span slot="bar" class="ui-tag">Self-hosted</span>
+  <div class="dash">
+    <aside class="dash__side ui-hide-sm" aria-hidden="true">
+      {nav.map((n, i) => <span class:list={["dash__nav", { "is-on": i === 0 }]}>{n}</span>)}
+    </aside>
+    <div class="dash__main">
+      <div class="dash__head">
+        <div>
+          <p class="dash__h">Overview</p>
+          <p class="ui-dim">Project production · 4 applications running</p>
+        </div>
+        <span class="ui-btn">New application</span>
+      </div>
+      <div class="dash__stats">
+        {stats.map(([k, v]) => <div class="dash__stat"><span class="ui-dim">{k}</span><strong>{v}</strong></div>)}
+      </div>
+      <div class="dash__grid">
+        <div class="dash__panel ui-scroll">
+          <table class="ui-table">
+            <thead><tr><th>Application</th><th>Status</th><th class="ui-hide-sm">Replicas</th><th class="ui-hide-sm">Domain</th><th>Last deploy</th></tr></thead>
+            <tbody>
+              {apps.map((a) => (
+                <tr>
+                  <td class="ui-strong">{a.name}</td>
+                  <td><span class={`status status--${a.status[0]}`}>{a.status[1]}</span></td>
+                  <td class="num ui-hide-sm">{a.rep}</td>
+                  <td class="code-cell ui-hide-sm">{a.domain}</td>
+                  <td class="ui-dim">{a.when}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div class="dash__panel dash__log ui-hide-sm">
+          <p class="dash__ph">Audit log</p>
+          <ul>
+            {activity.map((a) => (
+              <li class:list={{ "is-bad": a.bad }}>
+                <span class:list={["status", a.bad ? "status--bad" : ""]}>{a.what}</span>
+                <span class="ui-dim">{a.who} · <span class="mono">{a.t}</span></span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</Window>
+
+<style>
+  .dash { display: grid; grid-template-columns: 180px minmax(0, 1fr); min-height: 420px; }
+  .dash__side { border-right: 1px solid var(--border); padding: 12px 8px; display: grid; align-content: start; gap: 2px; background: var(--bg-subtle); }
+  .dash__nav { padding: 7px 10px; border-radius: 6px; color: var(--text-2); }
+  .dash__nav.is-on { background: var(--surface-2); color: var(--text); font-weight: 500; }
+  .dash__main { padding: 20px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .dash__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .dash__h { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; }
+  .dash__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .dash__stat { display: grid; gap: 4px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+  .dash__stat strong { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+  .dash__grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 12px; }
+  .dash__panel { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+  .dash__log { padding: 12px 14px; }
+  .dash__ph { font-weight: 500; margin-bottom: 8px; }
+  .dash__log li { display: grid; gap: 2px; padding: 8px 0; border-top: 1px solid var(--border); font-size: 13px; }
+  .dash__log .status { font-size: 13px; color: var(--text); }
+  .dash__log .status:not(.status--bad)::before { background: var(--text-3); }
+  .dash__log .status--bad { color: var(--red-text); }
+  @media (max-width: 960px) { .dash__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 720px) {
+    .dash { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .dash__stats { grid-template-columns: repeat(2, 1fr); }
+    .dash__main { padding: 14px; }
+  }
+</style>

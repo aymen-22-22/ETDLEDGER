@@ -1,0 +1,42 @@
+---
+interface Props { items: [string, string][]; label: string }
+const { items, label } = Astro.props;
+---
+<nav class="subnav" aria-label={label} data-subnav>
+  <div class="container subnav__in">
+    {items.map(([id, text]) => <a href={`#${id}`} data-id={id}>{text}</a>)}
+  </div>
+</nav>
+
+<style>
+  .subnav {
+    position: sticky; top: 64px; z-index: 40;
+    background: var(--header-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .subnav__in { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; height: 48px; align-items: center; }
+  .subnav__in::-webkit-scrollbar { display: none; }
+  .subnav a {
+    flex-shrink: 0; height: 30px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 6px;
+    font-size: 14px; color: var(--text-2); transition: color 150ms var(--ease), background-color 150ms var(--ease);
+  }
+  .subnav a:hover { color: var(--text); }
+  .subnav a[aria-current] { color: var(--text); background: var(--surface); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-subnav]").forEach((nav) => {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>("a[data-id]")];
+    const sections = links.map((l) => document.getElementById(l.dataset.id!)).filter(Boolean) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          links.forEach((l) => (l.dataset.id === e.target.id ? l.setAttribute("aria-current", "true") : l.removeAttribute("aria-current")));
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sections.forEach((s) => io.observe(s));
+  });
+</script>

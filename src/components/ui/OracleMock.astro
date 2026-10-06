@@ -1,0 +1,71 @@
+---
+import Window from "./Window.astro";
+const stats = [
+  ["Availability", "99.98%"],
+  ["Avg. query time", "4.2 ms"],
+  ["Active sessions", "182"],
+  ["Last backup", "03:00"],
+];
+const spaces = [
+  ["USERS", 62],
+  ["SALES_DATA", 78],
+  ["SYSTEM", 48],
+  ["UNDO", 31],
+  ["TEMP", 12],
+] as const;
+const checks = [
+  ["ok", "Standby database in sync", "lag 0 s"],
+  ["ok", "RMAN backup verified", "03:00 · 41 GB"],
+  ["warn", "Quarterly patch available", "scheduled Sat 02:00"],
+] as const;
+---
+<Window title="erp-prod · database health" caption="Illustration of an Oracle administration engagement">
+  <span slot="bar" class="status status--ok">Healthy</span>
+  <div class="orm">
+    <div class="orm__stats">
+      {stats.map(([k, v]) => <div><span class="ui-dim">{k}</span><strong>{v}</strong></div>)}
+    </div>
+    <div class="orm__grid">
+      <div class="orm__panel">
+        <p class="orm__h">Tablespace usage</p>
+        <ul class="orm__bars">
+          {spaces.map(([n, v]) => (
+            <li>
+              <span class="mono">{n}</span>
+              <span class="orm__bar"><i style={`width:${v}%`} class:list={{ "is-high": v > 75 }}></i></span>
+              <span class="mono ui-dim">{v}%</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="orm__panel">
+        <p class="orm__h">Checks</p>
+        <ul class="orm__checks">
+          {checks.map(([s, t, d]) => <li><span class={`status status--${s}`}>{t}</span><span class="ui-dim">{d}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</Window>
+
+<style>
+  .orm { padding: 16px; display: grid; gap: 12px; }
+  .orm__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .orm__stats div { display: grid; gap: 4px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+  .orm__stats strong { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; }
+  .orm__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 12px; }
+  .orm__panel { padding: 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+  .orm__h { font-weight: 500; margin-bottom: 10px; }
+  .orm__bars { display: grid; gap: 10px; }
+  .orm__bars li { display: grid; grid-template-columns: 92px 1fr 40px; gap: 10px; align-items: center; font-size: 12px; }
+  .orm__bar { height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+  .orm__bar i { display: block; height: 100%; background: var(--text); border-radius: 3px; }
+  .orm__bar i.is-high { background: var(--amber); }
+  .orm__checks { display: grid; gap: 10px; }
+  .orm__checks li { display: grid; gap: 2px; font-size: 13px; }
+  .orm__checks .status { font-size: 13px; color: var(--text); }
+  @media (max-width: 720px) {
+    .orm__stats { grid-template-columns: repeat(2, 1fr); }
+    .orm__grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

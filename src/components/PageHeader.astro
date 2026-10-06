@@ -1,0 +1,40 @@
+---
+import ServerRack from "./ServerRack.astro";
+interface Props { eyebrow: string; title: string; lead: string; seed?: number }
+const { eyebrow, title, lead, seed = 4 } = Astro.props;
+---
+<section class="ph">
+  <div class="container ph__in">
+    <div class="ph__copy">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 class="h1 ph__title">{title}</h1>
+      <p class="lead ph__lead">{lead}</p>
+      <div class="ph__actions"><slot /></div>
+    </div>
+    <div class="ph__visual" aria-hidden="true">
+      <ServerRack units={20} seed={seed} />
+      <ServerRack units={20} seed={seed + 6} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ph { padding: 96px 0 0; border-bottom: 1px solid var(--border); overflow: hidden; }
+  .ph__in { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 48px; align-items: end; }
+  .ph__copy { padding-bottom: 72px; }
+  .ph__title { margin-top: 16px; max-width: 18ch; }
+  .ph__lead { margin-top: 20px; max-width: 640px; }
+  .ph__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .ph__actions:empty { display: none; }
+  .ph__visual {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: -24px; align-self: stretch; align-items: end;
+    -webkit-mask: linear-gradient(to top, transparent 5%, #000 55%);
+    mask: linear-gradient(to top, transparent 5%, #000 55%);
+  }
+  @media (max-width: 1000px) {
+    .ph { padding-top: 72px; }
+    .ph__in { grid-template-columns: minmax(0, 1fr); }
+    .ph__copy { padding-bottom: 56px; }
+    .ph__visual { display: none; }
+  }
+</style>

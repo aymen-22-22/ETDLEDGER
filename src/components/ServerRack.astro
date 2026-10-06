@@ -1,0 +1,58 @@
+---
+interface Props { units?: number; seed?: number; class?: string; label?: string }
+const { units = 14, seed = 1, class: cls, label } = Astro.props;
+
+const W = 240, U = 22, GAP = 4, PAD = 14;
+type Unit = { y: number; h: number; kind: number; leds: string[] };
+const list: Unit[] = [];
+let y = PAD + 18;
+let r = seed * 9301 + 49297;
+const rand = () => ((r = (r * 9301 + 49297) % 233280) / 233280);
+for (let i = 0; i < units; ) {
+  const tall = rand() > 0.72 && i < units - 1;
+  const h = tall ? U * 2 + GAP : U;
+  const kind = Math.floor(rand() * 3);
+  const leds = [rand() > 0.12 ? "ok" : "warn", rand() > 0.5 ? "ok" : "off"];
+  list.push({ y, h, kind, leds });
+  y += h + GAP;
+  i += tall ? 2 : 1;
+}
+const H = y + PAD;
+---
+<svg class:list={["rack", cls]} viewBox={`0 0 ${W} ${H}`} role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : "true"}>
+  <rect class="rack__frame" x="1" y="1" width={W - 2} height={H - 2} rx="10" />
+  <rect class="rack__top" x="1" y="1" width={W - 2} height="22" rx="10" />
+  {[0, 1, 2].map((k) => <circle class="rack__screw" cx={W / 2 - 16 + k * 16} cy="12" r="2" />)}
+  <line class="rack__rail" x1="10" y1="26" x2="10" y2={H - 10} />
+  <line class="rack__rail" x1={W - 10} y1="26" x2={W - 10} y2={H - 10} />
+  {list.map((u) => (
+    <g>
+      <rect class="rack__unit" x="16" y={u.y} width={W - 32} height={u.h} rx="3" />
+      <circle class={`rack__led rack__led--${u.leds[0]}`} cx="27" cy={u.y + 8} r="2.4" />
+      <circle class={`rack__led rack__led--${u.leds[1]}`} cx="35" cy={u.y + 8} r="2.4" />
+      {u.kind === 0 && [0, 1, 2, 3].map((k) => <rect class="rack__bay" x={48 + k * 24} y={u.y + 5} width="20" height={u.h - 10} rx="2" />)}
+      {u.kind === 1 && [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((k) => <line class="rack__vent" x1={50 + k * 9} y1={u.y + 6} x2={50 + k * 9} y2={u.y + u.h - 6} />)}
+      {u.kind === 2 && <>
+        <rect class="rack__bay" x="48" y={u.y + 5} width="60" height={u.h - 10} rx="2" />
+        {[0, 1, 2, 3].map((k) => <rect class="rack__port" x={118 + k * 12} y={u.y + u.h / 2 - 3} width="8" height="6" rx="1" />)}
+      </>}
+      {[0, 1, 2, 3, 4].map((k) => <line class="rack__vent" x1={W - 72 + k * 8} y1={u.y + 6} x2={W - 72 + k * 8} y2={u.y + u.h - 6} />)}
+    </g>
+  ))}
+</svg>
+
+<style>
+  .rack { display: block; width: 100%; height: auto; }
+  .rack__frame { fill: var(--bg-subtle); stroke: var(--border-strong); stroke-width: 1.5; }
+  .rack__top { fill: var(--surface-2); stroke: var(--border-strong); stroke-width: 1.5; }
+  .rack__screw { fill: var(--text-3); }
+  .rack__rail { stroke: var(--border); stroke-width: 2; stroke-dasharray: 2 6; }
+  .rack__unit { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1; }
+  .rack__bay { fill: var(--surface-2); stroke: var(--border); stroke-width: 1; }
+  .rack__port { fill: var(--bg); stroke: var(--border-strong); stroke-width: 0.8; }
+  .rack__vent { stroke: var(--border-strong); stroke-width: 1.2; stroke-linecap: round; }
+  .rack__led { fill: var(--text-3); }
+  .rack__led--ok { fill: var(--green); }
+  .rack__led--warn { fill: var(--amber); }
+  .rack__led--off { fill: var(--border-strong); }
+</style>
