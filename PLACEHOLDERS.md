@@ -26,6 +26,12 @@ Everything below was written without confirmed information. Replace or confirm e
 ## Security — `src/pages/security.astro`
 - "ETDLedger staff have no access unless you grant it" and the vulnerability-reporting address should be confirmed as company policy.
 
+## Services — `src/pages/services.astro`
+- Odoo is a new service line. Its offerings (implementation, custom modules, migration, hosting on InfraLedger, training, support) were written from the request and need confirming.
+- The security tool logos (OWASP, Kali Linux, Trivy, Elastic Stack) and the "Systems we work with" strip imply your team uses these. Keep only the ones you actually work with.
+- The SAP integration map, Oracle health view, Odoo modules view, managed clusters view and detections view are illustrations with example figures, not client data.
+- Oracle has no logo in Simple Icons, so it uses a database icon. Don't add an unofficial Oracle logo.
+
 ## Audiences — `src/pages/index.astro`
 - "Who it's for" (banks, telecom, public sector, software teams) describes target markets, not customers.
 

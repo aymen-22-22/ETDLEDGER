@@ -1,0 +1,42 @@
+---
+import Window from "./Window.astro";
+import BrandLogo from "../BrandLogo.astro";
+const clusters = [
+  { name: "customer-a", ver: "1.31", nodes: "3", ns: "12", s: ["ok", "Ready"] },
+  { name: "customer-b", ver: "1.31", nodes: "2", ns: "7", s: ["ok", "Ready"] },
+  { name: "customer-c", ver: "1.30", nodes: "2", ns: "4", s: ["warn", "Upgrading"] },
+  { name: "internal-ci", ver: "1.31", nodes: "4", ns: "21", s: ["ok", "Ready"] },
+];
+---
+<Window title="Managed clusters" caption="Illustration of virtual clusters managed from InfraLedger">
+  <span slot="bar" class="cm__brand"><BrandLogo brand="siKubernetes" size={18} decorative /></span>
+  <div class="ui-scroll">
+    <table class="ui-table">
+      <thead><tr><th>Virtual cluster</th><th>Version</th><th class="ui-hide-sm">Nodes</th><th class="ui-hide-sm">Namespaces</th><th>Status</th><th class="ui-hide-sm">Access</th></tr></thead>
+      <tbody>
+        {clusters.map((c) => (
+          <tr>
+            <td class="ui-strong">{c.name}</td>
+            <td class="num">{c.ver}</td>
+            <td class="num ui-hide-sm">{c.nodes}</td>
+            <td class="num ui-hide-sm">{c.ns}</td>
+            <td><span class={`status status--${c.s[0]}`}>{c.s[1]}</span></td>
+            <td class="ui-hide-sm"><span class="ui-tag mono">kubeconfig</span></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <pre class="cm__term"><span class="ui-dim">$</span> kubectl --context customer-a get nodes
+NAME       STATUS   ROLES    AGE
+node-a1    Ready    worker   41d
+node-a2    Ready    worker   41d</pre>
+</Window>
+
+<style>
+  .cm__brand { display: inline-flex; color: var(--text); }
+  .cm__term {
+    margin: 0; padding: 14px 16px; border-top: 1px solid var(--border); background: var(--bg-subtle);
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: var(--text); overflow-x: auto;
+  }
+</style>

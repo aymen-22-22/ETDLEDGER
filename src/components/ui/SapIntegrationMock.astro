@@ -1,0 +1,69 @@
+---
+import Window from "./Window.astro";
+import BrandLogo from "../BrandLogo.astro";
+import Icon from "../Icon.astro";
+
+const left = [
+  { icon: "Globe", label: "Customer portal", sub: "Web app" },
+  { icon: "ArrowRightLeft", label: "Partner APIs", sub: "REST · EDI" },
+  { icon: "Layers", label: "Event bus", sub: "Message queue" },
+] as const;
+const right = [
+  { icon: "Database", label: "Data warehouse", sub: "PostgreSQL" },
+  { icon: "Activity", label: "Reporting", sub: "Dashboards" },
+  { icon: "Users", label: "HR system", sub: "Sync nightly" },
+] as const;
+---
+<Window title="Integration map · production" caption="Illustration of an SAP integration project">
+  <span slot="bar" class="status status--ok">All interfaces healthy</span>
+  <div class="sapm">
+    <ul class="sapm__col">
+      {left.map((n) => (
+        <li class="sapm__node"><span class="sapm__ic"><Icon name={n.icon} size={16} /></span><span><b>{n.label}</b><small>{n.sub}</small></span></li>
+      ))}
+    </ul>
+    <div class="sapm__hub">
+      <div class="sapm__core">
+        <BrandLogo brand="siSap" size={42} decorative />
+        <b>S/4HANA</b>
+        <small>Finance · Supply chain · Sales</small>
+      </div>
+    </div>
+    <ul class="sapm__col sapm__col--r">
+      {right.map((n) => (
+        <li class="sapm__node"><span class="sapm__ic"><Icon name={n.icon} size={16} /></span><span><b>{n.label}</b><small>{n.sub}</small></span></li>
+      ))}
+    </ul>
+  </div>
+  <p class="sapm__foot"><span class="ui-dim">6 interfaces · 0 errors in the last 24 h</span><span class="mono ui-dim ui-hide-sm">last sync 12:40</span></p>
+</Window>
+
+<style>
+  .sapm { display: grid; grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr); gap: 0; align-items: center; padding: 28px 20px; }
+  .sapm__col { display: grid; gap: 12px; position: relative; }
+  .sapm__node {
+    position: relative; display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg);
+  }
+  .sapm__node b { display: block; font-size: 13px; font-weight: 500; }
+  .sapm__node small { display: block; font-size: 12px; color: var(--text-2); }
+  .sapm__ic { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 6px; background: var(--surface-2); flex-shrink: 0; }
+  .sapm__node::after {
+    content: ""; position: absolute; top: 50%; width: 30px; height: 1px; background: var(--border-strong);
+  }
+  .sapm__col:not(.sapm__col--r) .sapm__node::after { left: 100%; }
+  .sapm__col--r .sapm__node::after { right: 100%; }
+  .sapm__hub { display: grid; place-items: center; padding: 0 30px; }
+  .sapm__core {
+    display: grid; justify-items: center; gap: 6px; text-align: center; width: 140px; padding: 18px 10px;
+    border: 1px solid var(--text); border-radius: 14px; background: var(--bg); color: var(--text);
+  }
+  .sapm__core b { font-size: 14px; }
+  .sapm__core small { font-size: 11.5px; color: var(--text-2); line-height: 1.4; }
+  .sapm__foot { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; }
+  @media (max-width: 720px) {
+    .sapm { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .sapm__hub { order: -1; padding: 0; }
+    .sapm__node::after { display: none; }
+  }
+</style>

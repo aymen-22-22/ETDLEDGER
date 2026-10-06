@@ -31,6 +31,7 @@ const services = [
   ["Security services", "Threat detection, assessments and compliance readiness.", "/services#security", "icon:ShieldCheck"],
   ["SAP", "Implementation, migration and integration.", "/services#sap", "brand:siSap"],
   ["Oracle", "Database administration, migration and support.", "/services#oracle", "icon:Database"],
+  ["Odoo", "ERP implementation, hosted on your servers.", "/services#odoo", "brand:siOdoo"],
   ["Managed Kubernetes", "Virtual clusters you can offer to your customers.", "/services#kubernetes", "brand:siKubernetes"],
 ] as const;
 const faq: [string, string][] = [
@@ -167,7 +168,7 @@ const faq: [string, string][] = [
   <section class="section">
     <div class="container">
       <SectionHeader eyebrow="Services" title="Engineers for the systems around it" lead="ETDLedger's team also works on the systems most organizations run alongside their platform." />
-      <div class="grid-4">
+      <div class="svc-grid">
         {services.map(([t, d, href, mark], i) => (
           <a class="card svc" href={u(href)} data-reveal style={`--d:${i * 60}ms`}>
             <span class="card__icon">
@@ -224,6 +225,10 @@ const faq: [string, string][] = [
   .split__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
   @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
 
+  .svc-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 1100px) { .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .svc-grid { grid-template-columns: minmax(0, 1fr); } }
   .svc { position: relative; display: block; }
   .svc__arrow { position: absolute; top: 22px; right: 22px; color: var(--text-3); transition: transform 200ms var(--ease), color 200ms var(--ease); }
   .svc:hover .svc__arrow { transform: translateX(2px); color: var(--text); }
