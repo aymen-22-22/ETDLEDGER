@@ -1,0 +1,25 @@
+---
+interface Props { id: string; eyebrow: string; title: string; text: string; items: string[]; note?: string }
+const { id, eyebrow, title, text, items, note } = Astro.props;
+---
+<section class="section fr" id={id}>
+  <div class="container fr__in">
+    <div class="fr__copy" data-reveal>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="h2 fr__title">{title}</h2>
+      <p class="lead">{text}</p>
+      <ul class="checklist">{items.map((i) => <li>{i}</li>)}</ul>
+      {note && <p class="fr__note">{note}</p>}
+    </div>
+    <div class="fr__ui" data-reveal><slot /></div>
+  </div>
+</section>
+
+<style>
+  .fr__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 64px; align-items: center; }
+  .fr__copy { display: grid; gap: 18px; align-content: start; }
+  .fr__title { font-size: clamp(28px, 3.2vw, 40px); }
+  .fr__note { font-size: 14px; color: var(--text-2); padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+  .fr__ui:empty { display: none; }
+  @media (max-width: 900px) { .fr__in { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+</style>
