@@ -16,8 +16,9 @@ const { id, num, label, title, lead, items, night = false } = Astro.props;
     <SectionHead num={num} label={label} title={title} lead={lead} />
     {items.length > 0 && <div class="grid">
       <div class="spec">
-        {items.map(([t, d]) => (
-          <div class="spec__row" data-rise>
+        {items.map(([t, d], i) => (
+          <div class="spec__row card" data-rise>
+            <span class="mono spec__n">{String(i + 1).padStart(2, "0")}</span>
             <p class="spec__t">{t}</p>
             <p class="spec__d">{d}</p>
           </div>
@@ -33,15 +34,12 @@ const { id, num, label, title, lead, items, night = false } = Astro.props;
     grid-column: 4 / span 9;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: var(--gutter);
-    border-top: 1px solid var(--ink);
+    gap: 12px;
   }
-  .night .spec { border-top-color: var(--night-ink-3); }
-  .spec__row { padding: 22px 0 26px; border-bottom: 1px solid var(--rule); }
-  .night .spec__row { border-bottom-color: var(--night-rule); }
-  .spec__t { font-weight: 500; font-size: 17px; margin-bottom: 6px; }
+  .spec__row { display: flex; flex-direction: column; }
+  .spec__n { font-size: 12px; color: var(--signal); margin-bottom: 20px; }
+  .spec__t { font-weight: 600; font-size: 17px; letter-spacing: -0.015em; margin-bottom: 8px; }
   .spec__d { font-size: 15px; color: var(--ink-2); line-height: 1.6; }
-  .night .spec__d { color: var(--night-ink-2); }
   @media (max-width: 900px) {
     .spec { grid-column: 1 / -1; grid-template-columns: 1fr; }
   }

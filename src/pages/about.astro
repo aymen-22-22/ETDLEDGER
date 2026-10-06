@@ -89,7 +89,7 @@ const stack = [
       <SectionHead num="02" label="What we do" title="One product, two practices." lead="InfraLedger is our core product. Our security and enterprise teams work on the systems around it, and often on systems that never touch it." />
       <div class="wk">
         {work.map((w) => (
-          <a class="wk__col" href={u(w.href)} data-rise>
+          <a class="wk__col card" href={u(w.href)} data-rise>
             <span class="mono wk__code">{w.code}</span>
             <h3 class="h3">{w.title}</h3>
             <p class="body-2">{w.text}</p>
@@ -106,7 +106,7 @@ const stack = [
       <div class="grid">
         <ol class="pr">
           {principles.map(([t, d], i) => (
-            <li data-rise>
+            <li class="card" data-rise>
               <span class="mono pr__n">{String(i + 1).padStart(2, "0")}</span>
               <p class="pr__t">{t}</p>
               <p class="body-2">{d}</p>
@@ -121,7 +121,7 @@ const stack = [
     <div class="wrap">
       <SectionHead num="04" label="How we build" title="Open, conventional technology." lead="InfraLedger is a monorepo built on widely used open-source tools, so the platform is understandable to the engineers who run it." />
       <div class="grid">
-        <dl class="st" data-rise>
+        <dl class="st card" data-rise>
           {stack.map(([k, v]) => (
             <div class="st__row"><dt class="label">{k}</dt><dd class="mono">{v}</dd></div>
           ))}
@@ -147,24 +147,24 @@ const stack = [
   .facts { padding-bottom: 24px; }
   .facts__row {
     display: grid; grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+    border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule);
   }
   .facts__cell { padding: 20px 24px 22px 0; display: grid; gap: 8px; align-content: start; }
   .facts__cell + .facts__cell { border-left: 1px solid var(--rule); padding-left: 24px; }
-  .facts__cell dd { font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -0.015em; }
+  .facts__cell dd { font-size: clamp(22px, 2.2vw, 30px); font-weight: 600; letter-spacing: -0.03em; }
   @media (max-width: 900px) {
     .facts__row { grid-template-columns: 1fr 1fr; }
     .facts__row .facts__cell:nth-child(odd) { border-left: 0; padding-left: 0; }
     .facts__row .facts__cell:nth-child(even) { padding-left: 16px; }
     .facts__cell:nth-child(n + 3) { border-top: 1px solid var(--rule); }
   }
-  .nm { grid-column: 4 / span 9; border-top: 1px solid var(--ink); }
+  .nm { grid-column: 4 / span 9; border-top: 1px solid var(--rule-strong); }
   .nm__row {
     display: grid; grid-template-columns: 80px minmax(0, 1fr) minmax(0, 1.6fr); column-gap: var(--gutter);
     padding: 28px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
   }
   .nm__i { color: var(--signal); font-size: 13px; }
-  .nm__t { font-size: 24px; font-weight: 500; letter-spacing: -0.015em; }
+  .nm__t { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; }
   .nm__d { color: var(--ink-2); font-size: 15px; }
   @media (max-width: 900px) {
     .nm { grid-column: 1 / -1; }
@@ -172,32 +172,27 @@ const stack = [
     .nm__d { grid-column: 2; }
   }
 
-  .wk { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--gutter); }
-  .wk__col {
-    display: flex; flex-direction: column; gap: 12px;
-    border-top: 1px solid var(--night-ink-3); padding: 20px 0 8px;
-    transition: border-color 300ms var(--ease);
-  }
-  .wk__col:hover { border-top-color: var(--signal); }
+  .wk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .wk__col { display: flex; flex-direction: column; gap: 12px; padding: 28px; min-height: 280px; }
   .wk__code { font-size: 12px; color: var(--signal); margin-bottom: 8px; }
   .wk__link { margin-top: auto; padding-top: 12px; font-size: 15px; font-weight: 500; }
   .wk__col:hover .arrow { transform: translateX(3px); }
   .wk__link .arrow { display: inline-block; transition: transform 200ms var(--ease); }
-  @media (max-width: 900px) { .wk { grid-template-columns: 1fr; row-gap: 40px; } }
+  @media (max-width: 900px) { .wk { grid-template-columns: 1fr; } }
 
   .pr {
     grid-column: 4 / span 9; list-style: none;
-    display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--gutter);
-    border-top: 1px solid var(--ink);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
   }
-  .pr li { display: grid; grid-template-columns: 40px 1fr; padding: 22px 0 26px; border-bottom: 1px solid var(--rule); }
+  .pr li { display: grid; grid-template-columns: 40px 1fr; padding: 22px; }
   .pr li .body-2 { grid-column: 2; margin-top: 6px; }
   .pr__n { font-size: 12px; color: var(--signal); padding-top: 4px; }
-  .pr__t { font-weight: 500; font-size: 17px; }
+  .pr__t { font-weight: 600; font-size: 17px; letter-spacing: -0.015em; }
   @media (max-width: 900px) { .pr { grid-column: 1 / -1; grid-template-columns: 1fr; } }
 
-  .st { grid-column: 4 / span 9; border-top: 1px solid var(--ink); display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--gutter); }
-  .st__row { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  .st { grid-column: 4 / span 9; display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; padding: 6px 24px; }
+  .st__row { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--rule-soft); }
+  .st__row:nth-last-child(-n + 2) { border-bottom: 0; }
   .st__row dd { font-size: 13px; text-align: right; }
   @media (max-width: 900px) { .st { grid-column: 1 / -1; grid-template-columns: 1fr; } }
 </style>

@@ -15,6 +15,7 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or 
 ---
 <Base title="Contact — ETDLedger" description="Request an InfraLedger demo or talk to ETDLedger about security, SAP, Oracle and managed Kubernetes.">
   <section class="ct">
+    <div class="ct__bg" aria-hidden="true"></div>
     <div class="wrap grid ct__in">
       <div class="ct__intro">
         <p class="label">ETDLedger / Contact</p>
@@ -26,7 +27,7 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or 
         </dl>
       </div>
 
-      <form class="form" data-form data-endpoint={endpoint} data-email={email} novalidate>
+      <form class="form card" data-form data-endpoint={endpoint} data-email={email} novalidate>
         <div class="form__grid">
           <label class="f"><span class="label">Name</span><input name="name" autocomplete="name" required /><em class="f__err">Please enter your name.</em></label>
           <label class="f"><span class="label">Work email</span><input name="email" type="email" autocomplete="email" required /><em class="f__err">Please enter a valid email address.</em></label>
@@ -68,14 +69,24 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or 
 </Base>
 
 <style>
-  .ct { padding: 88px 0 120px; }
+  .ct { position: relative; margin-top: -64px; padding: 168px 0 136px; overflow: hidden; }
+  .ct__bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(800px 380px at 18% -60px, color-mix(in srgb, var(--signal) 16%, transparent), transparent 70%),
+      repeating-linear-gradient(to bottom, transparent 0 47px, var(--rule-soft) 47px 48px);
+    -webkit-mask: radial-gradient(1200px 600px at 30% 0, #000 30%, transparent 78%);
+    mask: radial-gradient(1200px 600px at 30% 0, #000 30%, transparent 78%);
+  }
+  .ct .wrap { position: relative; }
   .ct__in { row-gap: 56px; align-items: start; }
-  .ct__intro { grid-column: 1 / span 5; position: sticky; top: 108px; }
-  .ct__title { font-size: clamp(40px, 5vw, 68px); margin: 24px 0 24px; }
-  .ct__facts { margin-top: 40px; border-top: 1px solid var(--ink); }
+  .ct__intro { grid-column: 1 / span 5; position: sticky; top: 112px; }
+  .ct__title { font-size: clamp(44px, 5.4vw, 76px); margin: 24px 0 24px; }
+  .ct__facts { margin-top: 40px; border-top: 1px solid var(--rule-strong); }
   .ct__facts > div { padding: 14px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 4px; }
   .ct__facts dd { font-size: 15px; }
-  .form { grid-column: 7 / span 6; display: grid; gap: 28px; min-width: 0; }
+  .form { grid-column: 7 / span 6; display: grid; gap: 26px; min-width: 0; padding: 32px; }
+  .form:hover { background: color-mix(in srgb, var(--surface) 70%, transparent); }
   .form > *, .form__grid > * { min-width: 0; }
   @media (max-width: 960px) {
     .ct__intro, .form { grid-column: 1 / -1; position: static; }
@@ -88,13 +99,13 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or 
   .f .label i { font-style: normal; text-transform: none; letter-spacing: 0; color: var(--ink-3); opacity: 0.8; margin-left: 6px; }
   .f input, .f select, .f textarea {
     width: 100%; font: inherit; font-size: 16px; color: var(--ink);
-    background: transparent; border: 0; border-bottom: 1px solid var(--ink-3);
-    padding: 8px 0 10px; border-radius: 0; outline: none;
-    transition: border-color 200ms var(--ease);
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 11px 14px; border-radius: 10px; outline: none;
+    transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
   }
-  .f textarea { resize: vertical; border: 1px solid var(--ink-3); padding: 12px; }
-  .f select { appearance: none; background: linear-gradient(45deg, transparent 50%, var(--ink) 50%) right 6px center / 5px 5px no-repeat, linear-gradient(-45deg, transparent 50%, var(--ink) 50%) right 1px center / 5px 5px no-repeat; }
-  .f input:focus, .f select:focus, .f textarea:focus { border-color: var(--ink); }
+  .f textarea { resize: vertical; }
+  .f select { appearance: none; background: linear-gradient(45deg, transparent 50%, var(--ink) 50%) right 18px center / 5px 5px no-repeat, linear-gradient(-45deg, transparent 50%, var(--ink) 50%) right 13px center / 5px 5px no-repeat, var(--paper); }
+  .f input:focus, .f select:focus, .f textarea:focus { border-color: color-mix(in srgb, var(--signal) 60%, transparent); box-shadow: 0 0 0 4px var(--signal-soft); }
   .f__err { display: none; font-style: normal; font-size: 13px; color: var(--signal); }
   .f.is-invalid .f__err { display: block; }
   .f.is-invalid input, .f.is-invalid textarea { border-color: var(--signal); }
@@ -104,15 +115,15 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "50+ servers or 
   .chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; pointer-events: none; }
   .chip span {
     display: inline-block; padding: 8px 14px; font-size: 14px; cursor: pointer;
-    border: 1px solid var(--rule); border-radius: 2px; background: var(--surface);
+    border: 1px solid var(--rule); border-radius: 999px; background: var(--paper);
     transition: background-color 200ms var(--ease), color 200ms var(--ease), border-color 200ms var(--ease);
   }
   .chip span:hover { border-color: var(--ink-3); }
-  .chip input:checked + span { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chip input:checked + span { background: var(--ink); color: var(--on-solid); border-color: var(--ink); }
   .chip input:focus-visible + span { outline: 2px solid var(--signal); outline-offset: 2px; }
 
   .hp { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
-  .form__foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid var(--rule); padding-top: 28px; }
+  .form__foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--rule-soft); padding-top: 24px; }
   .form__status { font-size: 14px; color: var(--ink-2); }
   .form__status.is-ok { color: var(--ok); }
   .form__status.is-bad { color: var(--signal); }

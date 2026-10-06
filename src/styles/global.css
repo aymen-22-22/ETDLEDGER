@@ -249,6 +249,33 @@ img, svg { display: block; max-width: 100%; }
   z-index: 2;
 }
 .frame:hover::after { opacity: 1; }
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 24px;
+  isolation: isolate;
+  transition: border-color 300ms var(--ease), background-color 300ms var(--ease), transform 400ms var(--ease);
+}
+.card::after {
+  content: "";
+  position: absolute; inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(280px circle at var(--mx, -999px) var(--my, -999px), var(--signal-glow), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms var(--ease);
+}
+.card:hover { background: var(--surface); }
+.card:hover::after { opacity: 1; }
+.cards { display: grid; gap: 12px; }
 .frame__bar {
   display: flex; align-items: center; justify-content: space-between;
   height: 42px; padding: 0 16px;
