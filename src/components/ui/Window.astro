@@ -1,0 +1,51 @@
+---
+interface Props { title: string; caption?: string | false; class?: string }
+const { title, caption = "Illustration of the InfraLedger dashboard", class: cls } = Astro.props;
+---
+<figure class:list={["win-fig", cls]}>
+  <div class="win">
+    <div class="win__bar">
+      <span class="win__title">{title}</span>
+      <slot name="bar" />
+    </div>
+    <div class="win__body"><slot /></div>
+  </div>
+  {caption && <figcaption class="win__cap">{caption}</figcaption>}
+</figure>
+
+<style is:global>
+  .win-fig { margin: 0; min-width: 0; }
+  .win {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow); overflow: hidden; font-size: 13.5px; color: var(--text);
+  }
+  .win__bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    height: 44px; padding: 0 16px; border-bottom: 1px solid var(--border);
+    font-size: 13px; color: var(--text-2);
+  }
+  .win__title { font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .win__cap { margin-top: 12px; font-size: 13px; color: var(--text-3); text-align: center; }
+
+  .ui-table { width: 100%; border-collapse: collapse; }
+  .ui-table th {
+    text-align: left; font-weight: 500; font-size: 12.5px; color: var(--text-2);
+    padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-subtle); white-space: nowrap;
+  }
+  .ui-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .ui-table tr:last-child td { border-bottom: 0; }
+  .ui-table .num, .ui-table .code-cell { font-family: var(--mono); font-size: 12.5px; color: var(--text-2); }
+  .ui-strong { font-weight: 500; }
+  .ui-dim { color: var(--text-2); }
+  .ui-scroll { overflow-x: auto; }
+  .ui-tag {
+    display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 6px;
+    border: 1px solid var(--border); font-size: 12px; color: var(--text-2); white-space: nowrap;
+  }
+  .ui-btn {
+    display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 6px;
+    background: var(--text); color: var(--bg); font-size: 12.5px; font-weight: 500; white-space: nowrap;
+  }
+  .ui-row-bad td { background: var(--red-bg); }
+  @media (max-width: 720px) { .ui-hide-sm { display: none; } }
+</style>

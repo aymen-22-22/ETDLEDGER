@@ -1,0 +1,28 @@
+---
+import { u } from "../lib/url";
+interface Props { title?: string; text?: string; interest?: string }
+const {
+  title = "Run your own cloud.",
+  text = "See InfraLedger on infrastructure like yours, or start with the docs.",
+  interest = "platform",
+} = Astro.props;
+---
+<section class="cta">
+  <div class="container cta__in" data-reveal>
+    <div>
+      <h2 class="h2">{title}</h2>
+      <p class="lead cta__text">{text}</p>
+    </div>
+    <div class="cta__actions">
+      <a class="btn btn--primary" href={u(`/contact?interest=${interest}`)}>Request a demo <span class="arrow">→</span></a>
+      <a class="btn btn--secondary" href={u("/docs")}>Read the docs</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { padding: 96px 0; border-top: 1px solid var(--border); }
+  .cta__in { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
+  .cta__text { margin-top: 14px; max-width: 520px; }
+  .cta__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+</style>

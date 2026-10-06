@@ -1,14 +1,15 @@
 ---
-import { u } from "../lib/url";
-import "@fontsource-variable/inter/opsz.css";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource-variable/instrument-sans/wght.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
 import "../styles/global.css";
+import { u } from "../lib/url";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
 interface Props { title: string; description: string }
 const { title, description } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -17,22 +18,33 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a0c0f" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="ETDLedger" />
+    <meta name="theme-color" content="#0a0a0b" />
     <script is:inline>
       (function () {
-        var t = "dark";
-        try { t = localStorage.getItem("theme") || "dark"; } catch (e) {}
-        document.documentElement.dataset.theme = t;
-        document.querySelector('meta[name="theme-color"]').content = t === "light" ? "#f6f5f1" : "#0a0c0f";
+        var d = document.documentElement, t;
+        try { t = localStorage.getItem("theme"); } catch (e) {}
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        d.dataset.theme = t;
+        d.classList.add("js");
+        document.querySelector('meta[name="theme-color"]').content = t === "light" ? "#ffffff" : "#0a0a0b";
       })();
     </script>
     <link rel="icon" type="image/svg+xml" href={u("/favicon.svg")} />
   </head>
   <body>
+    <a class="skip" href="#main">Skip to content</a>
     <Header />
-    <main>
+    <main id="main">
       <slot />
     </main>
     <Footer />
+    <script>
+      import "../scripts/site.ts";
+    </script>
   </body>
 </html>

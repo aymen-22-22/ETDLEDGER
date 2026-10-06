@@ -1,0 +1,39 @@
+---
+import Window from "./Window.astro";
+const deploys = [
+  { n: "#42", msg: "Add rate limiting to /v2", sha: "a3f9c1e", s: ["ok", "Live"], when: "2 min ago" },
+  { n: "#41", msg: "Upgrade ORM to 6.2", sha: "4ac9d10", s: ["", "Superseded"], when: "1 h ago" },
+  { n: "#40", msg: "Fix pagination on /orders", sha: "1d4e8b2", s: ["", "Superseded"], when: "3 h ago" },
+  { n: "pr-18", msg: "Preview: new checkout flow", sha: "f03a6c9", s: ["warn", "Preview"], when: "5 h ago" },
+];
+---
+<Window title="production / api">
+  <span slot="bar" class="status status--ok">4/4 healthy</span>
+  <div class="dm">
+    <dl class="dm__meta">
+      <div><dt class="ui-dim">Domain</dt><dd class="mono">api.example.com</dd></div>
+      <div><dt class="ui-dim">Source</dt><dd class="mono">git · main</dd></div>
+      <div><dt class="ui-dim">Replicas</dt><dd class="mono">4</dd></div>
+    </dl>
+    <div class="ui-scroll">
+      <table class="ui-table">
+        <thead><tr><th>Deploy</th><th>Change</th><th>Status</th><th class="ui-hide-sm">When</th></tr></thead>
+        <tbody>
+          {deploys.map((d) => (
+            <tr>
+              <td class="num">{d.n}</td>
+              <td><span class="ui-strong">{d.msg}</span> <span class="code-cell ui-hide-sm">{d.sha}</span></td>
+              <td><span class={`status ${d.s[0] ? `status--${d.s[0]}` : ""}`}>{d.s[1]}</span></td>
+              <td class="ui-dim ui-hide-sm">{d.when}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</Window>
+
+<style>
+  .dm__meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 16px; border-bottom: 1px solid var(--border); }
+  .dm__meta dt { font-size: 12.5px; margin-bottom: 2px; }
+</style>
