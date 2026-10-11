@@ -1,0 +1,31 @@
+---
+import LegalPage from "../../components/LegalPage.astro";
+import { site } from "../../lib/site";
+---
+<LegalPage title="Terms of use" description="Terms that apply when you use the ETDLedger website." updated="6 October 2026">
+  <p>These terms apply to your use of this website. By using it, you agree to them.</p>
+
+  <h2>About this website</h2>
+  <p>This website is operated by ETDLedger, based in {site.city}. It provides information about InfraLedger and ETDLedger's services.</p>
+
+  <h2>Information on the site</h2>
+  <p>We work to keep the information accurate and current, but it's provided for general information only. Product features, editions and prices are confirmed in a written agreement or quote, which takes precedence over anything on this website. Images of the product dashboard are illustrations and may differ from the current version.</p>
+
+  <h2>Intellectual property</h2>
+  <p>The content of this website, including text, graphics and the ETDLedger and InfraLedger names and logos, belongs to ETDLedger. You may not copy or reuse it without our written permission, except to share links to our pages.</p>
+
+  <h2>Use of InfraLedger</h2>
+  <p>Access to InfraLedger and to ETDLedger's services is governed by a separate agreement. Nothing on this website grants a license to use the software.</p>
+
+  <h2>Links to other websites</h2>
+  <p>We may link to websites we don't control. We're not responsible for their content or how they handle your data.</p>
+
+  <h2>Liability</h2>
+  <p>To the extent permitted by law, ETDLedger isn't liable for any loss arising from use of this website or reliance on its content.</p>
+
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of Algeria.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about these terms: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+</LegalPage>

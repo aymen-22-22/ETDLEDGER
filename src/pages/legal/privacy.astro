@@ -1,0 +1,41 @@
+---
+import LegalPage from "../../components/LegalPage.astro";
+import { u } from "../../lib/url";
+import { site } from "../../lib/site";
+---
+<LegalPage title="Privacy policy" description="How ETDLedger handles personal data collected through this website." updated="6 October 2026">
+  <p>This policy explains what personal data ETDLedger collects through this website, why, and what you can ask us to do with it.</p>
+
+  <h2>Who we are</h2>
+  <p>ETDLedger is based in {site.city}. You can reach us about privacy at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+
+  <h2>What we collect</h2>
+  <p>We only collect data you choose to send us:</p>
+  <ul>
+    <li>Through the <a href={u("/contact")}>contact form</a>: your name, work email, company, role (optional), the topics you're interested in, the size of your infrastructure (optional) and your message.</li>
+    <li>When you email us: your email address and the content of your message.</li>
+  </ul>
+  <p>Our hosting provider also keeps standard server logs, such as IP address, date, time and page requested, to keep the site secure and running.</p>
+
+  <h2>Cookies and tracking</h2>
+  <p>This website doesn't use cookies, analytics or advertising trackers. If you switch between the light and dark theme, your choice is stored in your browser's local storage and never sent to us.</p>
+
+  <h2>How we use your data</h2>
+  <ul>
+    <li>To reply to your request, arrange a demo or prepare a quote.</li>
+    <li>To follow up on a conversation you started with us.</li>
+  </ul>
+  <p>We don't sell your data, and we don't add you to marketing lists without your consent.</p>
+
+  <h2>Who processes it</h2>
+  <p>Depending on how you contact us, your message reaches us by email or through a form-processing service that acts on our behalf. We don't share your data with anyone else unless the law requires it.</p>
+
+  <h2>How long we keep it</h2>
+  <p>We keep your enquiry for as long as we need it to respond and to maintain the business relationship that follows, and then delete it. You can ask us to delete it sooner.</p>
+
+  <h2>Your rights</h2>
+  <p>Under applicable data protection law, including Algeria's Law No. 18-07 on the protection of personal data, you can ask to access, correct or delete your personal data, or object to how we use it. Email <a href={`mailto:${site.email}`}>{site.email}</a> and we'll respond.</p>
+
+  <h2>Changes</h2>
+  <p>If we change this policy, we'll update the date at the top of this page.</p>
+</LegalPage>

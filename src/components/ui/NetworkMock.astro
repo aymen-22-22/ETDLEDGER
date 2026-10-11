@@ -1,0 +1,32 @@
+---
+import Window from "./Window.astro";
+const rules = [
+  { p: "10", match: "/v2/*", action: "Rate limit", target: "120 requests / min" },
+  { p: "20", match: "/admin/*", action: "IP allow-list", target: "10.0.0.0/8" },
+  { p: "30", match: "/docs", action: "Redirect 301", target: "docs.example.com" },
+  { p: "40", match: "/*", action: "Route", target: "api · port 8080" },
+];
+---
+<Window title="api / routing rules">
+  <span slot="bar" class="status status--ok">HTTPS active</span>
+  <div class="ui-scroll">
+    <table class="ui-table">
+      <thead><tr><th>Priority</th><th>Match</th><th>Action</th><th class="ui-hide-sm">Target</th></tr></thead>
+      <tbody>
+        {rules.map((r) => (
+          <tr>
+            <td class="num">{r.p}</td>
+            <td class="code-cell">{r.match}</td>
+            <td class="ui-strong">{r.action}</td>
+            <td class="ui-dim ui-hide-sm">{r.target}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="nm__foot ui-dim">Rules are compiled into reverse-proxy configuration and applied automatically.</p>
+</Window>
+
+<style>
+  .nm__foot { padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; }
+</style>

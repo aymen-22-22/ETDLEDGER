@@ -1,0 +1,35 @@
+---
+import Window from "./Window.astro";
+const pts = [12, 11, 13, 12, 11, 12, 13, 12, 11, 12, 30, 58, 64, 61, 63, 36, 15, 12, 11, 12, 13, 12];
+const w = 600, h = 180;
+const x = (i: number) => (i / (pts.length - 1)) * w;
+const y = (v: number) => h - (v / 70) * h;
+const line = pts.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+---
+<Window title="api / error rate · last 60 min">
+  <span slot="bar" class="status status--bad">Alert fired</span>
+  <div class="om">
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" class="om__svg" role="img" aria-label="Error rate rises after deploy #42 and returns to normal after rollback">
+      {[0.25, 0.5, 0.75].map((f) => <line class="om__grid" x1="0" x2={w} y1={h * f} y2={h * f} />)}
+      <line class="om__mark" x1={x(10)} x2={x(10)} y1="0" y2={h} />
+      <line class="om__mark" x1={x(15)} x2={x(15)} y1="0" y2={h} />
+      <path class="om__line" d={line} />
+    </svg>
+    <div class="om__labels">
+      <span class="ui-tag" style={`left:${(10 / (pts.length - 1)) * 100}%`}>Deploy #42</span>
+      <span class="ui-tag" style={`left:${(15 / (pts.length - 1)) * 100}%`}>Rollback to #41</span>
+    </div>
+  </div>
+  <p class="om__foot"><span class="status status--bad">Error rate above 2% for 3 min</span><span class="ui-dim ui-hide-sm">Sent to #ops-alerts</span></p>
+</Window>
+
+<style>
+  .om { position: relative; padding: 36px 16px 12px; }
+  .om__svg { width: 100%; height: 180px; overflow: visible; }
+  .om__grid { stroke: var(--border); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .om__mark { stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; }
+  .om__line { fill: none; stroke: var(--text); stroke-width: 1.75; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .om__labels { position: absolute; left: 16px; right: 16px; top: 8px; height: 24px; }
+  .om__labels .ui-tag { position: absolute; transform: translateX(-50%); background: var(--surface); }
+  .om__foot { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; }
+</style>

@@ -1,0 +1,112 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import SubNav from "../components/SubNav.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import CtaBand from "../components/CtaBand.astro";
+import DetectionsMock from "../components/ui/DetectionsMock.astro";
+
+const sub: [string, string][] = [
+  ["platform", "Platform"],
+  ["security", "Security"],
+  ["enterprise", "Enterprise systems"],
+  ["engagement", "How we work"],
+];
+const enterprise = [
+  { id: "sap", title: "SAP", text: "Implementation, migration and integration across SAP landscapes.", items: ["Module rollout aligned to your processes", "Version and hosting migrations with cutover and rollback plans", "Integration with web apps, APIs and data warehouses", "Administration and change management"] },
+  { id: "oracle", title: "Oracle", text: "Database administration, migration and application support.", items: ["Tuning, patching, backup and recovery", "Standby databases and recovery testing", "Upgrades and platform moves", "Licensing review"] },
+  { id: "odoo", title: "Odoo", text: "ERP implementation and customization, hosted on your servers.", items: ["CRM, sales, inventory, accounting and manufacturing", "Custom modules and integrations", "Migration from spreadsheets or older ERPs", "Hosting on InfraLedger with backups"] },
+];
+const steps = [
+  ["Discover", "We map your systems, constraints and goals in a scoping call."],
+  ["Plan", "A written plan with scope, timeline, risks and rollback."],
+  ["Deliver", "Our engineers do the work with your team, in agreed stages."],
+  ["Support", "Handover, documentation and ongoing support if you need it."],
+];
+const servicesLd = [
+  ["Platform services", "InfraLedger rollout and operation, and managed Kubernetes.", "platform"],
+  ["Security services", "Threat detection, security assessments, compliance readiness and cyber labs.", "security"],
+  ["Enterprise systems", "SAP, Oracle and Odoo implementation, migration and support.", "enterprise"],
+].map(([name, description, id]) => ({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name,
+  description,
+  url: `https://etdledger.com/services#${id}`,
+  provider: { "@id": "https://etdledger.com/#organization" },
+  areaServed: "DZ",
+}));
+---
+<Base jsonld={servicesLd} title="Services — ETDLedger" description="Platform, security and enterprise systems services from ETDLedger's engineering team: Kubernetes, security assessments, cyber labs, SAP, Oracle and Odoo.">
+  <PageHeader eyebrow="Services" title="Engineers for the systems your business runs on" lead="Our team works in three practices: platform operations, security, and enterprise systems. On-premises or hybrid.">
+    <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to our team <span class="arrow">→</span></a>
+  </PageHeader>
+  <SubNav label="Services" items={sub} />
+
+  <FeatureRow id="platform" eyebrow="Platform" icon="Server"
+    title="InfraLedger and Kubernetes, run with you"
+    text="We install and operate InfraLedger with your team, and run isolated virtual Kubernetes clusters you can offer to customers or business units."
+    items={[
+      "Installation, sizing and onboarding",
+      "An isolated virtual cluster per customer, with kubectl access",
+      "Design of the underlying Kubernetes infrastructure",
+      "Upgrades, capacity planning and incident support",
+    ]} />
+
+  <FeatureRow id="security" eyebrow="Security" icon="ShieldCheck" subtle
+    title="Security work, scoped to your environment"
+    text="Detection, assessments and compliance work, on its own or alongside an InfraLedger deployment."
+    items={[
+      "Detection rules and alert routing for deploy, access and configuration events",
+      "Penetration testing and configuration reviews, with findings ranked by risk",
+      "Controls and audit trails mapped to your auditors' framework",
+      "Cyber labs: isolated training environments for your security team",
+    ]}>
+    <DetectionsMock />
+  </FeatureRow>
+  <div class="container labs-link"><a class="link" href={u("/labs")}>About cyber labs</a></div>
+
+  <section class="section" id="enterprise">
+    <div class="container">
+      <SectionHeader eyebrow="Enterprise systems" title="SAP, Oracle and Odoo" lead="Implementation, migration and support for the business systems you depend on." />
+      <div class="grid-3">
+        {enterprise.map((e, i) => (
+          <div class="card" id={e.id} data-reveal style={`--d:${i * 60}ms`}>
+            <p class="card__title">{e.title}</p>
+            <p class="card__text">{e.text}</p>
+            <ul class="checklist ent__list">{e.items.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--subtle" id="engagement">
+    <div class="container">
+      <SectionHeader eyebrow="How we work" title="From first call to support" lead="Engagements can be a fixed-scope project, a retained team or advisory work." />
+      <ol class="steps4">
+        {steps.map(([t, d], i) => (
+          <li data-reveal style={`--d:${i * 60}ms`}>
+            <span class="steps4__n">0{i + 1}</span>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand title="Tell us what you run" text="We'll put the right engineer on the first call." interest="other" action="Talk to our team" />
+</Base>
+
+<style>
+  .labs-link { margin-top: -80px; padding-bottom: 80px; font-size: 15px; }
+  .ent__list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14.5px; }
+  .steps4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+  .steps4 li { display: grid; gap: 8px; align-content: start; padding-top: 16px; border-top: 1px solid var(--border-strong); }
+  .steps4__n { font-family: var(--mono); font-size: 13px; color: var(--text-3); }
+  @media (max-width: 960px) { .steps4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .steps4 { grid-template-columns: minmax(0, 1fr); } }
+</style>

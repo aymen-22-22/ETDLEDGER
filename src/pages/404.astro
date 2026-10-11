@@ -2,23 +2,22 @@
 import Base from "../layouts/Base.astro";
 import { u } from "../lib/url";
 ---
-<Base title="Page not found — ETDLedger" description="The page you were looking for doesn't exist.">
+<Base title="Page not found — ETDLedger" description="The page you were looking for doesn't exist." noindex>
   <section class="nf">
-    <div class="wrap">
-      <p class="label"><span class="nf__code">404</span> Not found</p>
-      <h1 class="display nf__title">No entry for this page in the ledger.</h1>
-      <p class="lead">The link may be out of date, or the address mistyped.</p>
+    <div class="container">
+      <p class="eyebrow">404</p>
+      <h1 class="h1 nf__title">This page doesn't exist</h1>
+      <p class="lead">The link may be out of date, or the address may be mistyped.</p>
       <div class="nf__actions">
-        <a class="btn btn--solid" href={u("/")}>Back to home <span class="arrow">→</span></a>
-        <a class="btn btn--line" href={u("/contact")}>Contact us</a>
+        <a class="btn btn--primary" href={u("/")}>Back to home</a>
+        <a class="btn btn--secondary" href={u("/docs")}>Read the docs</a>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .nf { padding: 120px 0 160px; }
-  .nf__code { color: var(--signal); margin-right: 10px; }
-  .nf__title { margin: 28px 0 24px; max-width: 900px; font-size: clamp(40px, 5.2vw, 72px); }
-  .nf__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
+  .nf { padding: 144px 0 176px; }
+  .nf__title { margin: 14px 0 18px; }
+  .nf__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
 </style>
