@@ -18,10 +18,8 @@ Everything below was written without confirmed information. Replace or confirm e
 - The "Runs on the infrastructure you already have" logos (Ubuntu, Debian, Red Hat, Rocky Linux) and the Docs requirement logos assume any 64-bit Linux with Docker works. Confirm which distributions you support.
 - Logos come from Simple Icons (CC0) and are shown in one color, as nominative references to the technologies InfraLedger runs on.
 
-## Pricing — `src/pages/pricing.astro`
-- Editions (Community, Business, Enterprise), their contents and "Pricing on request" are placeholders.
-- FAQ answers on evaluation, support levels and changing editions are assumptions.
-- Home FAQ answers on licensing and support are assumptions.
+## Pricing
+- There is no pricing page; /pricing redirects to /contact. The contact page says InfraLedger is quoted after a first call. Confirm this wording.
 
 ## Security — `src/pages/security.astro`
 - "ETDLedger staff have no access unless you grant it" and the vulnerability-reporting address should be confirmed as company policy.
@@ -29,8 +27,8 @@ Everything below was written without confirmed information. Replace or confirm e
 ## Services — `src/pages/services.astro`
 - Odoo is a new service line. Its offerings (implementation, custom modules, migration, hosting on InfraLedger, training, support) were written from the request and need confirming.
 - The security tool logos (OWASP, Kali Linux, Trivy, Elastic Stack) and the "Systems we work with" strip imply your team uses these. Keep only the ones you actually work with.
-- The SAP integration map, Oracle health view, Odoo modules view, managed clusters view and detections view are illustrations with example figures, not client data.
-- Oracle has no logo in Simple Icons, so it uses a database icon. Don't add an unofficial Oracle logo.
+- The dashboard, deploy and detections views are illustrations with sample data, not client data. Performance figures were removed on purpose.
+- Services are grouped into three practices (Platform, Security, Enterprise systems). Confirm the grouping and the items listed for each.
 
 ## Cyber labs — `src/pages/labs.astro`
 - Lab types, delivery steps, safety commitments (expiring VPN credentials, teardown after the engagement) and the technology logos describe a planned offering. Confirm each before relying on the page.

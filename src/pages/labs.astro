@@ -3,7 +3,6 @@ import Base from "../layouts/Base.astro";
 import { u } from "../lib/url";
 import PageHeader from "../components/PageHeader.astro";
 import SectionHeader from "../components/SectionHeader.astro";
-import LogoCloud from "../components/LogoCloud.astro";
 import CtaBand from "../components/CtaBand.astro";
 import Icon from "../components/Icon.astro";
 import LabTopologyMock from "../components/ui/LabTopologyMock.astro";
@@ -32,7 +31,7 @@ const safety = [
 ] as const;
 ---
 <Base title="Cyber labs — ETDLedger" description="Custom, isolated training labs where security teams practice perimeter defense, web application protection, detection and incident response.">
-  <PageHeader eyebrow="Cyber labs" title="Training environments built for your security team" lead="We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session." seed={9}>
+  <PageHeader eyebrow="Cyber labs" title="Training environments built for your security team" lead="We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session.">
     <a class="btn btn--primary" href={u("/contact?interest=labs")}>Plan a lab <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href="#templates">See lab types</a>
   </PageHeader>
@@ -97,17 +96,7 @@ const safety = [
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <LogoCloud label="Technologies we build labs with" items={[
-        ["siPfsense", "pfSense"], ["siOpnsense", "OPNsense"], ["siElasticstack", "Elastic Stack"], ["siSplunk", "Splunk"],
-        ["siGrafana", "Grafana"], ["siWireshark", "Wireshark"], ["siProxmox", "Proxmox"], ["siKubernetes", "Kubernetes"],
-        ["siDocker", "Docker"], ["siWireguard", "WireGuard"],
-      ]} />
-    </div>
-  </section>
-
-  <CtaBand title="Plan a lab for your team." text="Tell us who will train and what they should practice, and we'll propose a lab." interest="labs" />
+  <CtaBand title="Plan a lab for your team" text="Tell us who will train and what they should practice, and we'll propose a lab." interest="labs" action="Plan a lab" />
 </Base>
 
 <style>

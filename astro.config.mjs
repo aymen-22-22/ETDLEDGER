@@ -7,5 +7,6 @@ export default defineConfig({
     "/platform": "/product",
     "/enterprise": "/services",
     "/about": "/company",
+    "/pricing": "/contact",
   },
 });

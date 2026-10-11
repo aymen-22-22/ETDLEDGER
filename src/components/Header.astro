@@ -5,15 +5,11 @@ import Logo from "./Logo.astro";
 const links = [
   { href: "/product", label: "Product" },
   { href: "/docs", label: "Docs" },
-  { href: "/pricing", label: "Pricing" },
 ];
 const services = [
-  { href: "/services#security", label: "Security services", text: "Detection, assessments, compliance readiness" },
-  { href: "/labs", label: "Cyber labs", text: "Isolated training environments for your team" },
-  { href: "/services#sap", label: "SAP", text: "Implementation, migration, integration" },
-  { href: "/services#oracle", label: "Oracle", text: "Database administration and migration" },
-  { href: "/services#odoo", label: "Odoo", text: "ERP implementation and hosting" },
-  { href: "/services#kubernetes", label: "Managed Kubernetes", text: "Virtual clusters for your customers" },
+  { href: "/services#platform", label: "Platform services", text: "InfraLedger rollout, operation and managed Kubernetes" },
+  { href: "/services#security", label: "Security services", text: "Detection, assessments and cyber labs" },
+  { href: "/services#enterprise", label: "Enterprise systems", text: "SAP, Oracle and Odoo" },
 ];
 const path = stripBase(Astro.url.pathname).replace(/\/$/, "") || "/";
 const isCurrent = (href: string) => (path === href || path.startsWith(href + "/") ? "page" : undefined);

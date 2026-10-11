@@ -3,7 +3,6 @@ import Base from "../../layouts/Base.astro";
 import { u } from "../../lib/url";
 import { site } from "../../lib/site";
 import CodeBlock from "../../components/CodeBlock.astro";
-import LogoCloud from "../../components/LogoCloud.astro";
 
 const toc: [string, string][] = [
   ["overview", "Overview"],
@@ -47,9 +46,6 @@ const toc: [string, string][] = [
         <li>Ports 80 and 443 reachable, so InfraLedger can serve apps over HTTPS</li>
         <li>A domain or subdomain that points to the server, for the dashboard and your apps</li>
       </ul>
-      <div class="req-logos">
-        <LogoCloud compact items={[["siUbuntu", "Ubuntu"], ["siDebian", "Debian"], ["siRedhat", "Red Hat"], ["siRockylinux", "Rocky Linux"], ["siDocker", "Docker"]]} />
-      </div>
       <p>Server sizing depends on how many applications and databases you plan to run. We size it with you during onboarding.</p>
 
       <h2 id="install">Install</h2>

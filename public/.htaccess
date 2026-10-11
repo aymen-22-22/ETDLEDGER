@@ -16,6 +16,7 @@ ErrorDocument 404 /404.html
   RewriteRule ^platform/?$ /product [L,R=301]
   RewriteRule ^enterprise/?$ /services [L,R=301]
   RewriteRule ^about/?$ /company [L,R=301]
+  RewriteRule ^pricing/?$ /contact [L,R=301]
 
   # Serve /product as /product/index.html without a trailing-slash redirect
   RewriteCond %{REQUEST_FILENAME} !-f
