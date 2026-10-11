@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cyber labs — ETDLedger</title><meta name="description" content="Custom, isolated training labs where security teams practice perimeter defense, web application protection, detection and incident response."><link rel="canonical" href="https://etdledger.com/labs"><link rel="sitemap" href="https://etdledger.com/sitemap.xml"><meta property="og:type" content="website"><meta property="og:url" content="https://etdledger.com/labs"><meta property="og:image" content="https://etdledger.com/og/labs.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Cyber labs — ETDLedger"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Cyber labs — ETDLedger"><meta name="twitter:description" content="Custom, isolated training labs where security teams practice perimeter defense, web application protection, detection and incident response."><meta name="twitter:image" content="https://etdledger.com/og/labs.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://etdledger.com/#organization","name":"ETDLedger","url":"https://etdledger.com/","logo":"https://etdledger.com/og/logo.png","email":"hello@etdledger.com","foundingDate":"2023","numberOfEmployees":{"@type":"QuantitativeValue","value":20},"address":{"@type":"PostalAddress","addressLocality":"Sidi Bel Abbès","addressCountry":"DZ"}}</script><meta property="og:title" content="Cyber labs — ETDLedger"><meta property="og:description" content="Custom, isolated training labs where security teams practice perimeter defense, web application protection, detection and incident response."><meta property="og:site_name" content="ETDLedger"><meta name="theme-color" content="#0a0a0b"><script>
+      (function () {
+        var d = document.documentElement, t;
+        try { t = localStorage.getItem("theme"); } catch (e) {}
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        d.dataset.theme = t;
+        d.classList.add("js");
+        document.querySelector('meta[name="theme-color"]').content = t === "light" ? "#ffffff" : "#0a0a0b";
+      })();
+    </script><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/Base.DAXrj-3e.css"><style>.ph[data-astro-cid-b2i3gsw2]{border-bottom:1px solid var(--border);padding:96px 0 72px}.ph__title[data-astro-cid-b2i3gsw2]{max-width:20ch;margin-top:16px}.ph__lead[data-astro-cid-b2i3gsw2]{max-width:640px;margin-top:20px}.ph__actions[data-astro-cid-b2i3gsw2]{flex-wrap:wrap;gap:12px;margin-top:32px;display:flex}.ph__actions[data-astro-cid-b2i3gsw2]:empty{display:none}@media (width<=1000px){.ph[data-astro-cid-b2i3gsw2]{padding:72px 0 56px}}
+.win-fig{min-width:0;margin:0}.win{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);color:var(--text);font-size:13.5px;overflow:hidden}.win__bar{border-bottom:1px solid var(--border);height:44px;color:var(--text-2);justify-content:space-between;align-items:center;gap:12px;padding:0 16px;font-size:13px;display:flex}.win__title{color:var(--text);white-space:nowrap;text-overflow:ellipsis;font-weight:500;overflow:hidden}.win__cap{color:var(--text-3);text-align:center;margin-top:12px;font-size:13px}.ui-table{border-collapse:collapse;width:100%}.ui-table th{text-align:left;color:var(--text-2);border-bottom:1px solid var(--border);background:var(--bg-subtle);white-space:nowrap;padding:10px 16px;font-size:12.5px;font-weight:500}.ui-table td{border-bottom:1px solid var(--border);white-space:nowrap;padding:11px 16px}.ui-table tr:last-child td{border-bottom:0}.ui-table .num,.ui-table .code-cell{font-family:var(--mono);color:var(--text-2);font-size:12.5px}.ui-strong{font-weight:500}.ui-dim{color:var(--text-2)}.ui-scroll{overflow-x:auto}.ui-tag{border:1px solid var(--border);height:22px;color:var(--text-2);white-space:nowrap;border-radius:6px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.ui-btn{background:var(--text);height:28px;color:var(--bg);white-space:nowrap;border-radius:6px;align-items:center;padding:0 10px;font-size:12.5px;font-weight:500;display:inline-flex}.ui-row-bad td{background:var(--red-bg)}@media (width<=720px){.ui-hide-sm{display:none}}.cta[data-astro-cid-hwvj6ntz]{border-top:1px solid var(--border);padding:96px 0}.cta__panel[data-astro-cid-hwvj6ntz]{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:32px;display:flex}.cta__text[data-astro-cid-hwvj6ntz]{max-width:560px;margin-top:12px}
+.lab[data-astro-cid-g322bqnc]{gap:18px;padding:20px;display:grid}.lab__row[data-astro-cid-g322bqnc]{align-items:center;display:flex}.lab__node[data-astro-cid-g322bqnc]{border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--bg);flex:1;align-items:center;gap:10px;min-width:0;padding:10px 12px;display:flex}.lab__node--edge[data-astro-cid-g322bqnc]{border-style:dashed}.lab__node[data-astro-cid-g322bqnc] b[data-astro-cid-g322bqnc]{font-size:13px;font-weight:500;display:block}.lab__node[data-astro-cid-g322bqnc] small[data-astro-cid-g322bqnc]{color:var(--text-2);font-size:12px;display:block}.lab__link[data-astro-cid-g322bqnc]{background:var(--border-strong);flex-shrink:0;width:22px;height:1px}.lab__boundary[data-astro-cid-g322bqnc]{border:1px dashed var(--border-strong);border-radius:var(--radius-lg);padding:26px 14px 14px;position:relative}.lab__tag[data-astro-cid-g322bqnc]{background:var(--surface);color:var(--text-2);padding:0 8px;font-size:12px;position:absolute;top:-10px;left:14px}.lab__zones[data-astro-cid-g322bqnc]{grid-template-columns:repeat(3,1fr);gap:10px;display:grid}.lab__zone[data-astro-cid-g322bqnc]{border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);padding:12px}.lab__zt[data-astro-cid-g322bqnc]{align-items:center;gap:8px;margin-bottom:8px;font-size:13px;font-weight:500;display:flex}.lab__zone[data-astro-cid-g322bqnc] li[data-astro-cid-g322bqnc]{color:var(--text-2);padding:3px 0;font-size:12.5px}.lab__foot[data-astro-cid-g322bqnc]{border-top:1px solid var(--border);justify-content:space-between;gap:12px;padding:12px 16px;font-size:13px;display:flex}@media (width<=720px){.lab__row[data-astro-cid-g322bqnc]{flex-direction:column;align-items:stretch}.lab__link[data-astro-cid-g322bqnc]{width:1px;height:12px;margin:0 auto}.lab__zones[data-astro-cid-g322bqnc]{grid-template-columns:minmax(0,1fr)}}.split[data-astro-cid-nidsnqhu]{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:center;gap:64px;display:grid}.split__copy[data-astro-cid-nidsnqhu]{align-content:start;gap:18px;display:grid}@media (width<=900px){.split[data-astro-cid-nidsnqhu]{grid-template-columns:minmax(0,1fr);gap:40px}}.steps4[data-astro-cid-nidsnqhu]{grid-template-columns:repeat(4,1fr);gap:16px;display:grid}.steps4__top[data-astro-cid-nidsnqhu]{justify-content:space-between;align-items:flex-start;display:flex}.steps4__n[data-astro-cid-nidsnqhu]{font-family:var(--mono);color:var(--text-3);font-size:13px}@media (width<=960px){.steps4[data-astro-cid-nidsnqhu]{grid-template-columns:repeat(2,1fr)}}@media (width<=640px){.steps4[data-astro-cid-nidsnqhu]{grid-template-columns:minmax(0,1fr)}}
+.icon[data-astro-cid-ccg5yoga]{flex-shrink:0;line-height:0;display:inline-flex}
+</style></head><body><a class="skip" href="#main">Skip to content</a><header class="hdr" data-hdr data-astro-cid-nen7h5rs><div class="container hdr__in" data-astro-cid-nen7h5rs><a class="hdr__logo" href="/" aria-label="ETDLedger home" data-astro-cid-nen7h5rs><span class="logo" data-astro-cid-f7espo7c><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" data-astro-cid-f7espo7c><rect x="0.75" y="0.75" width="20.5" height="20.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.5" data-astro-cid-f7espo7c></rect><path d="M6 7.5h10M6 11h6M6 14.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-f7espo7c></path></svg><span class="logo__word" data-astro-cid-f7espo7c>ETDLedger</span></span></a><nav class="hdr__nav" aria-label="Primary" data-astro-cid-nen7h5rs><a class="hdr__link" href="/product" data-astro-cid-nen7h5rs>Product</a><a class="hdr__link" href="/docs" data-astro-cid-nen7h5rs>Docs</a><div class="dd" data-dd data-astro-cid-nen7h5rs><button class="hdr__link dd__btn" type="button" aria-expanded="false" aria-controls="dd-services" data-astro-cid-nen7h5rs>Services<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" data-astro-cid-nen7h5rs><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-nen7h5rs></path></svg></button><div class="dd__panel" id="dd-services" data-astro-cid-nen7h5rs><a class="dd__item" href="/services#platform" data-astro-cid-nen7h5rs><span class="dd__title" data-astro-cid-nen7h5rs>Platform services</span><span class="dd__text" data-astro-cid-nen7h5rs>InfraLedger rollout, operation and managed Kubernetes</span></a><a class="dd__item" href="/services#security" data-astro-cid-nen7h5rs><span class="dd__title" data-astro-cid-nen7h5rs>Security services</span><span class="dd__text" data-astro-cid-nen7h5rs>Detection, assessments and cyber labs</span></a><a class="dd__item" href="/services#enterprise" data-astro-cid-nen7h5rs><span class="dd__title" data-astro-cid-nen7h5rs>Enterprise systems</span><span class="dd__text" data-astro-cid-nen7h5rs>SAP, Oracle and Odoo</span></a><a class="dd__all" href="/services" data-astro-cid-nen7h5rs>All services →</a></div></div><a class="hdr__link" href="/company" data-astro-cid-nen7h5rs>Company</a></nav><div class="hdr__actions" data-astro-cid-nen7h5rs><button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme" data-astro-cid-nen7h5rs><svg class="i-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" data-astro-cid-nen7h5rs><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4" data-astro-cid-nen7h5rs></circle><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M3 13l1.4-1.4M11.6 4.4 13 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" data-astro-cid-nen7h5rs></path></svg><svg class="i-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" data-astro-cid-nen7h5rs><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" data-astro-cid-nen7h5rs></path></svg></button><a class="btn btn--primary btn--sm hdr__cta" href="/contact" data-astro-cid-nen7h5rs>Request a demo</a><button class="icon-btn hdr__burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu" data-burger data-astro-cid-nen7h5rs><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" data-astro-cid-nen7h5rs><path class="b1" d="M3 6h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-nen7h5rs></path><path class="b2" d="M3 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-nen7h5rs></path></svg></button></div></div><div class="mnav" id="mnav" hidden data-mnav data-astro-cid-nen7h5rs><nav class="container mnav__in" aria-label="Mobile" data-astro-cid-nen7h5rs><a class="mnav__link" href="/product" data-astro-cid-nen7h5rs>Product</a><a class="mnav__link" href="/docs" data-astro-cid-nen7h5rs>Docs</a><p class="mnav__group" data-astro-cid-nen7h5rs>Services</p><a class="mnav__sub" href="/services#platform" data-astro-cid-nen7h5rs>Platform services</a><a class="mnav__sub" href="/services#security" data-astro-cid-nen7h5rs>Security services</a><a class="mnav__sub" href="/services#enterprise" data-astro-cid-nen7h5rs>Enterprise systems</a><a class="mnav__link" href="/company" data-astro-cid-nen7h5rs>Company</a><a class="btn btn--primary mnav__cta" href="/contact" data-astro-cid-nen7h5rs>Request a demo</a></nav></div></header><script type="module">var e=document.documentElement,t=document.querySelector(`meta[name="theme-color"]`),n=document.querySelector(`[data-theme-toggle]`),r=()=>n?.setAttribute(`aria-label`,`Switch to ${e.dataset.theme===`dark`?`light`:`dark`} theme`);r(),n?.addEventListener(`click`,()=>{let n=e.dataset.theme===`dark`?`light`:`dark`;e.dataset.theme=n,t&&(t.content=n===`light`?`#ffffff`:`#0a0a0b`);try{localStorage.setItem(`theme`,n)}catch{}r()});var i=document.querySelector(`[data-dd]`),a=i?.querySelector(`.dd__btn`),o=e=>{i?.classList.toggle(`is-open`,e),a?.setAttribute(`aria-expanded`,String(e))};a?.addEventListener(`click`,()=>o(!i?.classList.contains(`is-open`))),document.addEventListener(`click`,e=>{i&&!i.contains(e.target)&&o(!1)});var s=document.querySelector(`[data-burger]`),c=document.querySelector(`[data-mnav]`),l=e=>{s&&c&&(c.hidden=!e,s.setAttribute(`aria-expanded`,String(e)),s.setAttribute(`aria-label`,e?`Close menu`:`Open menu`),document.body.style.overflow=e?`hidden`:``)};s?.addEventListener(`click`,()=>l(c?.hidden??!1)),c?.addEventListener(`click`,e=>{e.target.closest(`a`)&&l(!1)}),window.matchMedia(`(min-width: 901px)`).addEventListener(`change`,e=>{e.matches&&l(!1)}),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&(i?.classList.contains(`is-open`)&&(o(!1),a?.focus()),c&&!c.hidden&&(l(!1),s?.focus()))});</script><main id="main"><section class="ph" data-astro-cid-b2i3gsw2><div class="container" data-astro-cid-b2i3gsw2><p class="eyebrow" data-astro-cid-b2i3gsw2>Cyber labs</p><h1 class="h1 ph__title" data-astro-cid-b2i3gsw2>Training environments built for your security team</h1><p class="lead ph__lead" data-astro-cid-b2i3gsw2>We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session.</p><div class="ph__actions" data-astro-cid-b2i3gsw2><a class="btn btn--primary" href="/contact?interest=labs" data-astro-cid-nidsnqhu>Plan a lab <span class="arrow" data-astro-cid-nidsnqhu>→</span></a><a class="btn btn--secondary" href="#templates" data-astro-cid-nidsnqhu>See lab types</a></div></div></section><section class="section" data-astro-cid-nidsnqhu><div class="container split" data-astro-cid-nidsnqhu><div class="split__copy" data-reveal data-astro-cid-nidsnqhu><p class="eyebrow" data-astro-cid-nidsnqhu>Inside a lab</p><h2 class="h2" data-astro-cid-nidsnqhu>A realistic network, completely separated from yours</h2><p class="lead" data-astro-cid-nidsnqhu>Each lab mirrors the shape of a real company network: a perimeter, a DMZ, an internal network and monitoring. It runs in isolation, so your team can practice without touching live systems.</p><ul class="checklist" data-astro-cid-nidsnqhu><li data-astro-cid-nidsnqhu>Designed around your own architecture and tools</li><li data-astro-cid-nidsnqhu>Separate environments for each team or participant</li><li data-astro-cid-nidsnqhu>Runs on InfraLedger, on our hardware or on yours</li></ul></div><div data-reveal data-astro-cid-nidsnqhu><figure class="win-fig"><div class="win"><div class="win__bar"><span class="win__title">Lab · team-blue-03</span><span class="status status--ok" data-astro-cid-g322bqnc>Session active</span></div><div class="win__body"><div class="lab" data-astro-cid-g322bqnc><div class="lab__row" data-astro-cid-g322bqnc><div class="lab__node lab__node--edge" data-astro-cid-g322bqnc><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-users"
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+  <circle cx="9" cy="7" r="4" />
+</svg>
+</span><span data-astro-cid-g322bqnc><b data-astro-cid-g322bqnc>Participants</b><small data-astro-cid-g322bqnc>VPN access</small></span></div><span class="lab__link" data-astro-cid-g322bqnc></span><div class="lab__node" data-astro-cid-g322bqnc><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-brick-wall"
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" />
+  <path d="M12 9v6" />
+  <path d="M16 15v6" />
+  <path d="M16 3v6" />
+  <path d="M3 15h18" />
+  <path d="M3 9h18" />
+  <path d="M8 15v6" />
+  <path d="M8 3v6" />
+</svg>
+</span><span data-astro-cid-g322bqnc><b data-astro-cid-g322bqnc>Firewall</b><small data-astro-cid-g322bqnc>Segmentation rules</small></span></div><span class="lab__link" data-astro-cid-g322bqnc></span><div class="lab__node" data-astro-cid-g322bqnc><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="16"
+  height="16"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg>
+</span><span data-astro-cid-g322bqnc><b data-astro-cid-g322bqnc>WAF</b><small data-astro-cid-g322bqnc>Request filtering</small></span></div></div><div class="lab__boundary" data-astro-cid-g322bqnc><span class="lab__tag" data-astro-cid-g322bqnc>Isolated lab network · no route to production</span><div class="lab__zones" data-astro-cid-g322bqnc><div class="lab__zone" data-astro-cid-g322bqnc><p class="lab__zt" data-astro-cid-g322bqnc><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-globe"
+  xmlns="http://www.w3.org/2000/svg"
+  width="15"
+  height="15"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+  <path d="M2 12h20" />
+</svg>
+</span>DMZ</p><ul data-astro-cid-g322bqnc><li data-astro-cid-g322bqnc>Web services</li><li data-astro-cid-g322bqnc>Public APIs</li></ul></div><div class="lab__zone" data-astro-cid-g322bqnc><p class="lab__zt" data-astro-cid-g322bqnc><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-building-complex"
+  xmlns="http://www.w3.org/2000/svg"
+  width="15"
+  height="15"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 12h4" />
+  <path d="M10 8h4" />
+  <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
+  <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2" />
+  <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" />
+</svg>
+</span>Internal network</p><ul data-astro-cid-g322bqnc><li data-astro-cid-g322bqnc>Servers</li><li data-astro-cid-g322bqnc>Workstations</li></ul></div><div class="lab__zone" data-astro-cid-g322bqnc><p class="lab__zt" data-astro-cid-g322bqnc><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-activity"
+  xmlns="http://www.w3.org/2000/svg"
+  width="15"
+  height="15"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+</svg>
+</span>Monitoring</p><ul data-astro-cid-g322bqnc><li data-astro-cid-g322bqnc>SIEM</li><li data-astro-cid-g322bqnc>Network capture</li></ul></div></div></div></div><p class="lab__foot" data-astro-cid-g322bqnc><span class="ui-dim" data-astro-cid-g322bqnc>All activity logged · resets to a clean state after the session</span></p></div></div><figcaption class="win__cap">Illustration of an isolated training lab</figcaption></figure></div></div></section><section class="section section--subtle" id="templates" data-astro-cid-nidsnqhu><div class="container" data-astro-cid-nidsnqhu><header class="section-header" data-reveal><p class="eyebrow">Lab types</p><h2 class="h2">Start from a template, or build something custom</h2><p class="lead">Every lab is tailored to your team&#39;s level and the skills you want to build.</p></header><div class="grid-3" data-astro-cid-nidsnqhu><div class="card" data-reveal style="--d:0ms" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-brick-wall"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" />
+  <path d="M12 9v6" />
+  <path d="M16 15v6" />
+  <path d="M16 3v6" />
+  <path d="M3 15h18" />
+  <path d="M3 9h18" />
+  <path d="M8 15v6" />
+  <path d="M8 3v6" />
+</svg>
+</span></span><p class="card__title" data-astro-cid-nidsnqhu>Perimeter defense</p><p class="card__text" data-astro-cid-nidsnqhu>Practice firewall rules, network segmentation and VPN access on a realistic company network.</p></div><div class="card" data-reveal style="--d:50ms" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg>
+</span></span><p class="card__title" data-astro-cid-nidsnqhu>Web application protection</p><p class="card__text" data-astro-cid-nidsnqhu>Configure and tune a web application firewall against realistic traffic, without risk to live services.</p></div><div class="card" data-reveal style="--d:100ms" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-users"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+  <circle cx="9" cy="7" r="4" />
+</svg>
+</span></span><p class="card__title" data-astro-cid-nidsnqhu>Red team vs. blue team</p><p class="card__text" data-astro-cid-nidsnqhu>One team works within an agreed scope while the other detects and responds, with a debrief at the end.</p></div><div class="card" data-reveal style="--d:150ms" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-radar"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34" />
+  <path d="M4 6h.01" />
+  <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35" />
+  <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67" />
+  <path d="M12 18h.01" />
+  <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67" />
+  <circle cx="12" cy="12" r="2" />
+  <path d="m13.41 10.59 5.66-5.66" />
+</svg>
+</span></span><p class="card__title" data-astro-cid-nidsnqhu>Detection engineering</p><p class="card__text" data-astro-cid-nidsnqhu>Build and test SIEM detections and dashboards on telemetry generated inside the lab.</p></div><div class="card" data-reveal style="--d:200ms" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-life-buoy"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="m4.93 4.93 4.24 4.24" />
+  <path d="m14.83 9.17 4.24-4.24" />
+  <path d="m14.83 14.83 4.24 4.24" />
+  <path d="m9.17 14.83-4.24 4.24" />
+  <circle cx="12" cy="12" r="4" />
+</svg>
+</span></span><p class="card__title" data-astro-cid-nidsnqhu>Incident response drills</p><p class="card__text" data-astro-cid-nidsnqhu>Run a timed scenario from first alert to containment, and review how the team handled it.</p></div><div class="card" data-reveal style="--d:250ms" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-sparkles"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" />
+  <path d="M20 2v4" />
+  <path d="M22 4h-4" />
+  <circle cx="4" cy="20" r="2" />
+</svg>
+</span></span><p class="card__title" data-astro-cid-nidsnqhu>Training events</p><p class="card__text" data-astro-cid-nidsnqhu>Capture-the-flag style challenges for training days, onboarding or recruiting.</p></div></div></div></section><section class="section" data-astro-cid-nidsnqhu><div class="container" data-astro-cid-nidsnqhu><header class="section-header" data-reveal><p class="eyebrow">How it works</p><h2 class="h2">From first call to a clean reset</h2></header><ol class="steps4" data-astro-cid-nidsnqhu><li class="card" data-reveal style="--d:0ms" data-astro-cid-nidsnqhu><div class="steps4__top" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-messages-square"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+  <path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1" />
+</svg>
+</span></span><span class="steps4__n" data-astro-cid-nidsnqhu>01</span></div><p class="card__title" data-astro-cid-nidsnqhu>Scope</p><p class="card__text" data-astro-cid-nidsnqhu>We agree on goals, participants, skills to practice and rules of engagement.</p></li><li class="card" data-reveal style="--d:60ms" data-astro-cid-nidsnqhu><div class="steps4__top" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-wrench"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" />
+</svg>
+</span></span><span class="steps4__n" data-astro-cid-nidsnqhu>02</span></div><p class="card__title" data-astro-cid-nidsnqhu>Build</p><p class="card__text" data-astro-cid-nidsnqhu>We build the lab network, services and scenarios to match your environment.</p></li><li class="card" data-reveal style="--d:120ms" data-astro-cid-nidsnqhu><div class="steps4__top" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-activity"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+</svg>
+</span></span><span class="steps4__n" data-astro-cid-nidsnqhu>03</span></div><p class="card__title" data-astro-cid-nidsnqhu>Run</p><p class="card__text" data-astro-cid-nidsnqhu>Your team connects over VPN. Every action in the lab is logged.</p></li><li class="card" data-reveal style="--d:180ms" data-astro-cid-nidsnqhu><div class="steps4__top" data-astro-cid-nidsnqhu><span class="card__icon" data-astro-cid-nidsnqhu><span class="icon" data-astro-cid-ccg5yoga>
+<svg aria-hidden="true" focusable="false"
+  class="lucide lucide-clipboard-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+  <path d="m9 14 2 2 4-4" />
+</svg>
+</span></span><span class="steps4__n" data-astro-cid-nidsnqhu>04</span></div><p class="card__title" data-astro-cid-nidsnqhu>Reset and report</p><p class="card__text" data-astro-cid-nidsnqhu>The lab is rebuilt to a clean state, and you receive a session report.</p></li></ol></div></section><section class="section section--subtle" data-astro-cid-nidsnqhu><div class="container" data-astro-cid-nidsnqhu><header class="section-header" data-reveal><p class="eyebrow">Safety</p><h2 class="h2">Safe by design</h2><p class="lead">Labs are built for authorized training only, with safeguards at every layer.</p></header><div class="grid-3" data-astro-cid-nidsnqhu><div class="card" data-reveal style="--d:0ms" data-astro-cid-nidsnqhu><p class="card__title" data-astro-cid-nidsnqhu>Fully isolated</p><p class="card__text" data-astro-cid-nidsnqhu>Each lab runs on its own network with no route to the internet or your production systems.</p></div><div class="card" data-reveal style="--d:50ms" data-astro-cid-nidsnqhu><p class="card__title" data-astro-cid-nidsnqhu>Controlled access</p><p class="card__text" data-astro-cid-nidsnqhu>Participants connect with individual VPN credentials that expire when the session ends.</p></div><div class="card" data-reveal style="--d:100ms" data-astro-cid-nidsnqhu><p class="card__title" data-astro-cid-nidsnqhu>Everything recorded</p><p class="card__text" data-astro-cid-nidsnqhu>Activity in the lab is logged, so sessions can be reviewed and debriefed.</p></div><div class="card" data-reveal style="--d:150ms" data-astro-cid-nidsnqhu><p class="card__title" data-astro-cid-nidsnqhu>Written scope</p><p class="card__text" data-astro-cid-nidsnqhu>Every engagement has an agreed scope and rules of engagement before anyone connects.</p></div><div class="card" data-reveal style="--d:200ms" data-astro-cid-nidsnqhu><p class="card__title" data-astro-cid-nidsnqhu>Clean resets</p><p class="card__text" data-astro-cid-nidsnqhu>Labs are rebuilt from a known state between sessions, so every team starts the same.</p></div><div class="card" data-reveal style="--d:250ms" data-astro-cid-nidsnqhu><p class="card__title" data-astro-cid-nidsnqhu>Torn down after</p><p class="card__text" data-astro-cid-nidsnqhu>When the engagement ends, the lab and its data are removed.</p></div></div></div></section><section class="cta" data-astro-cid-hwvj6ntz><div class="container" data-astro-cid-hwvj6ntz><div class="cta__panel" data-reveal data-astro-cid-hwvj6ntz><div data-astro-cid-hwvj6ntz><h2 class="h2" data-astro-cid-hwvj6ntz>Plan a lab for your team</h2><p class="lead cta__text" data-astro-cid-hwvj6ntz>Tell us who will train and what they should practice, and we&#39;ll propose a lab.</p></div><a class="btn btn--primary" href="/contact?interest=labs" data-astro-cid-hwvj6ntz>Plan a lab <span class="arrow" data-astro-cid-hwvj6ntz>→</span></a></div></div></section></main><footer class="ftr" data-astro-cid-jo6i4kqk><div class="container" data-astro-cid-jo6i4kqk><div class="ftr__top" data-astro-cid-jo6i4kqk><div class="ftr__brand" data-astro-cid-jo6i4kqk><span class="logo" data-astro-cid-f7espo7c><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" data-astro-cid-f7espo7c><rect x="0.75" y="0.75" width="20.5" height="20.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.5" data-astro-cid-f7espo7c></rect><path d="M6 7.5h10M6 11h6M6 14.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-f7espo7c></path></svg><span class="logo__word" data-astro-cid-f7espo7c>ETDLedger</span></span><p class="small muted" data-astro-cid-jo6i4kqk>The self-hosted cloud platform, from ETDLedger.</p><address class="small muted" data-astro-cid-jo6i4kqk>Sidi Bel Abbès, Algeria<br data-astro-cid-jo6i4kqk><a class="link" href="mailto:hello@etdledger.com" data-astro-cid-jo6i4kqk>hello@etdledger.com</a></address></div><div class="ftr__col" data-astro-cid-jo6i4kqk><p class="ftr__title" data-astro-cid-jo6i4kqk>Product</p><ul data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="/product" data-astro-cid-jo6i4kqk>Overview</a></li><li data-astro-cid-jo6i4kqk><a href="/docs" data-astro-cid-jo6i4kqk>Docs</a></li><li data-astro-cid-jo6i4kqk><a href="/security" data-astro-cid-jo6i4kqk>Security</a></li></ul></div><div class="ftr__col" data-astro-cid-jo6i4kqk><p class="ftr__title" data-astro-cid-jo6i4kqk>Services</p><ul data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="/services#platform" data-astro-cid-jo6i4kqk>Platform</a></li><li data-astro-cid-jo6i4kqk><a href="/services#security" data-astro-cid-jo6i4kqk>Security</a></li><li data-astro-cid-jo6i4kqk><a href="/labs" data-astro-cid-jo6i4kqk>Cyber labs</a></li><li data-astro-cid-jo6i4kqk><a href="/services#enterprise" data-astro-cid-jo6i4kqk>Enterprise systems</a></li></ul></div><div class="ftr__col" data-astro-cid-jo6i4kqk><p class="ftr__title" data-astro-cid-jo6i4kqk>Company</p><ul data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="/company" data-astro-cid-jo6i4kqk>About</a></li><li data-astro-cid-jo6i4kqk><a href="/contact" data-astro-cid-jo6i4kqk>Contact</a></li></ul></div><div class="ftr__col" data-astro-cid-jo6i4kqk><p class="ftr__title" data-astro-cid-jo6i4kqk>Legal</p><ul data-astro-cid-jo6i4kqk><li data-astro-cid-jo6i4kqk><a href="/legal/privacy" data-astro-cid-jo6i4kqk>Privacy policy</a></li><li data-astro-cid-jo6i4kqk><a href="/legal/terms" data-astro-cid-jo6i4kqk>Terms of use</a></li></ul></div></div><div class="ftr__base" data-astro-cid-jo6i4kqk><span data-astro-cid-jo6i4kqk>© 2026 ETDLedger. All rights reserved.</span><span data-astro-cid-jo6i4kqk>InfraLedger is a product of ETDLedger.</span></div></div></footer><script type="module">var e=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,t=document.querySelectorAll(`[data-reveal]`);if(e||!(`IntersectionObserver`in window))t.forEach(e=>e.classList.add(`is-visible`));else{let e=new IntersectionObserver(t=>{for(let n of t)n.isIntersecting&&(n.target.classList.add(`is-visible`),e.unobserve(n.target))},{rootMargin:`0px 0px -10% 0px`});t.forEach(t=>e.observe(t))}document.addEventListener(`click`,async e=>{let t=e.target.closest(`[data-copy]`);if(!t)return;let n=t.closest(`.code`)?.querySelector(`pre`);if(!n)return;let r=[...n.innerText.split(`
+`)].filter(e=>!e.trim().startsWith(`#`)).join(`
+`).trim();try{await navigator.clipboard.writeText(r);let e=t.querySelector(`span`);e&&(e.textContent=`Copied`,setTimeout(()=>e.textContent=`Copy`,1600))}catch{}});</script></body></html>
