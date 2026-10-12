@@ -4,7 +4,6 @@ import { u } from "../lib/url";
 import PageHeader from "../components/PageHeader.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
-import Icon from "../components/Icon.astro";
 import LabTopologyMock from "../components/ui/LabTopologyMock.astro";
 
 const templates = [
@@ -58,7 +57,6 @@ const safety = [
       <div class="grid-3">
         {templates.map((t, i) => (
           <div class="card" data-reveal style={`--d:${i * 50}ms`}>
-            <span class="card__icon"><Icon name={t.icon} /></span>
             <p class="card__title">{t.title}</p>
             <p class="card__text">{t.text}</p>
           </div>
@@ -73,7 +71,7 @@ const safety = [
       <ol class="steps4">
         {delivery.map((s, i) => (
           <li class="card" data-reveal style={`--d:${i * 60}ms`}>
-            <div class="steps4__top"><span class="card__icon"><Icon name={s.icon} /></span><span class="steps4__n">0{i + 1}</span></div>
+            <span class="steps4__n">0{i + 1}</span>
             <p class="card__title">{s.title}</p>
             <p class="card__text">{s.text}</p>
           </li>

@@ -8,6 +8,7 @@ import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import SecurityFlow from "../components/diagrams/SecurityFlow.astro";
 import { brands } from "../lib/brands";
+import BrandLogo from "../components/BrandLogo.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import DashboardMock from "../components/ui/DashboardMock.astro";
 import Photo from "../components/Photo.astro";
@@ -89,15 +90,18 @@ const servicesLd = [
   <section class="section" id="enterprise">
     <div class="container">
       <SectionHeader eyebrow="Enterprise systems" title="SAP, Oracle and Odoo" lead="Implementation, migration and support for the business systems you depend on." />
-      <div class="grid-3">
+      <div class="ents">
         {enterprise.map((e, i) => (
-          <a class="card ent" id={e.id} href={u(brands[e.id].href)} data-reveal style={`--d:${i * 60}ms; --c:${brands[e.id].color}`}>
-            <p class="card__title">{e.title}</p>
+          <a class="ent" id={e.id} href={u(brands[e.id].href)} data-reveal style={`--d:${i * 60}ms; --c:${brands[e.id].color}`}>
+            <span class="ent__logo" aria-label={e.title}>
+              {e.id === "sap" && <BrandLogo brand="siSap" size={64} decorative />}
+              {e.id === "odoo" && <BrandLogo brand="siOdoo" size={72} decorative />}
+              {e.id === "oracle" && <span class="ent__word">ORACLE</span>}
+            </span>
             <p class="card__text">{e.text}</p>
             <ul class="checklist ent__list">{e.items.map((x) => <li>{x}</li>)}</ul>
             <span class="ent__more">{e.title} solutions →</span>
-          </a>
-        ))}
+          </a>        ))}
       </div>
       <div class="ent-logos">
         <LogoCloud compact items={[
@@ -142,8 +146,18 @@ const servicesLd = [
 <style>
   .below { margin-top: -72px; padding-bottom: 96px; display: grid; gap: 20px; }
   .labs-link { font-size: 15px; }
-  .ent { position: relative; display: block; border-top: 3px solid var(--c); }
-  .ent__more { display: block; margin-top: 18px; font-size: 14.5px; font-weight: 500; }
+  .ents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--border); }
+  .ent { display: block; padding: 32px 28px 8px; border-left: 1px solid var(--border); }
+  .ent:first-child { border-left: 0; padding-left: 0; }
+  .ent__logo { display: flex; align-items: center; height: 64px; margin-bottom: 20px; color: var(--c); }
+  .ent__word { font-size: 30px; font-weight: 700; letter-spacing: 0.12em; }
+  :root[data-theme="dark"] #sap .ent__logo { color: #4da3ff; }
+  :root[data-theme="dark"] #oracle .ent__logo { color: #f08a7a; }
+  :root[data-theme="dark"] #odoo .ent__logo { color: #d6aecb; }
+  .ent .ent__list { margin-top: 18px; }
+  .ent:hover .ent__more { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 900px) { .ents { grid-template-columns: minmax(0, 1fr); } .ent, .ent:first-child { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--border); } }
+  .ent__more { display: block; margin-top: 18px; font-size: 14.5px; font-weight: 500; color: var(--text); }
   .ent-logos { margin-top: 32px; }
   .photo-band:has(.photos) { padding-top: 48px; }
   .ent__list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14.5px; }

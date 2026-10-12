@@ -141,18 +141,16 @@ ul, ol { list-style: none; }
 .section-header--center { margin-left: auto; margin-right: auto; text-align: center; }
 
 /* ---------- Cards ---------- */
+/* Content items are separated by rules, not boxed in cards. */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: border-color 200ms var(--ease);
+  border-top: 1px solid var(--border-strong);
+  padding: 20px 0 8px;
 }
-a.card:hover { border-color: var(--border-strong); }
+a.card:hover { border-color: var(--text); }
 .card__title { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
 .card__text { font-size: 15px; color: var(--text-2); line-height: 1.6; }
 
-.grid-2, .grid-3, .grid-4 { display: grid; gap: 16px; }
+.grid-2, .grid-3, .grid-4 { display: grid; gap: 8px 40px; }
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
