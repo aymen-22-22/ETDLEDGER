@@ -2,11 +2,12 @@
 // Page header. With `brand`, it becomes a colored band in that product's theme with its mark on the right.
 import BrandLogo from "./BrandLogo.astro";
 import Icon from "./Icon.astro";
+import InfraLedgerMark from "./InfraLedgerMark.astro";
 import type { Brand } from "../lib/brands";
-interface Props { eyebrow: string; title: string; lead: string; brand?: Brand }
-const { eyebrow, title, lead, brand } = Astro.props;
+interface Props { eyebrow: string; title: string; lead: string; brand?: Brand; glow?: boolean }
+const { eyebrow, title, lead, brand, glow = false } = Astro.props;
 ---
-<section class:list={["ph", { "ph--brand": brand }]}>
+<section class:list={["ph", { "ph--brand": brand, "ph--glow": glow }]}>
   <div class="container ph__in">
     <div>
       <p class="eyebrow">{eyebrow}</p>
@@ -16,13 +17,11 @@ const { eyebrow, title, lead, brand } = Astro.props;
     </div>
     {brand && (
       <div class="ph__mark" aria-hidden="true">
-        {brand === "sap" && <BrandLogo brand="siSap" size={120} decorative />}
-        {brand === "odoo" && <BrandLogo brand="siOdoo" size={120} decorative />}
+        {brand === "sap" && <BrandLogo brand="siSap" size={120} decorative mono />}
+        {brand === "odoo" && <BrandLogo brand="siOdoo" size={120} decorative mono />}
         {brand === "oracle" && <span class="ph__word">ORACLE</span>}
         {brand === "labs" && <Icon name="FlaskConical" size={96} />}
-        {brand === "infraledger" && (
-          <svg width="96" height="96" viewBox="0 0 22 22"><rect x="0.75" y="0.75" width="20.5" height="20.5" rx="5" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M6 7.5h10M6 11h6M6 14.5h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" /></svg>
-        )}
+        {brand === "infraledger" && <InfraLedgerMark size={132} />}
       </div>
     )}
   </div>
@@ -36,6 +35,14 @@ const { eyebrow, title, lead, brand } = Astro.props;
   .ph__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
   .ph__actions:empty { display: none; }
 
+  .ph--glow {
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(50% 70% at 85% 10%, color-mix(in srgb, var(--brand-red) 22%, transparent), transparent 70%),
+      radial-gradient(35% 50% at 60% 100%, rgba(63, 182, 196, 0.12), transparent 70%),
+      radial-gradient(30% 45% at 100% 80%, rgba(0, 112, 242, 0.1), transparent 70%),
+      radial-gradient(28% 40% at 75% 60%, rgba(113, 75, 103, 0.14), transparent 70%);
+  }
   .ph--brand {
     position: relative; color: #fff; border-bottom: 0;
     background: radial-gradient(120% 140% at 100% 0%, var(--hero-b), var(--hero-a) 70%);

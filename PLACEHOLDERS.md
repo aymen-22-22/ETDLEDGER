@@ -66,6 +66,6 @@ Photos are shown in grayscale to match the monochrome design. Use JPGs around 16
 Stock sources with free commercial licenses: unsplash.com, pexels.com. Replace them with your own photos when you can.
 
 ## Product themes
-- InfraLedger uses indigo (#4F46E5) as its brand color. Confirm or replace it.
+- Brand colors come from the supplied marks: ETDLedger vermilion (#FF5A36 dark, #E5482A light) and InfraLedger petrol (#3FB6C4).
 - SAP (#0070F2), Oracle (#C74634) and Odoo (#714B67 with teal #017E84) pages use those companies' brand colors. Each page has a note that ETDLedger is an independent provider. If ETDLedger becomes an official partner, update the notes.
 - The Oracle mark in the page header is plain text, not Oracle's logo.

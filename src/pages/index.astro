@@ -46,9 +46,19 @@ const servicesLd = [
 }));
 ---
 <Base jsonld={servicesLd} title="ETDLedger — platform, security and enterprise systems engineering" description="Platform, security and enterprise systems services from ETDLedger's engineering team: Kubernetes, security assessments, cyber labs, SAP, Oracle and Odoo.">
-  <PageHeader eyebrow="ETDLedger" title="Engineers for the systems your business runs on" lead="Our team works in three practices: platform operations, security, and enterprise systems. On-premises or hybrid.">
+  <PageHeader glow eyebrow="ETDLedger" title="Engineers for the systems your business runs on" lead="Our team works in three practices: platform operations, security, and enterprise systems. On-premises or hybrid.">
     <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to our team <span class="arrow">→</span></a>
   </PageHeader>
+  <section class="tech">
+    <div class="container">
+      <LogoCloud marquee label="Technologies our engineers work with every day" items={[
+        ["siDocker", "Docker"], ["siKubernetes", "Kubernetes"], ["siUbuntu", "Ubuntu"], ["siRedhat", "Red Hat"], ["siDebian", "Debian"],
+        ["siSap", "SAP"], ["siOdoo", "Odoo"], ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"], ["siRedis", "Redis"],
+        ["siGrafana", "Grafana"], ["siPrometheus", "Prometheus"], ["siElasticstack", "Elastic"], ["siPfsense", "pfSense"],
+        ["siWireguard", "WireGuard"], ["siTraefikproxy", "Traefik"], ["siApachekafka", "Kafka"], ["siPython", "Python"],
+      ]} />
+    </div>
+  </section>
   <SubNav label="Services" items={sub} />
   <div class="container photo-band">
     <Photo items={[
@@ -94,8 +104,8 @@ const servicesLd = [
         {enterprise.map((e, i) => (
           <a class="ent" id={e.id} href={u(brands[e.id].href)} data-reveal style={`--d:${i * 60}ms; --c:${brands[e.id].color}`}>
             <span class="ent__logo" aria-label={e.title}>
-              {e.id === "sap" && <BrandLogo brand="siSap" size={64} decorative />}
-              {e.id === "odoo" && <BrandLogo brand="siOdoo" size={72} decorative />}
+              {e.id === "sap" && <BrandLogo brand="siSap" size={64} decorative mono />}
+              {e.id === "odoo" && <BrandLogo brand="siOdoo" size={72} decorative mono />}
               {e.id === "oracle" && <span class="ent__word">ORACLE</span>}
             </span>
             <p class="card__text">{e.text}</p>
@@ -144,6 +154,8 @@ const servicesLd = [
 </Base>
 
 <style>
+  .tech { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .steps4__n { color: var(--accent-text) !important; font-weight: 500; }
   .below { margin-top: -72px; padding-bottom: 96px; display: grid; gap: 20px; }
   .labs-link { font-size: 15px; }
   .ents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--border); }
