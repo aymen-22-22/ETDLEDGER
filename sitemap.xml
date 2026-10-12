@@ -4,6 +4,9 @@
   <url><loc>https://etdledger.com/docs</loc><priority>0.8</priority></url>
   <url><loc>https://etdledger.com/security</loc><priority>0.7</priority></url>
   <url><loc>https://etdledger.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://etdledger.com/sap</loc><priority>0.8</priority></url>
+  <url><loc>https://etdledger.com/oracle</loc><priority>0.8</priority></url>
+  <url><loc>https://etdledger.com/odoo</loc><priority>0.8</priority></url>
   <url><loc>https://etdledger.com/labs</loc><priority>0.7</priority></url>
   <url><loc>https://etdledger.com/company</loc><priority>0.6</priority></url>
   <url><loc>https://etdledger.com/contact</loc><priority>0.6</priority></url>
