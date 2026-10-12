@@ -1,0 +1,39 @@
+---
+// Tab switcher for a set of diagrams. Each child of the default slot must be a <div data-panel>.
+interface Props { labels: string[]; name: string }
+const { labels, name } = Astro.props;
+---
+<div class="dtabs" data-dtabs>
+  <div class="dtabs__list" role="tablist" aria-label={name}>
+    {labels.map((l, i) => (
+      <button class="dtabs__tab" type="button" role="tab" aria-selected={i === 0 ? "true" : "false"} data-i={i}>{l}</button>
+    ))}
+  </div>
+  <div class="dtabs__panels"><slot /></div>
+</div>
+
+<style is:global>
+  .dtabs__list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .dtabs__tab {
+    padding: 7px 14px; border: 1px solid var(--border); border-radius: 999px; background: transparent;
+    color: var(--text-2); font: inherit; font-size: 14px; cursor: pointer;
+    transition: color 150ms var(--ease), border-color 150ms var(--ease), background 150ms var(--ease);
+  }
+  .dtabs__tab:hover { color: var(--text); border-color: var(--border-strong); }
+  .dtabs__tab[aria-selected="true"] { color: var(--bg); background: var(--text); border-color: var(--text); }
+  .dtabs__panels [data-panel]:not(:first-child) { display: none; }
+  .dtabs__panels [data-panel].is-shown { display: block; }
+  .dtabs__panels [data-panel].is-hidden { display: none; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-dtabs]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>(".dtabs__tab")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-panel]")];
+    const show = (i: number) => {
+      tabs.forEach((t, j) => t.setAttribute("aria-selected", String(i === j)));
+      panels.forEach((p, j) => { p.classList.toggle("is-shown", i === j); p.classList.toggle("is-hidden", i !== j); });
+    };
+    tabs.forEach((t, i) => t.addEventListener("click", () => show(i)));
+  });
+</script>

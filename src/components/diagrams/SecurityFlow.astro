@@ -1,0 +1,32 @@
+---
+import Topology from "./Topology.astro";
+---
+<div class="secf">
+  <Topology width={960} height={380} label="Security events flowing from sources through detection rules to alerts, incident records and the audit log"
+    caption="Animation: events are collected, matched against detection rules, and turned into alerts and records."
+    nodes={[
+      { id: "s1", x: 30, y: 60, w: 160, label: "Servers", icon: "Server" },
+      { id: "s2", x: 30, y: 164, w: 160, label: "Firewalls", icon: "BrickWall" },
+      { id: "s3", x: 30, y: 268, w: 160, label: "Applications", icon: "AppWindow" },
+      { id: "co", x: 260, y: 164, w: 170, label: "Event collector", sub: "Normalize", icon: "Inbox" },
+      { id: "ru", x: 480, y: 164, w: 170, label: "Detection rules", sub: "Match and score", icon: "Radar" },
+      { id: "al", x: 720, y: 60, w: 210, label: "Alert", sub: "Sent to on-call", icon: "BellRing", tone: "bad", cls: "secf__alert" },
+      { id: "ir", x: 720, y: 164, w: 210, label: "Incident record", sub: "Owner and timeline", icon: "ClipboardList" },
+      { id: "au", x: 720, y: 268, w: 210, label: "Audit log", sub: "Stored on your servers", icon: "ScrollText" },
+    ]}
+    links={[
+      { from: "s1", to: "co", flow: 2, dur: 2.4 },
+      { from: "s2", to: "co", flow: 2, dur: 2.4, begin: 0.4 },
+      { from: "s3", to: "co", flow: 2, dur: 2.4, begin: 0.8 },
+      { from: "co", to: "ru", flow: 3, dur: 1.8 },
+      { from: "ru", to: "al", tone: "bad", flow: 1, dur: 4 },
+      { from: "ru", to: "ir", flow: 1, dur: 4, begin: 1 },
+      { from: "ru", to: "au", flow: 2, dur: 2.4 },
+    ]} />
+</div>
+
+<style is:global>
+  .secf__alert rect { animation: secf-pulse 4s infinite; }
+  @keyframes secf-pulse { 0%, 70% { fill: var(--bg); } 85% { fill: var(--red-bg); } 100% { fill: var(--bg); } }
+  @media (prefers-reduced-motion: reduce) { .secf__alert rect { animation: none; } }
+</style>

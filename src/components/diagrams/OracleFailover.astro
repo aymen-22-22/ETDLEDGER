@@ -1,0 +1,38 @@
+---
+// Loops every 12 s: normal replication, then the primary fails and the standby takes over.
+import Topology from "./Topology.astro";
+---
+<div class="ofo">
+  <Topology width={960} height={360} label="Oracle primary database replicating to a standby, which takes over when the primary fails"
+    caption="Animation: changes are copied to a standby database, which takes over if the primary fails."
+    nodes={[
+      { id: "app", x: 40, y: 140, w: 170, label: "Applications", sub: "ERP, web, reports", icon: "AppWindow" },
+      { id: "p", x: 380, y: 50, w: 210, label: "Oracle database", sub: "Primary · site A", icon: "Database", cls: "ofo-a" },
+      { id: "px", x: 380, y: 50, w: 210, label: "Oracle database", sub: "Unavailable", icon: "Database", tone: "bad", cls: "ofo-b" },
+      { id: "s", x: 380, y: 230, w: 210, label: "Oracle database", sub: "Standby · site B", icon: "Database", cls: "ofo-a" },
+      { id: "sx", x: 380, y: 230, w: 210, label: "Oracle database", sub: "Primary · site B", icon: "Database", tone: "ok", cls: "ofo-b" },
+      { id: "ob", x: 740, y: 140, w: 190, label: "Observer", sub: "Watches both sites", icon: "Eye" },
+    ]}
+    links={[
+      { from: "app", to: "p", flow: 2, dur: 2, cls: "ofo-a" },
+      { from: "p", to: "s", flow: 1, dur: 2, label: "redo shipping", labelAt: [485, 182], cls: "ofo-a" },
+      { from: "app", to: "sx", flow: 2, dur: 2, tone: "ok", cls: "ofo-b" },
+      { from: "ob", to: "p", dashed: true },
+      { from: "ob", to: "s", dashed: true },
+    ]}>
+    <text class="ofo__status ofo-a" x="40" y="330">Normal operation · changes copied to the standby</text>
+    <text class="ofo__status ofo-b" x="40" y="330">Primary failed · standby promoted, applications reconnected</text>
+  </Topology>
+</div>
+
+<style is:global>
+  .ofo__status { font-family: var(--mono); font-size: 12px; fill: var(--text-2); }
+  .ofo .ofo-a { animation: ofo-a 12s infinite; }
+  .ofo .ofo-b { animation: ofo-b 12s infinite; }
+  @keyframes ofo-a { 0%, 48% { opacity: 1; } 52%, 96% { opacity: 0; } 100% { opacity: 1; } }
+  @keyframes ofo-b { 0%, 48% { opacity: 0; } 52%, 96% { opacity: 1; } 100% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .ofo .ofo-a { animation: none; opacity: 1; }
+    .ofo .ofo-b { animation: none; opacity: 0; }
+  }
+</style>
