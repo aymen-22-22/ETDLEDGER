@@ -1,0 +1,26 @@
+---
+// Shows photos from public/photos that exist on disk. Missing files are skipped, so there's never an empty frame.
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { u } from "../lib/url";
+interface Item { file: string; alt: string }
+interface Props { items: Item[]; ratio?: string }
+const { items, ratio = "4 / 3" } = Astro.props;
+const shown = items.filter((p) => existsSync(join(process.cwd(), "public/photos", p.file)));
+---
+{shown.length > 0 && (
+  <div class="photos" style={`--n:${shown.length}`}>
+    {shown.map((p, i) => (
+      <figure class="photo" data-reveal style={`--d:${i * 60}ms`}>
+        <img src={u(`/photos/${p.file}`)} alt={p.alt} loading="lazy" decoding="async" style={`aspect-ratio:${ratio}`} />
+      </figure>
+    ))}
+  </div>
+)}
+
+<style>
+  .photos { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 16px; }
+  .photo { margin: 0; }
+  .photo img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--border); filter: grayscale(1) contrast(1.05); }
+  @media (max-width: 720px) { .photos { grid-template-columns: minmax(0, 1fr); } }
+</style>

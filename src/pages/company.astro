@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import { u } from "../lib/url";
 import { site } from "../lib/site";
 import PageHeader from "../components/PageHeader.astro";
+import Photo from "../components/Photo.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 
 const facts = [
@@ -34,6 +35,10 @@ const principles = [
       </dl>
     </div>
   </section>
+
+  <div class="container photo-band">
+    <Photo ratio="21 / 9" items={[{ file: "company-office.jpg", alt: "The ETDLedger office" }]} />
+  </div>
 
   <section class="section">
     <div class="container name">
@@ -80,6 +85,7 @@ const principles = [
 </Base>
 
 <style>
+  .photo-band:has(.photos) { padding-top: 64px; }
   .facts-band { border-bottom: 1px solid var(--border); }
   .facts { display: grid; grid-template-columns: repeat(3, 1fr); }
   .facts div { padding: 28px 24px; display: grid; gap: 6px; }

@@ -1,0 +1,98 @@
+---
+import Topology from "./Topology.astro";
+import DiagramTabs from "./DiagramTabs.astro";
+---
+<DiagramTabs name="Infrastructure topologies" labels={["Single server", "High availability", "Kubernetes", "Hybrid"]}>
+  <div data-panel>
+    <Topology width={960} height={360} label="InfraLedger on a single Linux server with Docker"
+      caption="Single server: the platform, routing, apps and databases on one Docker host."
+      zones={[{ x: 220, y: 24, w: 716, h: 312, label: "Linux server · Docker" }]}
+      nodes={[
+        { id: "net", x: 30, y: 154, w: 130, label: "Internet", icon: "Globe", dashed: true },
+        { id: "il", x: 250, y: 64, label: "InfraLedger", sub: "API and dashboard", icon: "LayoutDashboard" },
+        { id: "tr", x: 250, y: 154, label: "Traefik", sub: "HTTPS and routing", icon: "Route" },
+        { id: "web", x: 480, y: 84, label: "web", sub: "Application", icon: "AppWindow" },
+        { id: "api", x: 480, y: 224, label: "api", sub: "Application", icon: "AppWindow" },
+        { id: "pg", x: 720, y: 84, label: "PostgreSQL", sub: "Database", icon: "Database" },
+        { id: "rd", x: 720, y: 224, label: "Redis", sub: "Cache", icon: "Zap" },
+      ]}
+      links={[
+        { from: "net", to: "tr", flow: 2, dur: 2.4 },
+        { from: "tr", to: "web", flow: 1, dur: 2.4 },
+        { from: "tr", to: "api", flow: 1, dur: 2.4, begin: 1.2 },
+        { from: "web", to: "pg", flow: 1, dur: 2.2 },
+        { from: "api", to: "pg", via: [[680, 250], [680, 110]], flow: 1, dur: 2.6, begin: 0.6 },
+        { from: "api", to: "rd", flow: 1, dur: 2.2, begin: 1 },
+        { from: "il", to: "tr", dashed: true },
+      ]} />
+  </div>
+  <div data-panel>
+    <Topology width={960} height={400} label="Highly available InfraLedger with three nodes and a replicated database"
+      caption="High availability: a load balancer in front of several nodes, a replicated database and off-server backups."
+      nodes={[
+        { id: "net", x: 20, y: 174, w: 120, label: "Internet", icon: "Globe", dashed: true },
+        { id: "lb", x: 190, y: 174, w: 160, label: "Load balancer", sub: "Health checks", icon: "Split" },
+        { id: "n1", x: 410, y: 60, label: "Node 1", sub: "Workloads", icon: "Server" },
+        { id: "n2", x: 410, y: 174, label: "Node 2", sub: "Workloads", icon: "Server" },
+        { id: "n3", x: 410, y: 288, label: "Node 3", sub: "Workloads", icon: "Server" },
+        { id: "pg", x: 630, y: 110, label: "PostgreSQL", sub: "Primary", icon: "Database" },
+        { id: "rp", x: 630, y: 248, label: "PostgreSQL", sub: "Replica", icon: "Database" },
+        { id: "bk", x: 820, y: 110, w: 120, label: "Backups", sub: "Object storage", icon: "Archive" },
+      ]}
+      links={[
+        { from: "net", to: "lb", flow: 2, dur: 2 },
+        { from: "lb", to: "n1", flow: 1, dur: 2.4 },
+        { from: "lb", to: "n2", flow: 1, dur: 2.4, begin: 0.8 },
+        { from: "lb", to: "n3", flow: 1, dur: 2.4, begin: 1.6 },
+        { from: "n1", to: "pg", flow: 1, dur: 2.4, begin: 0.4 },
+        { from: "n2", to: "pg", flow: 1, dur: 2.4, begin: 1.2 },
+        { from: "n3", to: "pg", flow: 1, dur: 2.4, begin: 2 },
+        { from: "pg", to: "rp", via: [[780, 136], [780, 274]], dashed: true, flow: 1, dur: 3, label: "replication", labelAt: [826, 210] },
+        { from: "pg", to: "bk", flow: 1, dur: 3, begin: 1 },
+      ]} />
+  </div>
+  <div data-panel>
+    <Topology width={960} height={400} label="InfraLedger on Kubernetes with a virtual cluster per customer"
+      caption="Kubernetes: InfraLedger manages an isolated virtual cluster for each customer or business unit."
+      zones={[{ x: 390, y: 24, w: 550, h: 352, label: "Kubernetes cluster" }]}
+      nodes={[
+        { id: "net", x: 20, y: 174, w: 120, label: "Internet", icon: "Globe", dashed: true },
+        { id: "in", x: 200, y: 174, w: 130, label: "Ingress", sub: "TLS", icon: "Route" },
+        { id: "il", x: 420, y: 64, w: 140, label: "InfraLedger", sub: "Control plane", icon: "LayoutDashboard" },
+        { id: "sh", x: 420, y: 288, w: 140, label: "Shared services", sub: "Storage, backups", icon: "Database" },
+        { id: "va", x: 740, y: 64, w: 170, label: "vcluster A", sub: "Customer A", icon: "Boxes" },
+        { id: "vb", x: 740, y: 174, w: 170, label: "vcluster B", sub: "Customer B", icon: "Boxes" },
+        { id: "vc", x: 740, y: 288, w: 170, label: "vcluster C", sub: "Business unit", icon: "Boxes" },
+      ]}
+      links={[
+        { from: "net", to: "in", flow: 2, dur: 2 },
+        { from: "in", to: "va", via: [[650, 200], [650, 90]], flow: 1, dur: 2.8 },
+        { from: "in", to: "vb", flow: 1, dur: 2.8, begin: 0.9 },
+        { from: "in", to: "vc", via: [[650, 200], [650, 314]], flow: 1, dur: 2.8, begin: 1.8 },
+        { from: "il", to: "va", dashed: true, label: "manages", labelAt: [600, 82] },
+        { from: "sh", to: "vc", dashed: true },
+      ]} />
+  </div>
+  <div data-panel>
+    <Topology width={960} height={380} label="Hybrid setup with a primary site and a recovery site"
+      caption="Hybrid: a primary site and a recovery site, with the database and backups copied between them."
+      zones={[
+        { x: 20, y: 24, w: 450, h: 332, label: "Site A · primary data center" },
+        { x: 510, y: 24, w: 430, h: 332, label: "Site B · recovery site" },
+      ]}
+      nodes={[
+        { id: "il", x: 50, y: 70, label: "InfraLedger", sub: "Control plane", icon: "LayoutDashboard" },
+        { id: "wl", x: 50, y: 190, label: "Workloads", sub: "Apps and jobs", icon: "Boxes" },
+        { id: "db", x: 290, y: 190, w: 150, label: "PostgreSQL", sub: "Primary", icon: "Database" },
+        { id: "sp", x: 550, y: 70, label: "Spare capacity", sub: "Ready to take over", icon: "Server", dashed: true },
+        { id: "sb", x: 550, y: 190, label: "PostgreSQL", sub: "Standby", icon: "Database" },
+        { id: "bk", x: 760, y: 190, w: 150, label: "Backups", sub: "Object storage", icon: "Archive" },
+      ]}
+      links={[
+        { from: "il", to: "wl", dashed: true },
+        { from: "wl", to: "db", flow: 2, dur: 2 },
+        { from: "db", to: "sb", flow: 1, dur: 3, label: "encrypted" },
+        { from: "db", to: "bk", via: [[365, 300], [835, 300]], flow: 1, dur: 4, begin: 1 },
+      ]} />
+  </div>
+</DiagramTabs>

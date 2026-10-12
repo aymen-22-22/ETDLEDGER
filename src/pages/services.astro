@@ -6,7 +6,11 @@ import SubNav from "../components/SubNav.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
-import DetectionsMock from "../components/ui/DetectionsMock.astro";
+import SecurityFlow from "../components/diagrams/SecurityFlow.astro";
+import SapFlow from "../components/diagrams/SapFlow.astro";
+import OracleFailover from "../components/diagrams/OracleFailover.astro";
+import LogoCloud from "../components/LogoCloud.astro";
+import Photo from "../components/Photo.astro";
 
 const sub: [string, string][] = [
   ["platform", "Platform"],
@@ -44,6 +48,13 @@ const servicesLd = [
     <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to our team <span class="arrow">→</span></a>
   </PageHeader>
   <SubNav label="Services" items={sub} />
+  <div class="container photo-band">
+    <Photo items={[
+      { file: "services-datacenter.jpg", alt: "Server racks in a data center" },
+      { file: "services-security.jpg", alt: "Engineers monitoring security dashboards" },
+      { file: "services-team.jpg", alt: "Engineers working together at a desk" },
+    ]} />
+  </div>
 
   <FeatureRow id="platform" eyebrow="Platform" icon="Server"
     title="InfraLedger and Kubernetes, run with you"
@@ -64,9 +75,15 @@ const servicesLd = [
       "Controls and audit trails mapped to your auditors' framework",
       "Cyber labs: isolated training environments for your security team",
     ]}>
-    <DetectionsMock />
+    <SecurityFlow />
   </FeatureRow>
-  <div class="container labs-link"><a class="link" href={u("/labs")}>About cyber labs</a></div>
+  <div class="container below">
+    <LogoCloud compact items={[
+      ["siElasticstack", "Elastic Stack"], ["siSplunk", "Splunk"], ["siGrafana", "Grafana"], ["siPfsense", "pfSense"],
+      ["siOpnsense", "OPNsense"], ["siWireguard", "WireGuard"], ["siOpenvpn", "OpenVPN"], ["siVault", "Vault"], ["siOwasp", "OWASP"],
+    ]} />
+    <p class="labs-link"><a class="link" href={u("/labs")}>About cyber labs</a></p>
+  </div>
 
   <section class="section" id="enterprise">
     <div class="container">
@@ -79,6 +96,16 @@ const servicesLd = [
             <ul class="checklist ent__list">{e.items.map((x) => <li>{x}</li>)}</ul>
           </div>
         ))}
+      </div>
+      <div class="flows">
+        <div data-reveal><SapFlow /></div>
+        <div data-reveal><OracleFailover /></div>
+      </div>
+      <div class="ent-logos">
+        <LogoCloud compact items={[
+          ["siSap", "SAP"], ["siOdoo", "Odoo"], ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"],
+          ["siRedhat", "Red Hat"], ["siApachekafka", "Kafka"], ["siRabbitmq", "RabbitMQ"], ["siPython", "Python"],
+        ]} />
       </div>
     </div>
   </section>
@@ -102,7 +129,11 @@ const servicesLd = [
 </Base>
 
 <style>
-  .labs-link { margin-top: -80px; padding-bottom: 80px; font-size: 15px; }
+  .below { margin-top: -72px; padding-bottom: 96px; display: grid; gap: 20px; }
+  .labs-link { font-size: 15px; }
+  .flows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 48px; }
+  .ent-logos { margin-top: 32px; }
+  .photo-band:has(.photos) { padding-top: 48px; }
   .ent__list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14.5px; }
   .steps4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
   .steps4 li { display: grid; gap: 8px; align-content: start; padding-top: 16px; border-top: 1px solid var(--border-strong); }

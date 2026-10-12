@@ -4,6 +4,8 @@ import { u } from "../lib/url";
 import PageHeader from "../components/PageHeader.astro";
 import SubNav from "../components/SubNav.astro";
 import FeatureRow from "../components/FeatureRow.astro";
+import InfraTopologies from "../components/diagrams/InfraTopologies.astro";
+import LogoCloud from "../components/LogoCloud.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
 import DeployMock from "../components/ui/DeployMock.astro";
@@ -15,6 +17,7 @@ const sub: [string, string][] = [
   ["observe", "Observability"],
   ["access", "Access and audit"],
   ["architecture", "Architecture"],
+  ["apps", "Templates"],
   ["stack", "Under the hood"],
 ];
 const access = [
@@ -116,10 +119,22 @@ const productLd = {
   <section class="section section--subtle" id="architecture">
     <div class="container">
       <SectionHeader eyebrow="Architecture" title="Docker on one server, Kubernetes on a cluster" lead="A provider layer runs the same workloads on a single Docker host or a Kubernetes cluster, through the same dashboard and API. Moving from one to the other doesn't change how your developers work." />
+      <div data-reveal><InfraTopologies /></div>
     </div>
   </section>
 
-  <section class="section" id="stack">
+  <section class="section" id="apps">
+    <div class="container">
+      <SectionHeader center eyebrow="Templates" title="Open-source applications, one click away" lead="Start common applications from a template, with their database and storage set up for you." />
+      <LogoCloud items={[
+  ["siWordpress", "WordPress"], ["siOdoo", "Odoo"], ["siNextcloud", "Nextcloud"], ["siGitea", "Gitea"],
+  ["siGitlab", "GitLab"], ["siGrafana", "Grafana"], ["siMetabase", "Metabase"], ["siKeycloak", "Keycloak"],
+  ["siMattermost", "Mattermost"], ["siMinio", "MinIO"], ["siGhost", "Ghost"], ["siMoodle", "Moodle"],
+]} />
+    </div>
+  </section>
+
+  <section class="section section--subtle" id="stack">
     <div class="container stack">
       <SectionHeader eyebrow="Under the hood" title="Built on widely used open-source tools" />
       <dl class="stack__list" data-reveal>

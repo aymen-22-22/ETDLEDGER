@@ -6,6 +6,7 @@ import PageHeader from "../components/PageHeader.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import IsoDiagram from "../components/IsoDiagram.astro";
 import LedgerMock from "../components/ui/LedgerMock.astro";
+import NetworkTopologies from "../components/diagrams/NetworkTopologies.astro";
 import CtaBand from "../components/CtaBand.astro";
 
 
@@ -55,6 +56,13 @@ const controls = [
         <p class="muted">ETDLedger's security team can build threat detection on top of this record. <a class="link" href={u("/services#security")}>See security services</a></p>
       </div>
       <LedgerMock />
+    </div>
+  </section>
+
+  <section class="section section--subtle" id="topologies">
+    <div class="container">
+      <SectionHeader eyebrow="Network design" title="Reference network topologies" lead="Patterns our engineers use when they design and review networks around InfraLedger. Each is adapted to your environment." />
+      <div data-reveal><NetworkTopologies /></div>
     </div>
   </section>
 

@@ -1,0 +1,21 @@
+---
+import Topology from "./Topology.astro";
+---
+<Topology width={960} height={380} label="SAP connected to web apps, a data warehouse, a message queue and partner APIs through an integration layer"
+  caption="Animation: SAP connected to the rest of your systems through one integration layer."
+  nodes={[
+    { id: "sap", x: 40, y: 164, w: 170, label: "SAP S/4HANA", sub: "Finance, supply chain", icon: "Boxes" },
+    { id: "int", x: 290, y: 164, w: 200, label: "Integration layer", sub: "APIs, events, mappings", icon: "Workflow" },
+    { id: "web", x: 640, y: 30, w: 240, label: "Web and mobile apps", sub: "Orders, customer portal", icon: "AppWindow" },
+    { id: "dw", x: 640, y: 120, w: 240, label: "Data warehouse", sub: "Reporting", icon: "Warehouse" },
+    { id: "mq", x: 640, y: 210, w: 240, label: "Message queue", sub: "Events to other services", icon: "MessagesSquare" },
+    { id: "pt", x: 640, y: 300, w: 240, label: "Partner APIs", sub: "Suppliers, banks", icon: "Handshake" },
+  ]}
+  links={[
+    { from: "sap", to: "int", flow: 3, dur: 2.4 },
+    { from: "sap", to: "int", reverse: true, tone: "ok", flow: 2, dur: 2.4, begin: 0.6 },
+    { from: "int", to: "web", reverse: true, tone: "ok", flow: 1, dur: 2.6 },
+    { from: "int", to: "dw", flow: 1, dur: 2.6, begin: 0.7 },
+    { from: "int", to: "mq", flow: 1, dur: 2.6, begin: 1.4 },
+    { from: "int", to: "pt", flow: 1, dur: 2.6, begin: 2.1 },
+  ]} />

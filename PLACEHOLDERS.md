@@ -45,3 +45,9 @@ Everything below was written without confirmed information. Replace or confirm e
 - Team section on the Company page.
 - Customer logos or case studies.
 - French version.
+
+## Diagrams and photos
+- The infrastructure topologies (product page), network security topologies (security page), and the SAP, Oracle failover and security pipeline animations (services page) are reference patterns, not client architectures. Confirm the components shown match how you deliver.
+- The product page "Templates" logos (WordPress, Odoo, Nextcloud, Gitea, GitLab, Grafana, Metabase, Keycloak, Mattermost, MinIO, Ghost, Moodle) must be confirmed as available InfraLedger templates.
+- The security tools and enterprise systems logos on the services page should list only tools your team actually uses.
+- Photo slots on the services and company pages are empty until files are added to `public/photos/` (see the README there).

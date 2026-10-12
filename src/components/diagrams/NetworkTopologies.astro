@@ -1,0 +1,116 @@
+---
+import Topology from "./Topology.astro";
+import DiagramTabs from "./DiagramTabs.astro";
+---
+<DiagramTabs name="Network security topologies" labels={["Defense in depth", "Zero-trust access", "Monitoring", "Lab isolation"]}>
+  <div data-panel>
+    <Topology width={960} height={440} label="Layered network with a DMZ, internal zones and a management network"
+      caption="Defense in depth: traffic passes two firewalls and a WAF before reaching applications, and data sits in its own zone."
+      zones={[
+        { x: 330, y: 24, w: 210, h: 270, label: "DMZ" },
+        { x: 720, y: 24, w: 220, h: 170, label: "App zone" },
+        { x: 720, y: 214, w: 220, h: 180, label: "Data zone" },
+        { x: 330, y: 318, w: 370, h: 106, label: "Management network" },
+      ]}
+      nodes={[
+        { id: "net", x: 20, y: 190, w: 120, label: "Internet", icon: "Globe", dashed: true },
+        { id: "fw1", x: 170, y: 190, w: 130, label: "Firewall", sub: "Edge", icon: "BrickWall" },
+        { id: "waf", x: 360, y: 70, label: "WAF", sub: "Request filtering", icon: "ShieldCheck" },
+        { id: "rp", x: 360, y: 190, label: "Reverse proxy", sub: "TLS termination", icon: "Route" },
+        { id: "fw2", x: 565, y: 190, w: 130, label: "Firewall", sub: "Internal", icon: "BrickWall" },
+        { id: "app", x: 755, y: 90, label: "Applications", icon: "AppWindow" },
+        { id: "db", x: 755, y: 290, label: "Databases", icon: "Database" },
+        { id: "bh", x: 355, y: 356, label: "Bastion host", sub: "Audited access", icon: "Terminal" },
+        { id: "vpn", x: 540, y: 356, w: 140, label: "Admin VPN", icon: "KeyRound" },
+      ]}
+      links={[
+        { from: "net", to: "fw1", flow: 2, dur: 1.8 },
+        { from: "fw1", to: "waf", flow: 1, dur: 2.4 },
+        { from: "waf", to: "rp", flow: 1, dur: 1.6, begin: 0.6 },
+        { from: "rp", to: "fw2", flow: 1, dur: 1.8, begin: 1 },
+        { from: "fw2", to: "app", flow: 1, dur: 2, begin: 1.4 },
+        { from: "app", to: "db", flow: 1, dur: 1.8, begin: 2 },
+        { from: "vpn", to: "bh", dashed: true },
+        { from: "bh", to: "fw2", via: [[430, 300], [630, 300]], dashed: true },
+      ]} />
+  </div>
+  <div data-panel>
+    <Topology width={960} height={400} label="Zero-trust access through an identity provider and access proxy"
+      caption="Zero-trust access: every request is authenticated and checked, and project networks can't reach each other."
+      zones={[
+        { x: 600, y: 20, w: 340, h: 110, label: "Project A network" },
+        { x: 600, y: 145, w: 340, h: 110, label: "Project B network" },
+        { x: 600, y: 270, w: 340, h: 110, label: "Project C network" },
+      ]}
+      nodes={[
+        { id: "us", x: 20, y: 174, w: 130, label: "Users", sub: "Any location", icon: "Users", dashed: true },
+        { id: "idp", x: 190, y: 174, w: 170, label: "Identity provider", sub: "SSO and MFA", icon: "Fingerprint" },
+        { id: "px", x: 400, y: 174, w: 160, label: "Access proxy", sub: "Checks every request", icon: "ShieldCheck" },
+        { id: "a", x: 680, y: 60, w: 200, label: "billing", sub: "Apps and databases", icon: "Boxes" },
+        { id: "b", x: 680, y: 185, w: 200, label: "crm", sub: "Apps and databases", icon: "Boxes" },
+        { id: "c", x: 680, y: 310, w: 200, label: "analytics", sub: "Apps and databases", icon: "Boxes" },
+      ]}
+      links={[
+        { from: "us", to: "idp", flow: 2, dur: 2 },
+        { from: "idp", to: "px", flow: 2, dur: 2, begin: 0.5 },
+        { from: "px", to: "a", flow: 1, dur: 2.4 },
+        { from: "px", to: "b", flow: 1, dur: 2.4, begin: 0.8 },
+        { from: "px", to: "c", flow: 1, dur: 2.4, begin: 1.6 },
+        { from: "a", to: "b", via: [[910, 86], [910, 211]], tone: "bad", dashed: true, label: "denied", labelAt: [910, 152] },
+      ]} />
+  </div>
+  <div data-panel>
+    <Topology width={960} height={400} label="Security monitoring pipeline from log sources to alerts"
+      caption="Monitoring: logs from every layer, including the InfraLedger audit log, feed one place where detections run."
+      nodes={[
+        { id: "s1", x: 20, y: 30, w: 180, label: "Servers", sub: "System logs", icon: "Server" },
+        { id: "s2", x: 20, y: 120, w: 180, label: "Firewalls", sub: "Connection logs", icon: "BrickWall" },
+        { id: "s3", x: 20, y: 210, w: 180, label: "Network sensor", sub: "Intrusion detection", icon: "Radio" },
+        { id: "s4", x: 20, y: 300, w: 180, label: "InfraLedger", sub: "Audit log", icon: "ScrollText" },
+        { id: "co", x: 290, y: 165, w: 160, label: "Log collector", sub: "Parse and enrich", icon: "Inbox" },
+        { id: "si", x: 510, y: 165, w: 150, label: "SIEM", sub: "Detection rules", icon: "Radar" },
+        { id: "al", x: 730, y: 90, w: 210, label: "Alerts", sub: "On-call, email, chat", icon: "BellRing", tone: "bad" },
+        { id: "an", x: 730, y: 240, w: 210, label: "Security analyst", sub: "Triage and response", icon: "UserCheck" },
+      ]}
+      links={[
+        { from: "s1", to: "co", flow: 1, dur: 2.6 },
+        { from: "s2", to: "co", flow: 1, dur: 2.6, begin: 0.6 },
+        { from: "s3", to: "co", flow: 1, dur: 2.6, begin: 1.2 },
+        { from: "s4", to: "co", flow: 1, dur: 2.6, begin: 1.8 },
+        { from: "co", to: "si", flow: 3, dur: 2 },
+        { from: "si", to: "al", tone: "bad", flow: 1, dur: 3 },
+        { from: "si", to: "an", flow: 1, dur: 3, begin: 1.5 },
+      ]} />
+  </div>
+  <div data-panel>
+    <Topology width={960} height={380} label="Isolated training lab with no route to production"
+      caption="Lab isolation: participants reach the lab over VPN only, and the lab has no route to your live systems."
+      zones={[
+        { x: 370, y: 20, w: 570, h: 220, label: "Isolated lab network" },
+        { x: 370, y: 268, w: 570, h: 96, label: "Your production network", tone: "bad" },
+      ]}
+      nodes={[
+        { id: "pp", x: 20, y: 110, w: 140, label: "Participants", icon: "Users", dashed: true },
+        { id: "vpn", x: 200, y: 110, w: 130, label: "VPN", sub: "Per participant", icon: "KeyRound" },
+        { id: "gw", x: 395, y: 110, w: 150, label: "Lab firewall", icon: "BrickWall" },
+        { id: "dmz", x: 590, y: 56, w: 150, label: "DMZ", sub: "Web services", icon: "Globe" },
+        { id: "int", x: 590, y: 164, w: 150, label: "Internal", sub: "Servers, clients", icon: "Building2" },
+        { id: "mon", x: 780, y: 110, w: 140, label: "Monitoring", sub: "SIEM, capture", icon: "Activity" },
+        { id: "prod", x: 590, y: 296, w: 200, label: "Live systems", icon: "Building2", tone: "muted" },
+      ]}
+      links={[
+        { from: "pp", to: "vpn", flow: 2, dur: 2 },
+        { from: "vpn", to: "gw", flow: 2, dur: 2, begin: 0.5 },
+        { from: "gw", to: "dmz", flow: 1, dur: 2.2 },
+        { from: "gw", to: "int", flow: 1, dur: 2.2, begin: 1.1 },
+        { from: "dmz", to: "mon", dashed: true },
+        { from: "int", to: "mon", dashed: true },
+      ]}>
+      <g class="topo__link t-bad is-dashed">
+        <path d="M470 162 V250" />
+        <path d="M462 254 l16 16 m0 -16 l-16 16" style="stroke-dasharray:none;stroke-width:2" />
+        <text x="490" y="248" text-anchor="start">no route</text>
+      </g>
+    </Topology>
+  </div>
+</DiagramTabs>
