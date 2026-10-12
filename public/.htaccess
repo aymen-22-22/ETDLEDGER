@@ -14,7 +14,8 @@ ErrorDocument 404 /404.html
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
   RewriteRule ^platform/?$ /product [L,R=301]
-  RewriteRule ^enterprise/?$ /services [L,R=301]
+  RewriteRule ^enterprise/?$ / [L,R=301]
+  RewriteRule ^services/?$ / [L,R=301]
   RewriteRule ^about/?$ /company [L,R=301]
   RewriteRule ^pricing/?$ /contact [L,R=301]
 

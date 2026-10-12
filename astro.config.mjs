@@ -5,7 +5,8 @@ export default defineConfig({
   base: process.env.BASE_PATH || "/",
   redirects: {
     "/platform": "/product",
-    "/enterprise": "/services",
+    "/enterprise": "/",
+    "/services": "/",
     "/about": "/company",
     "/pricing": "/contact",
   },
