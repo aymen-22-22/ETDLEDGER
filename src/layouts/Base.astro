@@ -9,8 +9,10 @@ import { u, stripBase } from "../lib/url";
 import { ogFor } from "../lib/seo";
 import { site as company } from "../lib/site";
 
-interface Props { title: string; description: string; jsonld?: Record<string, unknown>[]; noindex?: boolean }
-const { title, description, jsonld = [], noindex = false } = Astro.props;
+import type { Brand } from "../lib/brands";
+
+interface Props { title: string; description: string; jsonld?: Record<string, unknown>[]; noindex?: boolean; brand?: Brand }
+const { title, description, jsonld = [], noindex = false, brand } = Astro.props;
 const origin = (Astro.site ?? new URL("https://etdledger.com")).href.replace(/\/$/, "");
 const path = stripBase(Astro.url.pathname).replace(/\/$/, "") || "/";
 const canonical = origin + (path === "/" ? "/" : path);
@@ -67,7 +69,7 @@ const graph = [organization, ...jsonld];
     </script>
     <link rel="icon" type="image/svg+xml" href={u("/favicon.svg")} />
   </head>
-  <body>
+  <body data-brand={brand}>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main">

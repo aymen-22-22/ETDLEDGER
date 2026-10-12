@@ -1,0 +1,23 @@
+---
+import Topology from "./Topology.astro";
+---
+<Topology width={960} height={380} label="Odoo hosted on InfraLedger with PostgreSQL, backups and connected systems"
+  caption="Animation: Odoo running on your servers, with its database, backups and connected systems."
+  zones={[{ x: 240, y: 24, w: 460, h: 332, label: "Your servers · InfraLedger" }]}
+  nodes={[
+    { id: "us", x: 30, y: 164, w: 160, label: "Your teams", sub: "Sales, stock, finance", icon: "Users", dashed: true },
+    { id: "od", x: 270, y: 164, w: 170, label: "Odoo", sub: "Custom modules", icon: "LayoutGrid" },
+    { id: "pg", x: 500, y: 90, w: 170, label: "PostgreSQL", sub: "Business data", icon: "Database" },
+    { id: "bk", x: 500, y: 250, w: 170, label: "Backups", sub: "Scheduled, restorable", icon: "Archive" },
+    { id: "pay", x: 750, y: 60, w: 180, label: "Payments", sub: "Banks, gateways", icon: "CreditCard" },
+    { id: "shop", x: 750, y: 164, w: 180, label: "Online store", sub: "Orders and stock", icon: "ShoppingCart" },
+    { id: "acc", x: 750, y: 268, w: 180, label: "Accounting export", sub: "Reports", icon: "FileSpreadsheet" },
+  ]}
+  links={[
+    { from: "us", to: "od", flow: 2, dur: 2.2 },
+    { from: "od", to: "pg", flow: 2, dur: 2.2, begin: 0.4 },
+    { from: "pg", to: "bk", via: [[585, 200]], vertical: true, dashed: true, flow: 1, dur: 3 },
+    { from: "od", to: "pay", via: [[720, 190], [720, 86]], flow: 1, dur: 3, begin: 0.5 },
+    { from: "shop", to: "od", flow: 1, dur: 3, begin: 1.2 },
+    { from: "od", to: "acc", via: [[720, 190], [720, 294]], flow: 1, dur: 3, begin: 2 },
+  ]} />

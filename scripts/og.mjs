@@ -8,8 +8,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const { chromium } = await import(process.env.PLAYWRIGHT_PATH ?? "playwright");
 
 const seo = readFileSync(resolve(root, "src/lib/seo.ts"), "utf8");
-const pages = [...seo.matchAll(/og: "([^"]+)", title: "([^"]+)", eyebrow: "([^"]+)"/g)]
-  .map(([, og, title, eyebrow]) => ({ og, title, eyebrow }))
+const pages = [...seo.matchAll(/og: "([^"]+)", title: "([^"]+)", eyebrow: "([^"]+)"(?:, accent: "([^"]+)")?/g)]
+  .map(([, og, title, eyebrow, accent]) => ({ og, title, eyebrow, accent }))
   .filter((p, i, all) => all.findIndex((q) => q.og === p.og) === i && p.og !== "default");
 pages.push({ og: "default", title: "The self-hosted cloud platform", eyebrow: "ETDLedger" });
 
@@ -38,7 +38,7 @@ const rack = (x, seed) => {
     <rect x="1" y="1" width="218" height="638" rx="10" fill="#0f0f11" stroke="#3f3f46" stroke-width="1.5"/>${units}</svg>`;
 };
 
-const html = ({ title, eyebrow }) => `<!doctype html><html><head><style>
+const html = ({ title, eyebrow, accent }) => `<!doctype html><html><head><style>
   @font-face { font-family: "Instrument Sans"; src: url("${sans}") format("woff2"); font-weight: 400 700; }
   @font-face { font-family: "JetBrains Mono"; src: url("${mono}") format("woff2"); }
   * { margin: 0; box-sizing: border-box; }
@@ -51,8 +51,10 @@ const html = ({ title, eyebrow }) => `<!doctype html><html><head><style>
   .eyebrow { margin-top: auto; font-size: 26px; color: #a1a1aa; font-weight: 500; }
   h1 { margin-top: 14px; font-size: 68px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; max-width: 760px; }
   .foot { margin-top: 40px; display: flex; gap: 14px; align-items: center; font-family: "JetBrains Mono"; font-size: 22px; color: #a1a1aa; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: #30a46c; }
-</style></head><body>
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: ${accent ?? "#30a46c"}; }
+  .bar { position: absolute; inset: 0 0 auto; height: 10px; background: ${accent ?? "transparent"}; }
+  body { background: ${accent ? `radial-gradient(120% 140% at 100% 0%, ${accent}66, #0a0a0b 65%)` : "#0a0a0b"}; }
+</style></head><body><div class="bar"></div>
   <svg class="racks" viewBox="0 0 520 630">${rack(20, 3)}${rack(270, 7)}</svg>
   <div class="wrap">
     <div class="brand">${logo(40)}ETDLedger</div>

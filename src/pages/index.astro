@@ -7,8 +7,7 @@ import SectionHeader from "../components/SectionHeader.astro";
 import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import SecurityFlow from "../components/diagrams/SecurityFlow.astro";
-import SapFlow from "../components/diagrams/SapFlow.astro";
-import OracleFailover from "../components/diagrams/OracleFailover.astro";
+import { brands } from "../lib/brands";
 import LogoCloud from "../components/LogoCloud.astro";
 import DashboardMock from "../components/ui/DashboardMock.astro";
 import Photo from "../components/Photo.astro";
@@ -20,10 +19,10 @@ const sub: [string, string][] = [
   ["infraledger", "InfraLedger"],
   ["engagement", "How we work"],
 ];
-const enterprise = [
-  { id: "sap", title: "SAP", text: "Implementation, migration and integration across SAP landscapes.", items: ["Module rollout aligned to your processes", "Version and hosting migrations with cutover and rollback plans", "Integration with web apps, APIs and data warehouses", "Administration and change management"] },
-  { id: "oracle", title: "Oracle", text: "Database administration, migration and application support.", items: ["Tuning, patching, backup and recovery", "Standby databases and recovery testing", "Upgrades and platform moves", "Licensing review"] },
-  { id: "odoo", title: "Odoo", text: "ERP implementation and customization, hosted on your servers.", items: ["CRM, sales, inventory, accounting and manufacturing", "Custom modules and integrations", "Migration from spreadsheets or older ERPs", "Hosting on InfraLedger with backups"] },
+const enterprise: { id: "sap" | "oracle" | "odoo"; title: string; text: string; items: string[] }[] = [
+  { id: "sap", title: "SAP", text: "Implementation, migration and integration across SAP landscapes.", items: ["Module rollout aligned to your processes", "Migrations with cutover and rollback plans", "Integration with your other systems"] },
+  { id: "oracle", title: "Oracle", text: "Database administration, standby databases and migrations.", items: ["Tuning, patching, backup and recovery", "Standby databases and recovery tests", "Upgrades and platform moves"] },
+  { id: "odoo", title: "Odoo", text: "ERP implementation and customization, hosted on your servers.", items: ["CRM, sales, inventory and accounting", "Custom modules and integrations", "Hosting on InfraLedger with backups"] },
 ];
 const steps = [
   ["Discover", "We map your systems, constraints and goals in a scoping call."],
@@ -92,16 +91,13 @@ const servicesLd = [
       <SectionHeader eyebrow="Enterprise systems" title="SAP, Oracle and Odoo" lead="Implementation, migration and support for the business systems you depend on." />
       <div class="grid-3">
         {enterprise.map((e, i) => (
-          <div class="card" id={e.id} data-reveal style={`--d:${i * 60}ms`}>
+          <a class="card ent" id={e.id} href={u(brands[e.id].href)} data-reveal style={`--d:${i * 60}ms; --c:${brands[e.id].color}`}>
             <p class="card__title">{e.title}</p>
             <p class="card__text">{e.text}</p>
             <ul class="checklist ent__list">{e.items.map((x) => <li>{x}</li>)}</ul>
-          </div>
+            <span class="ent__more">{e.title} solutions →</span>
+          </a>
         ))}
-      </div>
-      <div class="flows">
-        <div data-reveal><SapFlow /></div>
-        <div data-reveal><OracleFailover /></div>
       </div>
       <div class="ent-logos">
         <LogoCloud compact items={[
@@ -146,7 +142,8 @@ const servicesLd = [
 <style>
   .below { margin-top: -72px; padding-bottom: 96px; display: grid; gap: 20px; }
   .labs-link { font-size: 15px; }
-  .flows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 48px; }
+  .ent { position: relative; display: block; border-top: 3px solid var(--c); }
+  .ent__more { display: block; margin-top: 18px; font-size: 14.5px; font-weight: 500; }
   .ent-logos { margin-top: 32px; }
   .photo-band:has(.photos) { padding-top: 48px; }
   .ent__list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14.5px; }

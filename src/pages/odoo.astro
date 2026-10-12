@@ -1,0 +1,48 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import CtaBand from "../components/CtaBand.astro";
+import TrademarkNote from "../components/TrademarkNote.astro";
+import OdooFlow from "../components/diagrams/OdooFlow.astro";
+
+const offers = [["Implementation", "CRM, sales, inventory, accounting and manufacturing, configured for your processes."], ["Custom modules", "Features Odoo lacks out of the box, built and maintained by us."], ["Migration", "From spreadsheets, older ERPs or earlier Odoo versions."], ["Integrations", "Payments, e-commerce, accounting exports and your other systems."], ["Hosting", "On InfraLedger, on your servers or ours."], ["Training and support", "Training for each team, and support after go-live."]];
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Odoo implementation and hosting",
+  description: "Odoo ERP implementation, customization, migration and hosting on your own servers by ETDLedger.",
+  url: "https://etdledger.com/odoo",
+  provider: { "@id": "https://etdledger.com/#organization" },
+  areaServed: "DZ",
+};
+---
+<Base brand="odoo" jsonld={[ld]} title="Odoo — ETDLedger" description="Odoo ERP implementation, customization, migration and hosting on your own servers by ETDLedger.">
+  <PageHeader brand="odoo" eyebrow="Odoo solutions" title="Odoo, set up for how your business works" lead="We implement and customize Odoo, and host it on your own servers with InfraLedger, so your business data stays with you.">
+    <a class="btn btn--primary" href={u("/contact?interest=odoo")}>Plan your Odoo project <span class="arrow">→</span></a>
+    <a class="btn btn--secondary" href="#how">How it works</a>
+  </PageHeader>
+
+  <FeatureRow id="how" eyebrow="Hosting" icon="Server" title="Hosted on your servers, not someone else's" text="Odoo runs on InfraLedger with its PostgreSQL database, scheduled backups and monitoring, connected to the systems you already use." items={["PostgreSQL with scheduled, restorable backups", "Updates tested on a copy before they go live", "Connections to payments, your online store and accounting", "Every change recorded in the InfraLedger audit log"]}>
+    <OdooFlow />
+  </FeatureRow>
+
+  <section class="section section--subtle">
+    <div class="container">
+      <SectionHeader eyebrow="What we do" title="From first module to daily use" />
+      <div class="grid-3">
+        {offers.map(([t, d], i) => (
+          <div class="card" data-reveal style={`--d:${i * 50}ms`}>
+            <p class="card__title">{t}</p>
+            <p class="card__text">{d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Tell us how your business runs" text="Which teams will use Odoo and what you use today: we will propose a plan." interest="odoo" action="Plan your Odoo project" />
+  <TrademarkNote text="Odoo is a trademark of Odoo S.A. ETDLedger is an independent service provider and is not affiliated with Odoo S.A." />
+</Base>
