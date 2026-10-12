@@ -4,7 +4,6 @@ import { u } from "../lib/url";
 import PageHeader from "../components/PageHeader.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
-import Icon from "../components/Icon.astro";
 import LabTopologyMock from "../components/ui/LabTopologyMock.astro";
 
 const templates = [
@@ -30,8 +29,8 @@ const safety = [
   ["Torn down after", "When the engagement ends, the lab and its data are removed."],
 ] as const;
 ---
-<Base title="Cyber labs — ETDLedger" description="Custom, isolated training labs where security teams practice perimeter defense, web application protection, detection and incident response.">
-  <PageHeader eyebrow="Cyber labs" title="Training environments built for your security team" lead="We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session.">
+<Base brand="labs" title="Cyber labs — ETDLedger" description="Custom, isolated training labs where security teams practice perimeter defense, web application protection, detection and incident response.">
+  <PageHeader brand="labs" eyebrow="Cyber labs" title="Training environments built for your security team" lead="We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session.">
     <a class="btn btn--primary" href={u("/contact?interest=labs")}>Plan a lab <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href="#templates">See lab types</a>
   </PageHeader>
@@ -58,7 +57,6 @@ const safety = [
       <div class="grid-3">
         {templates.map((t, i) => (
           <div class="card" data-reveal style={`--d:${i * 50}ms`}>
-            <span class="card__icon"><Icon name={t.icon} /></span>
             <p class="card__title">{t.title}</p>
             <p class="card__text">{t.text}</p>
           </div>
@@ -73,7 +71,7 @@ const safety = [
       <ol class="steps4">
         {delivery.map((s, i) => (
           <li class="card" data-reveal style={`--d:${i * 60}ms`}>
-            <div class="steps4__top"><span class="card__icon"><Icon name={s.icon} /></span><span class="steps4__n">0{i + 1}</span></div>
+            <span class="steps4__n">0{i + 1}</span>
             <p class="card__title">{s.title}</p>
             <p class="card__text">{s.text}</p>
           </li>

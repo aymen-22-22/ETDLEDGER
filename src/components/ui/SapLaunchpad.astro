@@ -1,0 +1,49 @@
+---
+// Illustration in the style of an SAP Fiori launchpad. Kept in SAP's light look in both site themes.
+import BrandLogo from "../BrandLogo.astro";
+import Icon from "../Icon.astro";
+const groups = [
+  { name: "Sales", tiles: [["Manage Sales Orders", "ShoppingCart"], ["Customer Returns", "Undo2"], ["Billing Documents", "Receipt"]] },
+  { name: "Procurement", tiles: [["Purchase Orders", "ClipboardList"], ["Supplier Invoices", "FileText"], ["Goods Receipt", "PackageCheck"]] },
+  { name: "Finance", tiles: [["Journal Entries", "BookOpen"], ["Cash Position", "Landmark"], ["Integration Monitor", "Workflow"]] },
+] as const;
+---
+<figure class="fio">
+  <div class="fio__win">
+    <div class="fio__shell">
+      <BrandLogo brand="siSap" size={34} decorative />
+      <span class="fio__home">Home</span>
+      <span class="fio__search"><Icon name="Search" size={14} />Search apps</span>
+      <span class="fio__avatar">ET</span>
+    </div>
+    <div class="fio__body">
+      {groups.map((g) => (
+        <div>
+          <p class="fio__group">{g.name}</p>
+          <div class="fio__tiles">
+            {g.tiles.map(([t, i]) => (
+              <div class="fio__tile"><span class="fio__tt">{t}</span><Icon name={i} size={22} /></div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+  <figcaption>Illustration of an SAP Fiori launchpad. SAP is a trademark of SAP SE.</figcaption>
+</figure>
+
+<style>
+  .fio { margin: 0; min-width: 0; }
+  .fio__win { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); background: #f5f6f7; color: #1d2d3e; font-size: 13px; }
+  .fio__shell { display: flex; align-items: center; gap: 14px; height: 48px; padding: 0 16px; background: #fff; border-bottom: 1px solid #e5e5e5; color: #0070f2; }
+  .fio__home { font-weight: 600; color: #1d2d3e; }
+  .fio__search { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 16px; background: #eff1f2; color: #556b82; font-size: 12px; }
+  .fio__avatar { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #0070f2; color: #fff; font-size: 11px; font-weight: 600; }
+  .fio__body { display: grid; gap: 18px; padding: 18px 20px 22px; }
+  .fio__group { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .fio__tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .fio__tile { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; height: 104px; padding: 12px; border-radius: 12px; background: #fff; box-shadow: 0 0 2px rgba(29, 45, 62, 0.16), 0 2px 4px rgba(29, 45, 62, 0.08); color: #0070f2; }
+  .fio__tt { color: #1d2d3e; font-weight: 600; line-height: 1.3; }
+  figcaption { margin-top: 12px; font-size: 13px; color: var(--text-3); text-align: center; }
+  @media (max-width: 520px) { .fio__tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fio__search { display: none; } }
+</style>

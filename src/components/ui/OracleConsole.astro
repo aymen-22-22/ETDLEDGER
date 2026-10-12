@@ -1,0 +1,42 @@
+---
+// Illustration of a Data Guard broker session, the tool used to check and switch standby databases.
+const out = [
+  ["p", "DGMGRL> "], ["c", "show configuration;\n\n"],
+  ["", "Configuration - erp_dg\n\n"],
+  ["", "  Protection Mode: MaxAvailability\n"],
+  ["", "  Members:\n"],
+  ["", "  erpprod  - Primary database\n"],
+  ["", "    erpstby  - Physical standby database\n\n"],
+  ["", "Fast-Start Failover: Enabled in Zero Data Loss Mode\n\n"],
+  ["", "Configuration Status:\n"],
+  ["ok", "SUCCESS\n\n"],
+  ["p", "DGMGRL> "], ["c", "validate database erpstby;\n\n"],
+  ["", "  Database Role:     Physical standby database\n"],
+  ["", "  Primary Database:  erpprod\n\n"],
+  ["", "  Ready for Switchover:  "], ["ok", "Yes\n"],
+  ["", "  Ready for Failover:    "], ["ok", "Yes (Primary Running)\n"],
+] as const;
+---
+<figure class="ora">
+  <div class="ora__win">
+    <div class="ora__bar"><span></span><span></span><span></span><b>dgmgrl · erpprod</b></div>
+    <pre>{out.map(([k, t]) => <span class={k}>{t}</span>)}<span class="cur">DGMGRL> </span></pre>
+  </div>
+  <figcaption>Illustration of a standby database health check with the Data Guard broker.</figcaption>
+</figure>
+
+<style>
+  .ora { margin: 0; min-width: 0; }
+  .ora__win { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid #3a3330; background: #1b1715; box-shadow: var(--shadow); }
+  .ora__bar { display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; background: #262120; border-bottom: 1px solid #3a3330; }
+  .ora__bar span { width: 10px; height: 10px; border-radius: 50%; background: #4a423e; }
+  .ora__bar b { margin-left: 10px; font: 500 12px var(--mono); color: #a39a95; }
+  pre { margin: 0; padding: 18px 20px; overflow-x: auto; font: 12.5px/1.6 var(--mono); color: #e7e1dd; }
+  .p, .cur { color: #f4998b; }
+  .c { color: #fff; }
+  .ok { color: #4ade80; }
+  .cur::after { content: ""; display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -3px; background: #e7e1dd; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cur::after { animation: none; } }
+  figcaption { margin-top: 12px; font-size: 13px; color: var(--text-3); text-align: center; }
+</style>

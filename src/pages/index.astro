@@ -7,8 +7,8 @@ import SectionHeader from "../components/SectionHeader.astro";
 import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import SecurityFlow from "../components/diagrams/SecurityFlow.astro";
-import SapFlow from "../components/diagrams/SapFlow.astro";
-import OracleFailover from "../components/diagrams/OracleFailover.astro";
+import { brands } from "../lib/brands";
+import BrandLogo from "../components/BrandLogo.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import DashboardMock from "../components/ui/DashboardMock.astro";
 import Photo from "../components/Photo.astro";
@@ -20,10 +20,10 @@ const sub: [string, string][] = [
   ["infraledger", "InfraLedger"],
   ["engagement", "How we work"],
 ];
-const enterprise = [
-  { id: "sap", title: "SAP", text: "Implementation, migration and integration across SAP landscapes.", items: ["Module rollout aligned to your processes", "Version and hosting migrations with cutover and rollback plans", "Integration with web apps, APIs and data warehouses", "Administration and change management"] },
-  { id: "oracle", title: "Oracle", text: "Database administration, migration and application support.", items: ["Tuning, patching, backup and recovery", "Standby databases and recovery testing", "Upgrades and platform moves", "Licensing review"] },
-  { id: "odoo", title: "Odoo", text: "ERP implementation and customization, hosted on your servers.", items: ["CRM, sales, inventory, accounting and manufacturing", "Custom modules and integrations", "Migration from spreadsheets or older ERPs", "Hosting on InfraLedger with backups"] },
+const enterprise: { id: "sap" | "oracle" | "odoo"; title: string; text: string; items: string[] }[] = [
+  { id: "sap", title: "SAP", text: "Implementation, migration and integration across SAP landscapes.", items: ["Module rollout aligned to your processes", "Migrations with cutover and rollback plans", "Integration with your other systems"] },
+  { id: "oracle", title: "Oracle", text: "Database administration, standby databases and migrations.", items: ["Tuning, patching, backup and recovery", "Standby databases and recovery tests", "Upgrades and platform moves"] },
+  { id: "odoo", title: "Odoo", text: "ERP implementation and customization, hosted on your servers.", items: ["CRM, sales, inventory and accounting", "Custom modules and integrations", "Hosting on InfraLedger with backups"] },
 ];
 const steps = [
   ["Discover", "We map your systems, constraints and goals in a scoping call."],
@@ -90,18 +90,18 @@ const servicesLd = [
   <section class="section" id="enterprise">
     <div class="container">
       <SectionHeader eyebrow="Enterprise systems" title="SAP, Oracle and Odoo" lead="Implementation, migration and support for the business systems you depend on." />
-      <div class="grid-3">
+      <div class="ents">
         {enterprise.map((e, i) => (
-          <div class="card" id={e.id} data-reveal style={`--d:${i * 60}ms`}>
-            <p class="card__title">{e.title}</p>
+          <a class="ent" id={e.id} href={u(brands[e.id].href)} data-reveal style={`--d:${i * 60}ms; --c:${brands[e.id].color}`}>
+            <span class="ent__logo" aria-label={e.title}>
+              {e.id === "sap" && <BrandLogo brand="siSap" size={64} decorative />}
+              {e.id === "odoo" && <BrandLogo brand="siOdoo" size={72} decorative />}
+              {e.id === "oracle" && <span class="ent__word">ORACLE</span>}
+            </span>
             <p class="card__text">{e.text}</p>
             <ul class="checklist ent__list">{e.items.map((x) => <li>{x}</li>)}</ul>
-          </div>
-        ))}
-      </div>
-      <div class="flows">
-        <div data-reveal><SapFlow /></div>
-        <div data-reveal><OracleFailover /></div>
+            <span class="ent__more">{e.title} solutions →</span>
+          </a>        ))}
       </div>
       <div class="ent-logos">
         <LogoCloud compact items={[
@@ -146,7 +146,18 @@ const servicesLd = [
 <style>
   .below { margin-top: -72px; padding-bottom: 96px; display: grid; gap: 20px; }
   .labs-link { font-size: 15px; }
-  .flows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 48px; }
+  .ents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--border); }
+  .ent { display: block; padding: 32px 28px 8px; border-left: 1px solid var(--border); }
+  .ent:first-child { border-left: 0; padding-left: 0; }
+  .ent__logo { display: flex; align-items: center; height: 64px; margin-bottom: 20px; color: var(--c); }
+  .ent__word { font-size: 30px; font-weight: 700; letter-spacing: 0.12em; }
+  :root[data-theme="dark"] #sap .ent__logo { color: #4da3ff; }
+  :root[data-theme="dark"] #oracle .ent__logo { color: #f08a7a; }
+  :root[data-theme="dark"] #odoo .ent__logo { color: #d6aecb; }
+  .ent .ent__list { margin-top: 18px; }
+  .ent:hover .ent__more { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 900px) { .ents { grid-template-columns: minmax(0, 1fr); } .ent, .ent:first-child { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--border); } }
+  .ent__more { display: block; margin-top: 18px; font-size: 14.5px; font-weight: 500; color: var(--text); }
   .ent-logos { margin-top: 32px; }
   .photo-band:has(.photos) { padding-top: 48px; }
   .ent__list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14.5px; }

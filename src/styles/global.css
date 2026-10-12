@@ -141,18 +141,16 @@ ul, ol { list-style: none; }
 .section-header--center { margin-left: auto; margin-right: auto; text-align: center; }
 
 /* ---------- Cards ---------- */
+/* Content items are separated by rules, not boxed in cards. */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: border-color 200ms var(--ease);
+  border-top: 1px solid var(--border-strong);
+  padding: 20px 0 8px;
 }
-a.card:hover { border-color: var(--border-strong); }
+a.card:hover { border-color: var(--text); }
 .card__title { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
 .card__text { font-size: 15px; color: var(--text-2); line-height: 1.6; }
 
-.grid-2, .grid-3, .grid-4 { display: grid; gap: 16px; }
+.grid-2, .grid-3, .grid-4 { display: grid; gap: 8px 40px; }
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -218,3 +216,28 @@ a.card:hover { border-color: var(--border-strong); }
   display: inline-grid; place-items: center; width: 40px; height: 40px; margin-bottom: 18px;
   border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text);
 }
+
+/* ---------- Product themes ----------
+   Product and solution pages set data-brand on <body>. Services pages stay neutral.
+   --accent: fills (buttons, tabs) · --accent-text: accent used as text or lines on the page background
+   --hero-a / --hero-b: header band gradient (always dark, white text) · --accent-2: stripe color */
+[data-brand] { --accent-fg: #fff; }
+[data-brand="infraledger"] { --accent: #4f46e5; --accent-text: #a5b4fc; --accent-2: #818cf8; --hero-a: #13123a; --hero-b: #3730a3; }
+[data-brand="sap"] { --accent: #0070f2; --accent-text: #6cb2ff; --accent-2: #0070f2; --hero-a: #061a36; --hero-b: #0057c2; }
+[data-brand="oracle"] { --accent: #c74634; --accent-text: #f4998b; --accent-2: #c74634; --hero-a: #201b19; --hero-b: #8a2f22; }
+[data-brand="odoo"] { --accent: #714b67; --accent-text: #d6aecb; --accent-2: #017e84; --hero-a: #2a1a26; --hero-b: #714b67; }
+[data-brand="labs"] { --accent: #15803d; --accent-text: #4ade80; --accent-2: #22c55e; --hero-a: #05110a; --hero-b: #0f3d24; }
+:root[data-theme="light"] [data-brand="infraledger"] { --accent-text: #4338ca; }
+:root[data-theme="light"] [data-brand="sap"] { --accent-text: #0057c2; }
+:root[data-theme="light"] [data-brand="oracle"] { --accent-text: #a63a2b; }
+:root[data-theme="light"] [data-brand="odoo"] { --accent-text: #714b67; }
+:root[data-theme="light"] [data-brand="labs"] { --accent-text: #15803d; }
+
+[data-brand] .btn--primary { background: var(--accent); color: var(--accent-fg); }
+[data-brand] .btn--primary:hover { background: color-mix(in srgb, var(--accent) 86%, #000); }
+[data-brand] .eyebrow { color: var(--accent-text); }
+[data-brand] .link { text-decoration-color: var(--accent-text); }
+[data-brand] .checklist li::before { border-color: var(--accent-text); }
+[data-brand] .dtabs__tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+[data-brand] .topo__link:not(.t-ok):not(.t-bad) .topo__pkt { fill: var(--accent-text); }
+[data-brand] .fr__icon, [data-brand] .card__icon { color: var(--accent-text); }

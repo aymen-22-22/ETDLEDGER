@@ -1,0 +1,37 @@
+---
+// Illustration in the style of the Odoo apps home screen. Kept in Odoo's light look in both site themes.
+import BrandLogo from "../BrandLogo.astro";
+import Icon from "../Icon.astro";
+const apps = [
+  ["Discuss", "MessagesSquare", "#2EBCFA"], ["CRM", "Handshake", "#1AD3BB"], ["Sales", "LineChart", "#F86126"],
+  ["Inventory", "Package", "#875A7B"], ["Accounting", "Calculator", "#FBB130"], ["Invoicing", "Receipt", "#00A09D"],
+  ["Manufacturing", "Factory", "#985184"], ["Purchase", "ShoppingBag", "#FC868B"], ["Website", "Globe", "#1BA9F6"],
+  ["Employees", "Users", "#9A6E8F"], ["Project", "KanbanSquare", "#21B799"], ["Point of Sale", "Store", "#F06050"],
+] as const;
+---
+<figure class="odo">
+  <div class="odo__win">
+    <div class="odo__bar"><BrandLogo brand="siOdoo" size={46} decorative /><span class="odo__co">Your company</span></div>
+    <div class="odo__grid">
+      {apps.map(([n, i, c]) => (
+        <div class="odo__app">
+          <span class="odo__ico" style={`--c:${c}`}><Icon name={i} size={26} /></span>
+          <span>{n}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+  <figcaption>Illustration of the Odoo apps home screen. Odoo is a trademark of Odoo S.A.</figcaption>
+</figure>
+
+<style>
+  .odo { margin: 0; min-width: 0; }
+  .odo__win { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); background: linear-gradient(180deg, #f3eff2, #e9e3e8); color: #374151; }
+  .odo__bar { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 18px; background: #714b67; color: #fff; }
+  .odo__co { font-size: 13px; opacity: 0.85; }
+  .odo__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px 12px; padding: 28px 22px 30px; }
+  .odo__app { display: grid; justify-items: center; gap: 8px; font-size: 12.5px; text-align: center; }
+  .odo__ico { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 14px; background: var(--c); color: #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); }
+  figcaption { margin-top: 12px; font-size: 13px; color: var(--text-3); text-align: center; }
+  @media (max-width: 520px) { .odo__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

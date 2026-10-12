@@ -1,14 +1,13 @@
 ---
 import { u, stripBase } from "../lib/url";
 import Logo from "./Logo.astro";
+import { brands } from "../lib/brands";
 
-const links = [
-  { href: "/product", label: "Product" },
-  { href: "/docs", label: "Docs" },
-];
+const links = [{ href: "/docs", label: "Docs" }];
+const products = Object.values(brands);
 const services = [
-  { href: "/#platform", label: "Platform services", text: "InfraLedger rollout, operation and managed Kubernetes" },
-  { href: "/#security", label: "Security services", text: "Detection, assessments and cyber labs" },
+  { href: "/#platform", label: "Platform", text: "InfraLedger rollout, operation and managed Kubernetes" },
+  { href: "/#security", label: "Security", text: "Detection, assessments and compliance" },
   { href: "/#enterprise", label: "Enterprise systems", text: "SAP, Oracle and Odoo" },
 ];
 const path = stripBase(Astro.url.pathname).replace(/\/$/, "") || "/";
@@ -19,13 +18,28 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
     <a class="hdr__logo" href={u("/")} aria-label="ETDLedger home"><Logo /></a>
 
     <nav class="hdr__nav" aria-label="Primary">
-      {links.map((l) => <a class="hdr__link" href={u(l.href)} aria-current={isCurrent(l.href)}>{l.label}</a>)}
+      <div class="dd" data-dd>
+        <button class="hdr__link dd__btn" type="button" aria-expanded="false" aria-controls="dd-products" aria-current={products.some((p) => isCurrent(p.href)) ? "page" : undefined}>
+          Products
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="dd__panel" id="dd-products">
+          <p class="dd__group">Products and solutions</p>
+          {products.map((p) => (
+            <a class="dd__item dd__item--dot" href={u(p.href)} style={`--c:${p.color}`}>
+              <span class="dd__title">{p.name}</span>
+              <span class="dd__text">{p.text}</span>
+            </a>
+          ))}
+        </div>
+      </div>
       <div class="dd" data-dd>
         <button class="hdr__link dd__btn" type="button" aria-expanded="false" aria-controls="dd-services" aria-current={path === "/" ? "page" : undefined}>
           Services
           <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </button>
         <div class="dd__panel" id="dd-services">
+          <p class="dd__group">Engineering services</p>
           {services.map((s) => (
             <a class="dd__item" href={u(s.href)}>
               <span class="dd__title">{s.label}</span>
@@ -35,6 +49,7 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
           <a class="dd__all" href={u("/")}>All services →</a>
         </div>
       </div>
+      {links.map((l) => <a class="hdr__link" href={u(l.href)} aria-current={isCurrent(l.href)}>{l.label}</a>)}
       <a class="hdr__link" href={u("/company")} aria-current={isCurrent("/company")}>Company</a>
     </nav>
 
@@ -52,9 +67,11 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
 
   <div class="mnav" id="mnav" hidden data-mnav>
     <nav class="container mnav__in" aria-label="Mobile">
-      {links.map((l) => <a class="mnav__link" href={u(l.href)}>{l.label}</a>)}
+      <p class="mnav__group">Products and solutions</p>
+      {products.map((p) => <a class="mnav__sub mnav__sub--dot" href={u(p.href)} style={`--c:${p.color}`}>{p.name}</a>)}
       <p class="mnav__group">Services</p>
       {services.map((s) => <a class="mnav__sub" href={u(s.href)}>{s.label}</a>)}
+      {links.map((l) => <a class="mnav__link" href={u(l.href)}>{l.label}</a>)}
       <a class="mnav__link" href={u("/company")}>Company</a>
       <a class="btn btn--primary mnav__cta" href={u("/contact")}>Request a demo</a>
     </nav>
@@ -109,6 +126,9 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
   .dd__item:hover { background: var(--surface-2); }
   .dd__title { font-size: 15px; font-weight: 500; }
   .dd__text { font-size: 13.5px; color: var(--text-2); }
+  .dd__group { padding: 8px 12px 4px; font-size: 12.5px; color: var(--text-3); }
+  .dd__item--dot .dd__title, .mnav__sub--dot { display: inline-flex; align-items: center; gap: 8px; }
+  .dd__item--dot .dd__title::before, .mnav__sub--dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
   .dd__all { display: block; margin-top: 4px; padding: 10px 12px; border-top: 1px solid var(--border); font-size: 14px; color: var(--text-2); }
   .dd__all:hover { color: var(--text); }
 
@@ -148,14 +168,17 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
     label();
   });
 
-  const dd = document.querySelector<HTMLElement>("[data-dd]");
-  const ddBtn = dd?.querySelector<HTMLButtonElement>(".dd__btn");
-  const setDd = (open: boolean) => {
-    dd?.classList.toggle("is-open", open);
-    ddBtn?.setAttribute("aria-expanded", String(open));
+  const dds = [...document.querySelectorAll<HTMLElement>("[data-dd]")];
+  const setDd = (dd: HTMLElement, open: boolean) => {
+    dd.classList.toggle("is-open", open);
+    dd.querySelector(".dd__btn")?.setAttribute("aria-expanded", String(open));
   };
-  ddBtn?.addEventListener("click", () => setDd(!dd?.classList.contains("is-open")));
-  document.addEventListener("click", (e) => { if (dd && !dd.contains(e.target as Node)) setDd(false); });
+  dds.forEach((dd) => dd.querySelector(".dd__btn")?.addEventListener("click", () => {
+    const open = !dd.classList.contains("is-open");
+    dds.forEach((o) => setDd(o, false));
+    setDd(dd, open);
+  }));
+  document.addEventListener("click", (e) => dds.forEach((dd) => { if (!dd.contains(e.target as Node)) setDd(dd, false); }));
 
   const burger = document.querySelector<HTMLButtonElement>("[data-burger]");
   const mnav = document.querySelector<HTMLElement>("[data-mnav]");
@@ -172,7 +195,8 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
-    if (dd?.classList.contains("is-open")) { setDd(false); ddBtn?.focus(); }
+    const open = dds.find((dd) => dd.classList.contains("is-open"));
+    if (open) { setDd(open, false); open.querySelector<HTMLButtonElement>(".dd__btn")?.focus(); }
     if (mnav && !mnav.hidden) { setMenu(false); burger?.focus(); }
   });
 </script>

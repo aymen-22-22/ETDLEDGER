@@ -1,0 +1,65 @@
+---
+import Base from "../layouts/Base.astro";
+import { u } from "../lib/url";
+import PageHeader from "../components/PageHeader.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import CtaBand from "../components/CtaBand.astro";
+import LogoCloud from "../components/LogoCloud.astro";
+import OracleConsole from "../components/ui/OracleConsole.astro";
+import TrademarkNote from "../components/TrademarkNote.astro";
+import OracleFailover from "../components/diagrams/OracleFailover.astro";
+
+const offers = [["Administration", "Performance tuning, patching, backup and recovery."], ["Standby and recovery", "Standby databases at a second site, with recovery tests."], ["Upgrades and moves", "Version upgrades and platform moves with rehearsed cutovers."], ["Licensing review", "Understand what you use and where you can save."], ["Application support", "Maintenance and integration for Oracle-based applications."], ["Monitoring", "Alerts on space, performance and replication health."]];
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Oracle database administration",
+  description: "Oracle database administration, disaster recovery, migration and application support by ETDLedger's engineers.",
+  url: "https://etdledger.com/oracle",
+  provider: { "@id": "https://etdledger.com/#organization" },
+  areaServed: "DZ",
+};
+---
+<Base brand="oracle" jsonld={[ld]} title="Oracle — ETDLedger" description="Oracle database administration, disaster recovery, migration and application support by ETDLedger's engineers.">
+  <PageHeader brand="oracle" eyebrow="Oracle solutions" title="Oracle databases that stay up" lead="Administration, standby databases, migrations and application support for Oracle estates, on-premises or hybrid.">
+    <a class="btn btn--primary" href={u("/contact?interest=oracle")}>Talk to an Oracle engineer <span class="arrow">→</span></a>
+    <a class="btn btn--secondary" href="#how">How it works</a>
+  </PageHeader>
+
+  <FeatureRow id="how" eyebrow="Disaster recovery" icon="Database" title="A standby ready to take over" text="We set up standby databases at a second site, test the switch regularly, and document exactly what happens when the primary fails." items={["Changes shipped continuously to the standby", "Automatic or manual switchover, tested on a schedule", "Applications reconnect to the new primary", "A written recovery runbook for your team"]}>
+    <OracleFailover />
+  </FeatureRow>
+
+  <section class="section section--subtle">
+    <div class="container wwd">
+      <div data-reveal>
+        <p class="eyebrow">What we do</p>
+        <h2 class="h2 wwd__title">Oracle work your team can rely on</h2>
+        <dl class="wwd__list">
+          {offers.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+        </dl>
+      </div>
+      <div data-reveal><OracleConsole /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <LogoCloud label="Platforms around your Oracle databases" items={[["siRedhat", "Red Hat"], ["siLinux", "Linux"], ["siVmware", "VMware"], ["siPostgresql", "PostgreSQL"], ["siDocker", "Docker"], ["siKubernetes", "Kubernetes"], ["siGrafana", "Grafana"]]} />
+    </div>
+  </section>
+
+  <CtaBand title="Tell us about your Oracle estate" text="Versions, sizes and how you recover today: we will suggest where to start." interest="oracle" action="Talk to an Oracle engineer" />
+  <TrademarkNote text="Oracle is a registered trademark of Oracle Corporation and/or its affiliates. ETDLedger is an independent service provider and is not affiliated with Oracle." />
+</Base>
+
+<style>
+  .wwd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 64px; align-items: start; }
+  .wwd__title { margin: 12px 0 32px; }
+  .wwd__list { border-top: 1px solid var(--border); }
+  .wwd__list div { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .wwd__list dt { font-weight: 600; }
+  .wwd__list dd { color: var(--text-2); font-size: 15px; }
+  @media (max-width: 960px) { .wwd { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
+  @media (max-width: 560px) { .wwd__list div { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+</style>
