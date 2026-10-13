@@ -24,22 +24,22 @@ const ld = {
   <PageHeader brand="odoo" eyebrow="Odoo solutions" title="Odoo, set up for how your business works" lead="We implement and customize Odoo, and host it on your own servers with InfraLedger, so your business data stays with you.">
     <a class="btn btn--primary" href={u("/contact?interest=odoo")}>Plan your Odoo project <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href="#how">How it works</a>
+    <OdooApps slot="visual" />
   </PageHeader>
 
-  <FeatureRow id="how" eyebrow="Hosting" icon="Server" title="Hosted on your servers, not someone else's" text="Odoo runs on InfraLedger with its PostgreSQL database, scheduled backups and monitoring, connected to the systems you already use." items={["PostgreSQL with scheduled, restorable backups", "Updates tested on a copy before they go live", "Connections to payments, your online store and accounting", "Every change recorded in the InfraLedger audit log"]}>
+  <FeatureRow id="how" eyebrow="Hosting" title="Hosted on your servers, not someone else's" text="Odoo runs on InfraLedger with its PostgreSQL database, scheduled backups and monitoring, connected to the systems you already use." items={["PostgreSQL with scheduled, restorable backups", "Updates tested on a copy before they go live", "Connections to payments, your online store and accounting"]}>
     <OdooFlow />
   </FeatureRow>
 
   <section class="section section--subtle">
     <div class="container wwd">
-      <div data-reveal>
+      <div class="wwd__head" data-reveal>
         <p class="eyebrow">What we do</p>
         <h2 class="h2 wwd__title">From first module to daily use</h2>
-        <dl class="wwd__list">
-          {offers.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
-        </dl>
       </div>
-      <div data-reveal><OdooApps /></div>
+      <dl class="wwd__list" data-reveal>
+        {offers.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
     </div>
   </section>
 
@@ -54,8 +54,8 @@ const ld = {
 </Base>
 
 <style>
-  .wwd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 64px; align-items: start; }
-  .wwd__title { margin: 12px 0 32px; }
+  .wwd { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
+  .wwd__title { margin-top: 12px; }
   .wwd__list { border-top: 1px solid var(--border); }
   .wwd__list div { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
   .wwd__list dt { font-weight: 600; }

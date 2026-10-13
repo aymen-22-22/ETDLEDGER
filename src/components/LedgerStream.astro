@@ -1,0 +1,133 @@
+---
+// The home page signature: a live audit ledger. Ordinary entries scroll by in grey; every few entries
+// one is flagged and gets the vermilion line, the same idea as the ETDLedger mark (one red line among many).
+// Times follow the visitor's clock. Pauses off screen and in background tabs; static with reduced motion.
+const seed = [
+  ["c41a9e", "09:41:52", "ci@example.com", "deploy api → production", "ok"],
+  ["7be203", "09:41:44", "system", "backup postgres-main", "ok"],
+  ["e90f51", "09:41:31", "sap-gateway", "IDoc batch synced to warehouse", "ok"],
+  ["2d7c88", "09:41:20", "waf", "SQL injection pattern on /login", "blocked"],
+  ["a1f4b0", "09:41:12", "admin@example.com", "scale web 2 → 3", "ok"],
+  ["58e3d6", "09:41:03", "oracle-dg", "standby in sync", "ok"],
+  ["0bd917", "09:40:55", "odoo", "invoices exported to accounting", "ok"],
+  ["f3c260", "09:40:41", "system", "certificate renewed shop.example.com", "ok"],
+] as const;
+---
+<figure class="lgr" data-ledger>
+  <div class="lgr__panel" role="img" aria-label="Illustration of an audit ledger: routine events are recorded, and a suspicious one is flagged and blocked.">
+    <div class="lgr__head" aria-hidden="true">
+      <span class="lgr__title">Audit ledger</span>
+      <span class="lgr__live"><span class="lgr__dot"></span>Recording</span>
+    </div>
+    <div class="lgr__cols" aria-hidden="true"><span>Entry</span><span class="lgr__t">Time</span><span>Event</span><span>Result</span></div>
+    <ol class="lgr__rows" data-rows aria-hidden="true">
+      {seed.map(([id, t, actor, ev, res]) => (
+        <li class:list={["lgr__row", { "is-flag": res !== "ok" }]}>
+          <span class="lgr__id">{id}</span><span class="lgr__t">{t}</span><span class="lgr__main"><span class="lgr__ev">{ev}</span><span class="lgr__actor">{actor}</span></span><span class="lgr__res">{res}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+  <figcaption>Every action leaves a line. We find the one that matters.</figcaption>
+</figure>
+
+<style is:global>
+  .lgr { margin: 0; min-width: 0; }
+  .lgr__panel {
+    border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
+    box-shadow: var(--shadow); overflow: hidden; font-family: var(--mono); font-size: 12.5px;
+  }
+  .lgr__head { display: flex; justify-content: space-between; align-items: center; height: 44px; padding: 0 18px; border-bottom: 1px solid var(--border); font-family: var(--sans); font-size: 13px; }
+  .lgr__title { font-weight: 600; }
+  .lgr__live { display: inline-flex; align-items: center; gap: 8px; color: var(--text-2); }
+  .lgr__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: lgr-pulse 2s ease-in-out infinite; }
+  @keyframes lgr-pulse { 50% { opacity: 0.35; } }
+
+  .lgr__cols, .lgr__row { display: grid; grid-template-columns: 62px 68px minmax(0, 1fr) 64px; gap: 12px; align-items: center; padding: 0 18px; }
+  .lgr__cols { height: 32px; color: var(--text-3); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--border); }
+  .lgr__rows {
+    height: calc(7 * 50px); overflow: hidden;
+    -webkit-mask: linear-gradient(to bottom, #000 70%, transparent);
+    mask: linear-gradient(to bottom, #000 70%, transparent);
+  }
+  .lgr__row { position: relative; height: 50px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+  .lgr__row > span, .lgr__main > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lgr__main { display: grid; gap: 2px; min-width: 0; }
+  .lgr__actor { font-size: 11px; color: var(--text-3); }
+  .lgr__id { color: var(--text-3); }
+  .lgr__ev { color: var(--text); }
+  .lgr__res { text-align: right; }
+  .lgr__row.is-flag { background: color-mix(in srgb, var(--brand-red) 7%, transparent); }
+  .lgr__row.is-flag::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--brand-red);
+    transform-origin: top; animation: lgr-line 500ms var(--ease) both;
+  }
+  .lgr__row.is-flag .lgr__res, .lgr__row.is-flag .lgr__id { color: var(--brand-red); font-weight: 500; }
+  .lgr__row.is-new { animation: lgr-in 600ms var(--ease) both; }
+  @keyframes lgr-in { from { height: 0; opacity: 0; } to { height: 50px; opacity: 1; } }
+  @keyframes lgr-line { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  .lgr figcaption { margin-top: 14px; font-size: 14px; color: var(--text-2); }
+  @media (max-width: 560px) {
+    .lgr__cols, .lgr__row { grid-template-columns: 56px minmax(0, 1fr) 56px; padding: 0 14px; }
+    .lgr__t { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lgr__dot, .lgr__row.is-new, .lgr__row.is-flag::before { animation: none; }
+  }
+</style>
+
+<script>
+  const events: [string, string, string][] = [
+    ["ci@example.com", "deploy web → production", "ok"],
+    ["system", "backup mysql-shop", "ok"],
+    ["admin@example.com", "env var updated on api", "ok"],
+    ["sap-gateway", "purchase orders synced", "ok"],
+    ["system", "replica restarted after health check", "ok"],
+    ["odoo", "stock levels sent to online store", "ok"],
+    ["oracle-dg", "redo applied on standby", "ok"],
+    ["ci@example.com", "preview env created for feature/cart", "ok"],
+    ["system", "certificate renewed api.example.com", "ok"],
+    ["admin@example.com", "firewall rule approved", "ok"],
+    ["system", "logs rotated", "ok"],
+    ["finance@example.com", "sign-in with MFA", "ok"],
+  ];
+  const flags: [string, string, string][] = [
+    ["auth", "sign-in from a new country, session held", "blocked"],
+    ["firewall", "port scan from 203.0.113.24", "blocked"],
+    ["iam", "role change outside change window", "flagged"],
+    ["waf", "SQL injection pattern on /login", "blocked"],
+  ];
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const clock = (d: Date) => `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  const hex = () => Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, "0");
+
+  document.querySelectorAll<HTMLElement>("[data-ledger]").forEach((root) => {
+    const list = root.querySelector<HTMLOListElement>("[data-rows]");
+    if (!list) return;
+    // Seed rows show times leading up to now on the visitor's clock.
+    const now = Date.now();
+    list.querySelectorAll(".lgr__t").forEach((el, i) => (el.textContent = clock(new Date(now - (i + 1) * 9000))));
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let n = 0, e = 0, f = 0, visible = false;
+    const add = () => {
+      n++;
+      const flag = n % 5 === 0;
+      const [actor, ev, res] = flag ? flags[f++ % flags.length] : events[e++ % events.length];
+      const li = document.createElement("li");
+      li.className = `lgr__row is-new${flag ? " is-flag" : ""}`;
+      const span = (cls: string, text = "") => Object.assign(document.createElement("span"), { className: cls, textContent: text });
+      const main = span("lgr__main");
+      main.append(span("lgr__ev", ev), span("lgr__actor", actor));
+      li.append(span("lgr__id", hex()), span("lgr__t", clock(new Date())), main, span("lgr__res", res));
+      list.prepend(li);
+      while (list.children.length > 9) list.lastElementChild?.remove();
+    };
+    const tick = () => {
+      if (visible && !document.hidden) add();
+      window.setTimeout(tick, 2200 + Math.random() * 1400);
+    };
+    new IntersectionObserver(([entry]) => (visible = entry.isIntersecting)).observe(root);
+    window.setTimeout(tick, 1600);
+  });
+</script>

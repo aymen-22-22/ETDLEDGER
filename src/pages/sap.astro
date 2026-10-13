@@ -24,22 +24,22 @@ const ld = {
   <PageHeader brand="sap" eyebrow="SAP solutions" title="SAP, connected to the rest of your business" lead="We implement, migrate and integrate SAP landscapes, and connect them to the web apps, data and partners around them.">
     <a class="btn btn--primary" href={u("/contact?interest=sap")}>Talk to an SAP engineer <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href="#how">How it works</a>
+    <SapLaunchpad slot="visual" />
   </PageHeader>
 
-  <FeatureRow id="how" eyebrow="Integration" icon="Workflow" title="One integration layer, not a web of point-to-point links" text="We connect SAP to your other systems through APIs, events and mappings you can monitor and change safely." items={["Order, stock and finance data shared with web and mobile apps", "Reporting feeds into your data warehouse", "Events published to a message queue", "Partner and bank connections"]}>
+  <FeatureRow id="how" eyebrow="Integration" title="One integration layer, not a web of point-to-point links" text="We connect SAP to your other systems through APIs, events and mappings you can monitor and change safely." items={["Order, stock and finance data shared with web and mobile apps", "Reporting feeds into your data warehouse", "Events published to a message queue"]}>
     <SapFlow />
   </FeatureRow>
 
   <section class="section section--subtle">
     <div class="container wwd">
-      <div data-reveal>
+      <div class="wwd__head" data-reveal>
         <p class="eyebrow">What we do</p>
         <h2 class="h2 wwd__title">SAP work, from rollout to operations</h2>
-        <dl class="wwd__list">
-          {offers.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
-        </dl>
       </div>
-      <div data-reveal><SapLaunchpad /></div>
+      <dl class="wwd__list" data-reveal>
+        {offers.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
     </div>
   </section>
 
@@ -54,8 +54,8 @@ const ld = {
 </Base>
 
 <style>
-  .wwd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 64px; align-items: start; }
-  .wwd__title { margin: 12px 0 32px; }
+  .wwd { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
+  .wwd__title { margin-top: 12px; }
   .wwd__list { border-top: 1px solid var(--border); }
   .wwd__list div { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
   .wwd__list dt { font-weight: 600; }

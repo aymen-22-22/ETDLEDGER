@@ -1,29 +1,31 @@
 ---
 import Base from "../layouts/Base.astro";
 import { u } from "../lib/url";
-import PageHeader from "../components/PageHeader.astro";
-import SubNav from "../components/SubNav.astro";
+import { site } from "../lib/site";
+import { brands } from "../lib/brands";
 import SectionHeader from "../components/SectionHeader.astro";
 import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
-import SecurityFlow from "../components/diagrams/SecurityFlow.astro";
-import { brands } from "../lib/brands";
 import BrandLogo from "../components/BrandLogo.astro";
-import LogoCloud from "../components/LogoCloud.astro";
+import LedgerStream from "../components/LedgerStream.astro";
+import SecurityFlow from "../components/diagrams/SecurityFlow.astro";
 import DashboardMock from "../components/ui/DashboardMock.astro";
-import Photo from "../components/Photo.astro";
 
-const sub: [string, string][] = [
-  ["platform", "Platform"],
-  ["security", "Security"],
-  ["enterprise", "Enterprise systems"],
-  ["infraledger", "InfraLedger"],
-  ["engagement", "How we work"],
+const practices = [
+  ["01", "Platform", "We build InfraLedger, our self-hosted cloud platform, and install and run it with your team, including managed Kubernetes.", "#platform"],
+  ["02", "Security", "Threat detection, security assessments, compliance work and isolated cyber labs for your team.", "#security"],
+  ["03", "Enterprise systems", "SAP, Oracle and Odoo: implementation, migration, integration and support.", "#enterprise"],
 ];
-const enterprise: { id: "sap" | "oracle" | "odoo"; title: string; text: string; items: string[] }[] = [
-  { id: "sap", title: "SAP", text: "Implementation, migration and integration across SAP landscapes.", items: ["Module rollout aligned to your processes", "Migrations with cutover and rollback plans", "Integration with your other systems"] },
-  { id: "oracle", title: "Oracle", text: "Database administration, standby databases and migrations.", items: ["Tuning, patching, backup and recovery", "Standby databases and recovery tests", "Upgrades and platform moves"] },
-  { id: "odoo", title: "Odoo", text: "ERP implementation and customization, hosted on your servers.", items: ["CRM, sales, inventory and accounting", "Custom modules and integrations", "Hosting on InfraLedger with backups"] },
+const enterprise: { id: "sap" | "oracle" | "odoo"; title: string; text: string }[] = [
+  { id: "sap", title: "SAP", text: "Implementation, migration and integration, connected to the rest of your systems." },
+  { id: "oracle", title: "Oracle", text: "Database administration, standby databases and tested recovery." },
+  { id: "odoo", title: "Odoo", text: "ERP implementation and custom modules, hosted on your own servers." },
+];
+const reasons = [
+  ["Your data stays with you", "InfraLedger and the systems we build run on your servers, in your data center or with a local host. Nothing depends on a foreign cloud."],
+  ["Engineers you can meet", "A team of 20 in Sidi Bel Abbès, working in your time zone, in French, Arabic and English."],
+  ["Every change on the record", "Deploys, configuration changes and admin actions are logged with who, when and the outcome."],
+  ["One team across the stack", "Platform, security and business systems from the same engineers, so nothing falls between vendors."],
 ];
 const steps = [
   ["Discover", "We map your systems, constraints and goals in a scoping call."],
@@ -45,99 +47,102 @@ const servicesLd = [
   areaServed: "DZ",
 }));
 ---
-<Base jsonld={servicesLd} title="ETDLedger — platform, security and enterprise systems engineering" description="Platform, security and enterprise systems services from ETDLedger's engineering team: Kubernetes, security assessments, cyber labs, SAP, Oracle and Odoo.">
-  <PageHeader glow eyebrow="ETDLedger" title="Engineers for the systems your business runs on" lead="Our team works in three practices: platform operations, security, and enterprise systems. On-premises or hybrid.">
-    <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to our team <span class="arrow">→</span></a>
-  </PageHeader>
-  <section class="tech">
-    <div class="container">
-      <LogoCloud marquee label="Technologies our engineers work with every day" items={[
-        ["siDocker", "Docker"], ["siKubernetes", "Kubernetes"], ["siUbuntu", "Ubuntu"], ["siRedhat", "Red Hat"], ["siDebian", "Debian"],
-        ["siSap", "SAP"], ["siOdoo", "Odoo"], ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"], ["siRedis", "Redis"],
-        ["siGrafana", "Grafana"], ["siPrometheus", "Prometheus"], ["siElasticstack", "Elastic"], ["siPfsense", "pfSense"],
-        ["siWireguard", "WireGuard"], ["siTraefikproxy", "Traefik"], ["siApachekafka", "Kafka"], ["siPython", "Python"],
-      ]} />
+<Base jsonld={servicesLd} title="ETDLedger — self-hosted cloud, security and ERP engineering in Algeria" description="ETDLedger builds InfraLedger, a self-hosted cloud platform, and runs security, SAP, Oracle and Odoo projects on infrastructure you control. Based in Sidi Bel Abbès, Algeria.">
+  <section class="hero">
+    <div class="container hero__in">
+      <div class="hero__copy">
+        <p class="hero__name">Enterprise Threat Detection Ledger</p>
+        <h1 class="h1 hero__title">Your systems and your data, kept in Algeria.</h1>
+        <p class="lead hero__lead">We build InfraLedger, a self-hosted cloud platform, and run security, SAP, Oracle and Odoo projects on infrastructure you control.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href={u("/contact?interest=other")}>Talk to an engineer <span class="arrow">→</span></a>
+          <a class="btn btn--secondary" href={u("/product")}>See InfraLedger</a>
+        </div>
+        <dl class="hero__facts">
+          <div><dt>Founded</dt><dd>{site.founded}</dd></div>
+          <div><dt>Based in</dt><dd>Sidi Bel Abbès</dd></div>
+          <div><dt>Team</dt><dd>20 engineers</dd></div>
+        </dl>
+      </div>
+      <div class="hero__ledger"><LedgerStream /></div>
     </div>
   </section>
-  <SubNav label="Services" items={sub} />
-  <div class="container photo-band">
-    <Photo items={[
-      { file: "services-datacenter.jpg", alt: "Server racks in a data center" },
-      { file: "services-security.jpg", alt: "Engineers monitoring security dashboards" },
-      { file: "services-team.jpg", alt: "Engineers working together at a desk" },
-    ]} />
-  </div>
 
-  <FeatureRow id="platform" eyebrow="Platform" icon="Server"
-    title="InfraLedger and Kubernetes, run with you"
-    text="We install and operate InfraLedger with your team, and run isolated virtual Kubernetes clusters you can offer to customers or business units."
+  <section class="section">
+    <div class="container practices">
+      <SectionHeader eyebrow="What we do" title="Three practices, one team" />
+      <ol class="pr">
+        {practices.map(([n, t, d, href], i) => (
+          <li data-reveal style={`--d:${i * 60}ms`}>
+            <a class="pr__row" href={href}>
+              <span class="pr__n">{n}</span>
+              <span class="pr__t">{t}</span>
+              <span class="pr__d">{d}</span>
+              <span class="pr__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <FeatureRow id="platform" eyebrow="01 · Platform" subtle
+    title="InfraLedger, and the team to run it"
+    text="Our own platform turns your servers into a self-service cloud: developers deploy apps and databases from a dashboard, and every action is recorded."
     items={[
-      "Installation, sizing and onboarding",
-      "An isolated virtual cluster per customer, with kubectl access",
-      "Design of the underlying Kubernetes infrastructure",
-      "Upgrades, capacity planning and incident support",
-    ]} />
+      "Git and container deploys with automatic HTTPS",
+      "Managed databases, on one Docker server or a Kubernetes cluster",
+      "Installation, operation and managed virtual clusters by our engineers",
+    ]}>
+    <DashboardMock />
+  </FeatureRow>
+  <div class="container more"><a class="link" href={u("/product")}>Explore InfraLedger →</a></div>
 
-  <FeatureRow id="security" eyebrow="Security" icon="ShieldCheck" subtle
+  <FeatureRow id="security" eyebrow="02 · Security"
     title="Security work, scoped to your environment"
     text="Detection, assessments and compliance work, on its own or alongside an InfraLedger deployment."
     items={[
-      "Detection rules and alert routing for deploy, access and configuration events",
-      "Penetration testing and configuration reviews, with findings ranked by risk",
-      "Controls and audit trails mapped to your auditors' framework",
-      "Cyber labs: isolated training environments for your security team",
+      "Detection rules and alert routing on your audit and infrastructure logs",
+      "Penetration testing and configuration reviews, findings ranked by risk",
+      "Isolated cyber labs where your team practices defense",
     ]}>
     <SecurityFlow />
   </FeatureRow>
-  <div class="container below">
-    <LogoCloud compact items={[
-      ["siElasticstack", "Elastic Stack"], ["siSplunk", "Splunk"], ["siGrafana", "Grafana"], ["siPfsense", "pfSense"],
-      ["siOpnsense", "OPNsense"], ["siWireguard", "WireGuard"], ["siOpenvpn", "OpenVPN"], ["siVault", "Vault"], ["siOwasp", "OWASP"],
-    ]} />
-    <p class="labs-link"><a class="link" href={u("/labs")}>About cyber labs</a></p>
-  </div>
+  <div class="container more"><a class="link" href={u("/labs")}>About cyber labs →</a></div>
 
-  <section class="section" id="enterprise">
+  <section class="section section--subtle" id="enterprise">
     <div class="container">
-      <SectionHeader eyebrow="Enterprise systems" title="SAP, Oracle and Odoo" lead="Implementation, migration and support for the business systems you depend on." />
+      <SectionHeader eyebrow="03 · Enterprise systems" title="SAP, Oracle and Odoo" lead="Implementation, migration and support for the business systems you depend on." />
       <div class="ents">
         {enterprise.map((e, i) => (
           <a class="ent" id={e.id} href={u(brands[e.id].href)} data-reveal style={`--d:${i * 60}ms; --c:${brands[e.id].color}`}>
             <span class="ent__logo" aria-label={e.title}>
-              {e.id === "sap" && <BrandLogo brand="siSap" size={64} decorative mono />}
-              {e.id === "odoo" && <BrandLogo brand="siOdoo" size={72} decorative mono />}
+              {e.id === "sap" && <BrandLogo brand="siSap" size={60} decorative />}
+              {e.id === "odoo" && <BrandLogo brand="siOdoo" size={68} decorative />}
               {e.id === "oracle" && <span class="ent__word">ORACLE</span>}
             </span>
-            <p class="card__text">{e.text}</p>
-            <ul class="checklist ent__list">{e.items.map((x) => <li>{x}</li>)}</ul>
+            <p class="ent__text">{e.text}</p>
             <span class="ent__more">{e.title} solutions →</span>
-          </a>        ))}
-      </div>
-      <div class="ent-logos">
-        <LogoCloud compact items={[
-          ["siSap", "SAP"], ["siOdoo", "Odoo"], ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"],
-          ["siRedhat", "Red Hat"], ["siApachekafka", "Kafka"], ["siRabbitmq", "RabbitMQ"], ["siPython", "Python"],
-        ]} />
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
-  <FeatureRow id="infraledger" eyebrow="Our product" icon="LayoutDashboard" subtle
-    title="InfraLedger, the self-hosted cloud platform"
-    text="We build InfraLedger: a platform where developers deploy apps and databases on your own servers, with every action recorded in an audit log."
-    items={[
-      "Git and container deploys with automatic HTTPS",
-      "Managed PostgreSQL, MySQL, Redis and object storage",
-      "Runs on one Docker server or a Kubernetes cluster",
-      "Organizations, roles and a complete audit log",
-    ]}>
-    <DashboardMock />
-  </FeatureRow>
-  <div class="container below"><p class="labs-link"><a class="link" href={u("/product")}>Explore InfraLedger</a></p></div>
+  <section class="section">
+    <div class="container why">
+      <SectionHeader eyebrow="Why ETDLedger" title="Built here, run here, accountable here" />
+      <dl class="why__list">
+        {reasons.map(([t, d], i) => (
+          <div data-reveal style={`--d:${i * 50}ms`}><dt>{t}</dt><dd>{d}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
 
-  <section class="section" id="engagement">
+  <section class="section section--subtle" id="engagement">
     <div class="container">
-      <SectionHeader eyebrow="How we work" title="From first call to support" lead="Engagements can be a fixed-scope project, a retained team or advisory work." />
+      <SectionHeader eyebrow="How we work" title="From first call to support" lead="A fixed-scope project, a retained team or advisory work: every engagement follows the same four steps." />
       <ol class="steps4">
         {steps.map(([t, d], i) => (
           <li data-reveal style={`--d:${i * 60}ms`}>
@@ -150,29 +155,75 @@ const servicesLd = [
     </div>
   </section>
 
-  <CtaBand title="Tell us what you run" text="We'll put the right engineer on the first call." interest="other" action="Talk to our team" />
+  <CtaBand title="Tell us what you run" text="We'll put the right engineer on the first call." interest="other" action="Talk to an engineer" />
 </Base>
 
 <style>
-  .tech { padding: 40px 0; border-bottom: 1px solid var(--border); }
-  .steps4__n { color: var(--accent-text) !important; font-weight: 500; }
-  .below { margin-top: -72px; padding-bottom: 96px; display: grid; gap: 20px; }
-  .labs-link { font-size: 15px; }
-  .ents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--border); }
-  .ent { display: block; padding: 32px 28px 8px; border-left: 1px solid var(--border); }
+  .hero { padding: 88px 0 96px; border-bottom: 1px solid var(--border); }
+  .hero__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center; }
+  .hero__name { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em; color: var(--text-2); }
+  .hero__title { margin-top: 18px; font-size: clamp(38px, 4.6vw, 58px); max-width: 15ch; }
+  .hero__lead { margin-top: 22px; max-width: 540px; }
+  .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .hero__facts { display: flex; gap: 0; margin-top: 44px; border-top: 1px solid var(--border); }
+  .hero__facts div { padding: 16px 24px 0 0; margin-right: 24px; border-right: 1px solid var(--border); }
+  .hero__facts div:last-child { border-right: 0; }
+  .hero__facts dt { font-size: 12.5px; color: var(--text-3); }
+  .hero__facts dd { margin-top: 4px; font-size: 16px; font-weight: 600; }
+  @media (max-width: 1000px) { .hero__in { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
+  @media (max-width: 720px) {
+    .hero { padding: 56px 0 64px; }
+    .hero__facts div { padding-right: 14px; margin-right: 14px; }
+    .hero__facts dd { font-size: 15px; }
+  }
+
+  .pr { border-top: 1px solid var(--border-strong); }
+  .pr__row {
+    display: grid; grid-template-columns: 56px 220px minmax(0, 1fr) 32px; gap: 24px; align-items: baseline;
+    padding: 26px 0; border-bottom: 1px solid var(--border); transition: background-color 200ms var(--ease);
+  }
+  .pr__n { font-family: var(--mono); font-size: 13px; color: var(--text-3); }
+  .pr__t { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; }
+  .pr__d { color: var(--text-2); }
+  .pr__arrow { color: var(--text-3); transition: transform 200ms var(--ease), color 200ms var(--ease); }
+  .pr__row:hover .pr__arrow { transform: translateX(4px); color: var(--accent-text); }
+  .pr__row:hover .pr__n { color: var(--accent-text); }
+  @media (max-width: 760px) {
+    .pr__row { grid-template-columns: 40px minmax(0, 1fr); gap: 8px 12px; }
+    .pr__d { grid-column: 2; }
+    .pr__arrow { display: none; }
+  }
+
+  .more { margin-top: -80px; padding-bottom: 96px; font-size: 15px; }
+  @media (max-width: 720px) { .more { margin-top: -48px; padding-bottom: 64px; } }
+
+  .ents { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--border-strong); }
+  .ent { position: relative; display: block; padding: 32px 28px 28px; border-left: 1px solid var(--border); }
   .ent:first-child { border-left: 0; padding-left: 0; }
-  .ent__logo { display: flex; align-items: center; height: 64px; margin-bottom: 20px; color: var(--c); }
-  .ent__word { font-size: 30px; font-weight: 700; letter-spacing: 0.12em; }
-  :root[data-theme="dark"] #sap .ent__logo { color: #4da3ff; }
-  :root[data-theme="dark"] #oracle .ent__logo { color: #f08a7a; }
-  :root[data-theme="dark"] #odoo .ent__logo { color: #d6aecb; }
-  .ent .ent__list { margin-top: 18px; }
+  .ent::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform 300ms var(--ease); }
+  .ent:hover::before { transform: scaleX(1); }
+  .ent__logo { display: flex; align-items: center; height: 60px; margin-bottom: 20px; }
+  .ent__word { font-size: 28px; font-weight: 700; letter-spacing: 0.12em; color: #c74634; }
+  :root[data-theme="dark"] .ent__word { color: #f08a7a; }
+  .ent__text { color: var(--text-2); }
+  .ent__more { display: block; margin-top: 20px; font-size: 14.5px; font-weight: 500; }
   .ent:hover .ent__more { text-decoration: underline; text-underline-offset: 3px; }
-  @media (max-width: 900px) { .ents { grid-template-columns: minmax(0, 1fr); } .ent, .ent:first-child { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--border); } }
-  .ent__more { display: block; margin-top: 18px; font-size: 14.5px; font-weight: 500; color: var(--text); }
-  .ent-logos { margin-top: 32px; }
-  .photo-band:has(.photos) { padding-top: 48px; }
-  .ent__list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14.5px; }
+  @media (max-width: 900px) {
+    .ents { grid-template-columns: minmax(0, 1fr); }
+    .ent, .ent:first-child { padding: 28px 0; border-left: 0; border-bottom: 1px solid var(--border); }
+  }
+
+  .why { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
+  .why :global(.section-header) { margin-bottom: 0; }
+  .why__list { border-top: 1px solid var(--border-strong); }
+  .why__list div { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .why__list dt { font-weight: 600; }
+  .why__list dd { color: var(--text-2); }
+  @media (max-width: 900px) {
+    .why { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .why__list div { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  }
+
   .steps4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
   .steps4 li { display: grid; gap: 8px; align-content: start; padding-top: 16px; border-top: 1px solid var(--border-strong); }
   .steps4__n { font-family: var(--mono); font-size: 13px; color: var(--text-3); }

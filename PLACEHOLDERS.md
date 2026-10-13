@@ -69,3 +69,8 @@ Stock sources with free commercial licenses: unsplash.com, pexels.com. Replace t
 - Brand colors come from the supplied marks: ETDLedger vermilion (#FF5A36 dark, #E5482A light) and InfraLedger petrol (#3FB6C4).
 - SAP (#0070F2), Oracle (#C74634) and Odoo (#714B67 with teal #017E84) pages use those companies' brand colors. Each page has a note that ETDLedger is an independent provider. If ETDLedger becomes an official partner, update the notes.
 - The Oracle mark in the page header is plain text, not Oracle's logo.
+
+## Home page and contact form
+- Headline "Your systems and your data, kept in Algeria." and the "Why ETDLedger" points (including "in French, Arabic and English") are positioning statements to confirm.
+- The live audit ledger in the home hero is an illustration: entries are sample events, times follow the visitor's clock, and 203.0.113.24 is a reserved documentation address.
+- The contact form now posts to `public/contact.php`, which emails hello@etdledger.com with PHP mail() on the cPanel host (5 messages per hour per visitor). After deploying, send one test message from the live site. If it doesn't arrive, check spam and the cPanel "Track Delivery" page. To use another service instead, set the `PUBLIC_FORM_ENDPOINT` repository variable.

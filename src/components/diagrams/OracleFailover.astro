@@ -15,8 +15,8 @@ import Topology from "./Topology.astro";
     ]}
     links={[
       { from: "app", to: "p", flow: 2, dur: 2, cls: "ofo-a" },
-      { from: "p", to: "s", flow: 1, dur: 2, label: "redo shipping", labelAt: [485, 182], cls: "ofo-a" },
-      { from: "app", to: "sx", flow: 2, dur: 2, tone: "ok", cls: "ofo-b" },
+      { from: "p", to: "s", tone: "accent", flow: 1, dur: 2, label: "redo shipping", labelAt: [485, 182], cls: "ofo-a" },
+      { from: "app", to: "sx", flow: 2, dur: 2, tone: "accent", cls: "ofo-b" },
       { from: "ob", to: "p", dashed: true },
       { from: "ob", to: "s", dashed: true },
     ]}>

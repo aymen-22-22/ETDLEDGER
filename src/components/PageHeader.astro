@@ -1,68 +1,50 @@
 ---
-// Page header. With `brand`, it becomes a colored band in that product's theme with its mark on the right.
+// Page header. Product pages pass `brand`: a solid line in the product color across the top and the
+// product's logo beside the label. A `visual` slot puts the real product screen on the right.
 import BrandLogo from "./BrandLogo.astro";
-import Icon from "./Icon.astro";
 import InfraLedgerMark from "./InfraLedgerMark.astro";
 import type { Brand } from "../lib/brands";
-interface Props { eyebrow: string; title: string; lead: string; brand?: Brand; glow?: boolean }
-const { eyebrow, title, lead, brand, glow = false } = Astro.props;
+interface Props { eyebrow: string; title: string; lead: string; brand?: Brand; stack?: boolean }
+// `stack` puts a wide visual (like a dashboard) under the copy instead of beside it.
+const { eyebrow, title, lead, brand, stack = false } = Astro.props;
+const hasVisual = Astro.slots.has("visual");
 ---
-<section class:list={["ph", { "ph--brand": brand, "ph--glow": glow }]}>
+<section class:list={["ph", { "ph--brand": brand, "ph--split": hasVisual && !stack, "ph--stack": hasVisual && stack }]}>
   <div class="container ph__in">
-    <div>
-      <p class="eyebrow">{eyebrow}</p>
+    <div class="ph__copy">
+      <p class="ph__eyebrow">
+        {brand === "sap" && <BrandLogo brand="siSap" size={30} decorative />}
+        {brand === "odoo" && <BrandLogo brand="siOdoo" size={38} decorative />}
+        {brand === "oracle" && <span class="ph__word">ORACLE</span>}
+        {brand === "infraledger" && <InfraLedgerMark size={22} />}
+        <span>{eyebrow}</span>
+      </p>
       <h1 class="h1 ph__title">{title}</h1>
       <p class="lead ph__lead">{lead}</p>
       <div class="ph__actions"><slot /></div>
     </div>
-    {brand && (
-      <div class="ph__mark" aria-hidden="true">
-        {brand === "sap" && <BrandLogo brand="siSap" size={120} decorative mono />}
-        {brand === "odoo" && <BrandLogo brand="siOdoo" size={120} decorative mono />}
-        {brand === "oracle" && <span class="ph__word">ORACLE</span>}
-        {brand === "labs" && <Icon name="FlaskConical" size={96} />}
-        {brand === "infraledger" && <InfraLedgerMark size={132} />}
-      </div>
-    )}
+    {hasVisual && <div class="ph__visual"><slot name="visual" /></div>}
   </div>
 </section>
 
 <style>
-  .ph { padding: 96px 0 72px; border-bottom: 1px solid var(--border); }
-  .ph__in { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; align-items: center; }
+  .ph { position: relative; padding: 96px 0 80px; border-bottom: 1px solid var(--border); }
+  .ph--brand::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: var(--accent); }
+  .ph__in { display: grid; grid-template-columns: minmax(0, 1fr); gap: 56px; align-items: center; }
+  .ph--split .ph__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+  .ph--split .ph__title { font-size: clamp(36px, 4.4vw, 54px); }
+  .ph__eyebrow { display: flex; align-items: center; gap: 12px; min-height: 30px; font-size: 14px; font-weight: 500; color: var(--text-2); }
+  .ph__word { font-size: 17px; font-weight: 700; letter-spacing: 0.14em; color: #c74634; }
+  :root[data-theme="dark"] .ph__word { color: #f08a7a; }
   .ph__title { margin-top: 16px; max-width: 20ch; }
-  .ph__lead { margin-top: 20px; max-width: 640px; }
+  .ph__lead { margin-top: 20px; max-width: 620px; }
   .ph__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
   .ph__actions:empty { display: none; }
-
-  .ph--glow {
-    position: relative; overflow: hidden;
-    background:
-      radial-gradient(50% 70% at 85% 10%, color-mix(in srgb, var(--brand-red) 22%, transparent), transparent 70%),
-      radial-gradient(35% 50% at 60% 100%, rgba(63, 182, 196, 0.12), transparent 70%),
-      radial-gradient(30% 45% at 100% 80%, rgba(0, 112, 242, 0.1), transparent 70%),
-      radial-gradient(28% 40% at 75% 60%, rgba(113, 75, 103, 0.14), transparent 70%);
-  }
-  .ph--brand {
-    position: relative; color: #fff; border-bottom: 0;
-    background: radial-gradient(120% 140% at 100% 0%, var(--hero-b), var(--hero-a) 70%);
-  }
-  .ph--brand::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: var(--accent-2); }
-  .ph--brand .ph__in { grid-template-columns: minmax(0, 1fr) auto; }
-  .ph--brand .eyebrow { color: rgba(255, 255, 255, 0.78); }
-  .ph--brand .lead { color: rgba(255, 255, 255, 0.86); }
-  .ph--brand :global(.btn--primary) { background: #fff; color: var(--hero-a); }
-  .ph--brand :global(.btn--primary:hover) { background: rgba(255, 255, 255, 0.88); }
-  .ph--brand :global(.btn--secondary) { border-color: rgba(255, 255, 255, 0.4); color: #fff; }
-  .ph--brand :global(.btn--secondary:hover) { background: rgba(255, 255, 255, 0.1); }
-  .ph__mark {
-    display: grid; place-items: center; width: 220px; height: 220px; color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 24px; background: rgba(255, 255, 255, 0.06);
-  }
-  .ph__word { font-size: 34px; font-weight: 700; letter-spacing: 0.12em; }
+  .ph__visual { min-width: 0; }
+  .ph--stack .ph__in { gap: 56px; }
+  .ph--stack .ph__visual { max-width: 1040px; }
   @media (max-width: 1000px) {
     .ph { padding: 72px 0 56px; }
-    .ph--brand .ph__in { grid-template-columns: minmax(0, 1fr); }
-    .ph__mark { display: none; }
+    .ph--split .ph__in { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   }
 </style>

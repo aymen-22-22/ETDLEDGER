@@ -3,7 +3,7 @@ export const pages = [
   { path: "/product", og: "product", title: "A self-service platform on your own servers", eyebrow: "InfraLedger", accent: "#3FB6C4", priority: 0.9 },
   { path: "/docs", og: "docs", title: "Getting started with InfraLedger", eyebrow: "InfraLedger docs", accent: "#3FB6C4", priority: 0.8 },
   { path: "/security", og: "security", title: "Your data stays on your infrastructure", eyebrow: "InfraLedger security", accent: "#3FB6C4", priority: 0.7 },
-  { path: "/", og: "home", title: "Platform, security and enterprise systems", eyebrow: "ETDLedger", priority: 1.0 },
+  { path: "/", og: "home", title: "Your systems and your data, kept in Algeria", eyebrow: "ETDLedger", priority: 1.0 },
   { path: "/sap", og: "sap", title: "SAP, connected to the rest of your business", eyebrow: "SAP solutions", accent: "#0070F2", priority: 0.8 },
   { path: "/oracle", og: "oracle", title: "Oracle databases that stay up", eyebrow: "Oracle solutions", accent: "#C74634", priority: 0.8 },
   { path: "/odoo", og: "odoo", title: "Odoo, set up for how your business works", eyebrow: "Odoo solutions", accent: "#714B67", priority: 0.8 },

@@ -3,7 +3,8 @@ import Base from "../layouts/Base.astro";
 import { u } from "../lib/url";
 import { site } from "../lib/site";
 
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
+// Defaults to the PHP mailer that ships with the site (public/contact.php) on the cPanel host.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || u("/contact.php");
 const interests = [
   ["platform", "InfraLedger"],
   ["security", "Security services"],

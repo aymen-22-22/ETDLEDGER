@@ -33,6 +33,7 @@ const safety = [
   <PageHeader brand="labs" eyebrow="Cyber labs" title="Training environments built for your security team" lead="We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session.">
     <a class="btn btn--primary" href={u("/contact?interest=labs")}>Plan a lab <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href="#templates">See lab types</a>
+    <LabTopologyMock slot="visual" />
   </PageHeader>
 
   <section class="section">
@@ -47,7 +48,6 @@ const safety = [
           <li>Runs on InfraLedger, on our hardware or on yours</li>
         </ul>
       </div>
-      <div data-reveal><LabTopologyMock /></div>
     </div>
   </section>
 
@@ -98,8 +98,7 @@ const safety = [
 </Base>
 
 <style>
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 64px; align-items: center; }
-  .split__copy { display: grid; gap: 18px; align-content: start; }
+  .split__copy { display: grid; gap: 18px; align-content: start; max-width: 760px; }
   @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
   .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .steps4__top { display: flex; justify-content: space-between; align-items: flex-start; }

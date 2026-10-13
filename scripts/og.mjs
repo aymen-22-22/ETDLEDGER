@@ -52,8 +52,7 @@ const html = ({ title, eyebrow, accent }) => `<!doctype html><html><head><style>
   h1 { margin-top: 14px; font-size: 68px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; max-width: 760px; }
   .foot { margin-top: 40px; display: flex; gap: 14px; align-items: center; font-family: "JetBrains Mono"; font-size: 22px; color: #a1a1aa; }
   .dot { width: 10px; height: 10px; border-radius: 50%; background: ${accent ?? "#ff5a36"}; }
-  .bar { position: absolute; inset: 0 0 auto; height: 10px; background: ${accent ?? "#ff5a36"}; }
-  body { background: radial-gradient(120% 140% at 100% 0%, ${accent ?? "#ff5a36"}55, #0a0a0b 65%); }
+  .bar { position: absolute; inset: 0 0 auto; height: 6px; background: ${accent ?? "#ff5a36"}; }
 </style></head><body><div class="bar"></div>
   <svg class="racks" viewBox="0 0 520 630">${rack(20, 3)}${rack(270, 7)}</svg>
   <div class="wrap">
