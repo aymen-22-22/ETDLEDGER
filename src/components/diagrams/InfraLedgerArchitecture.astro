@@ -1,0 +1,34 @@
+---
+// How InfraLedger is built. The accent line is the audit log: every API action is written to the platform database.
+import Topology from "./Topology.astro";
+---
+<Topology width={960} height={450} label="InfraLedger architecture: dashboard and API, platform database with audit log, and a provider layer running workloads on Docker or Kubernetes"
+  caption="How InfraLedger is built: the dashboard and API record every action in the platform database, and a provider layer runs the same workloads on Docker or Kubernetes."
+  zones={[
+    { x: 220, y: 24, w: 430, h: 400, label: "InfraLedger control plane" },
+    { x: 670, y: 124, w: 280, h: 300, label: "Runtimes on your servers" },
+  ]}
+  nodes={[
+    { id: "dev", x: 20, y: 60, w: 160, label: "Developers", sub: "Dashboard in the browser", icon: "Users", dashed: true },
+    { id: "ci", x: 20, y: 180, w: 160, label: "CI pipeline", sub: "Git push or API call", icon: "GitBranch", dashed: true },
+    { id: "dash", x: 240, y: 60, w: 170, label: "Dashboard", sub: "React", icon: "LayoutDashboard" },
+    { id: "api", x: 240, y: 180, w: 170, label: "API", sub: "Roles checked on every call", icon: "Braces" },
+    { id: "db", x: 450, y: 180, w: 182, label: "PostgreSQL", sub: "Every action, the audit log" },
+    { id: "prov", x: 240, y: 330, w: 170, label: "Provider layer", sub: "One API, two runtimes", icon: "Layers" },
+    { id: "users", x: 690, y: 30, w: 190, label: "App users", sub: "Internet", icon: "Globe", dashed: true },
+    { id: "tr", x: 690, y: 150, w: 190, label: "Traefik", sub: "HTTPS and routing" },
+    { id: "dk", x: 690, y: 262, w: 190, label: "Docker", sub: "One server" },
+    { id: "k8s", x: 690, y: 362, w: 190, label: "Kubernetes", sub: "Cluster, vcluster per tenant" },
+  ]}
+  links={[
+    { from: "dev", to: "dash", flow: 1, dur: 2.4 },
+    { from: "ci", to: "api", flow: 1, dur: 2.4, begin: 1 },
+    { from: "dash", to: "api", flow: 1, dur: 1.8, begin: 0.6 },
+    { from: "api", to: "db", tone: "accent", flow: 2, dur: 2 },
+    { from: "api", to: "prov", flow: 1, dur: 2, begin: 1.2 },
+    { from: "prov", to: "dk", flow: 1, dur: 2.6, begin: 0.4 },
+    { from: "prov", to: "k8s", flow: 1, dur: 2.6, begin: 1.6 },
+    { from: "users", to: "tr", flow: 2, dur: 1.8 },
+    { from: "tr", to: "dk", flow: 1, dur: 1.8, begin: 0.5 },
+    { from: "tr", to: "k8s", via: [[930, 176], [930, 388]], flow: 1, dur: 2.6, begin: 1.1 },
+  ]} />

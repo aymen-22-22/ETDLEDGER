@@ -5,6 +5,7 @@ import PageHeader from "../components/PageHeader.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
 import LabTopologyMock from "../components/ui/LabTopologyMock.astro";
+import LabReport from "../components/docs/LabReport.astro";
 
 const templates = [
   { icon: "BrickWall", title: "Perimeter defense", text: "Practice firewall rules, network segmentation and VPN access on a realistic company network." },
@@ -77,6 +78,14 @@ const safety = [
           </li>
         ))}
       </ol>
+      <div class="receive">
+        <div class="receive__copy" data-reveal>
+          <p class="eyebrow">After every session</p>
+          <h3 class="h2">A report your team can learn from</h3>
+          <p class="lead">What happened, when it was caught, what went well and what to practice next. The lab is then reset to a clean state.</p>
+        </div>
+        <div data-reveal><LabReport /></div>
+      </div>
     </div>
   </section>
 
@@ -98,6 +107,9 @@ const safety = [
 </Base>
 
 <style>
+  .receive { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; margin-top: 80px; }
+  .receive__copy { display: grid; gap: 14px; align-content: start; }
+  @media (max-width: 900px) { .receive { grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 56px; } }
   .split__copy { display: grid; gap: 18px; align-content: start; max-width: 760px; }
   @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
   .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }

@@ -6,6 +6,8 @@ import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import OracleConsole from "../components/ui/OracleConsole.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProjectTimeline from "../components/ProjectTimeline.astro";
 import TrademarkNote from "../components/TrademarkNote.astro";
 import OracleFailover from "../components/diagrams/OracleFailover.astro";
 
@@ -30,6 +32,13 @@ const ld = {
   <FeatureRow id="how" eyebrow="Disaster recovery" title="A standby ready to take over" text="We set up standby databases at a second site, test the switch regularly, and document exactly what happens when the primary fails." items={["Changes shipped continuously to the standby", "Automatic or manual switchover, tested on a schedule", "Applications reconnect to the new primary"]}>
     <OracleFailover />
   </FeatureRow>
+
+  <section class="section" id="plan">
+    <div class="container">
+      <SectionHeader eyebrow="A typical upgrade" title="The standby is built and tested before anything changes in production." />
+      <div data-reveal><ProjectTimeline title="A typical Oracle upgrade with a standby" weeks={8} phases={[{ name: "Health check", from: 1, to: 1 }, { name: "Standby build", from: 2, to: 3 }, { name: "Switchover test", from: 4, to: 4 }, { name: "Upgrade rehearsal", from: 5, to: 5 }, { name: "Production upgrade", from: 6, to: 6, key: true }, { name: "Monitoring", from: 6, to: 8 }]} receive={["Health check report", "Recovery runbook", "Switchover test results"]} /></div>
+    </div>
+  </section>
 
   <section class="section section--subtle">
     <div class="container wwd">

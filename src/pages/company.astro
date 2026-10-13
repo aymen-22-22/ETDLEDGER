@@ -5,11 +5,20 @@ import { site } from "../lib/site";
 import PageHeader from "../components/PageHeader.astro";
 import Photo from "../components/Photo.astro";
 import SectionHeader from "../components/SectionHeader.astro";
+import AlgeriaMap from "../components/AlgeriaMap.astro";
+import { team } from "../lib/team";
 
 const facts = [
   ["Founded", site.founded],
   ["Headquarters", site.city],
   ["Team", site.team],
+];
+// Our history as ledger entries. "Now" rows describe today; add dated milestones as they happen.
+const history = [
+  ["2023", "ETDLedger is founded in Sidi Bel Abbès"],
+  ["Now", "InfraLedger, our self-hosted cloud platform, in early access"],
+  ["Now", "Security, SAP, Oracle and Odoo practices"],
+  ["Now", "A team of 20 engineers"],
 ];
 const name = [
   ["Enterprise", "We work with organizations whose systems have to be dependable, auditable and their own."],
@@ -39,6 +48,37 @@ const principles = [
   <div class="container photo-band">
     <Photo ratio="21 / 9" items={[{ file: "company-office.jpg", alt: "The ETDLedger office" }]} />
   </div>
+
+  <section class="section">
+    <div class="container story">
+      <div>
+        <SectionHeader eyebrow="Our ledger" title="Where we come from" lead="Like everything we build, our history is a list of entries. The latest one is highlighted." />
+        <ol class="story__list" data-reveal>
+          {history.map(([when, what], i) => (
+            <li class:list={{ "is-now": i === history.length - 1 }}><span class="story__when">{when}</span><span>{what}</span></li>
+          ))}
+        </ol>
+      </div>
+      <div data-reveal><AlgeriaMap caption="Our office is in Sidi Bel Abbès, in north-west Algeria." /></div>
+    </div>
+  </section>
+
+  {team.length > 0 && (
+    <section class="section section--subtle">
+      <div class="container">
+        <SectionHeader eyebrow="Team" title="Who you'll work with" />
+        <ul class="team">
+          {team.map((p, i) => (
+            <li data-reveal style={`--d:${i * 50}ms`}>
+              <figure class="photo"><img src={u(`/photos/team/${p.photo}`)} alt={p.name} loading="lazy" decoding="async" /></figure>
+              <p class="team__name">{p.name}</p>
+              <p class="team__role">{p.role}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 
   <section class="section">
     <div class="container name">
@@ -85,6 +125,19 @@ const principles = [
 </Base>
 
 <style>
+  .story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: 64px; align-items: center; }
+  .story__list { border-top: 1px solid var(--border-strong); }
+  .story__list li { position: relative; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; padding: 16px 0 16px 14px; border-bottom: 1px solid var(--border); }
+  .story__when { font-family: var(--mono); font-size: 13px; color: var(--text-3); padding-top: 2px; }
+  .story__list li.is-now { font-weight: 600; background: color-mix(in srgb, var(--brand-red) 6%, transparent); }
+  .story__list li.is-now::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--brand-red); }
+  .story__list li.is-now .story__when { color: var(--brand-red); }
+  @media (max-width: 900px) { .story { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+  .team { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+  .team img { aspect-ratio: 4 / 5; }
+  .team__name { margin-top: 14px; font-weight: 600; }
+  .team__role { font-size: 14px; color: var(--text-2); }
+  @media (max-width: 900px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .photo-band:has(.photos) { padding-top: 64px; }
   .facts-band { border-bottom: 1px solid var(--border); }
   .facts { display: grid; grid-template-columns: repeat(3, 1fr); }

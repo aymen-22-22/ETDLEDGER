@@ -6,6 +6,8 @@ import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import OdooApps from "../components/ui/OdooApps.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProjectTimeline from "../components/ProjectTimeline.astro";
 import TrademarkNote from "../components/TrademarkNote.astro";
 import OdooFlow from "../components/diagrams/OdooFlow.astro";
 
@@ -30,6 +32,13 @@ const ld = {
   <FeatureRow id="how" eyebrow="Hosting" title="Hosted on your servers, not someone else's" text="Odoo runs on InfraLedger with its PostgreSQL database, scheduled backups and monitoring, connected to the systems you already use." items={["PostgreSQL with scheduled, restorable backups", "Updates tested on a copy before they go live", "Connections to payments, your online store and accounting"]}>
     <OdooFlow />
   </FeatureRow>
+
+  <section class="section" id="plan">
+    <div class="container">
+      <SectionHeader eyebrow="A typical rollout" title="From the first workshop to your teams using Odoo every day." />
+      <div data-reveal><ProjectTimeline title="A typical Odoo rollout" weeks={10} phases={[{ name: "Discovery", from: 1, to: 2 }, { name: "Configuration", from: 2, to: 5 }, { name: "Data migration", from: 4, to: 6 }, { name: "Training", from: 6, to: 7 }, { name: "Go-live", from: 8, to: 8, key: true }, { name: "Support", from: 8, to: 10 }]} receive={["Process map", "Configured Odoo", "Migrated data", "Training material"]} /></div>
+    </div>
+  </section>
 
   <section class="section section--subtle">
     <div class="container wwd">

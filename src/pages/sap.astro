@@ -6,6 +6,8 @@ import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import SapLaunchpad from "../components/ui/SapLaunchpad.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProjectTimeline from "../components/ProjectTimeline.astro";
 import TrademarkNote from "../components/TrademarkNote.astro";
 import SapFlow from "../components/diagrams/SapFlow.astro";
 
@@ -30,6 +32,13 @@ const ld = {
   <FeatureRow id="how" eyebrow="Integration" title="One integration layer, not a web of point-to-point links" text="We connect SAP to your other systems through APIs, events and mappings you can monitor and change safely." items={["Order, stock and finance data shared with web and mobile apps", "Reporting feeds into your data warehouse", "Events published to a message queue"]}>
     <SapFlow />
   </FeatureRow>
+
+  <section class="section" id="plan">
+    <div class="container">
+      <SectionHeader eyebrow="A typical migration" title="Planned weeks ahead, rehearsed, then done in one weekend." />
+      <div data-reveal><ProjectTimeline title="A typical SAP migration" weeks={10} phases={[{ name: "Assessment", from: 1, to: 2 }, { name: "Plan and runbook", from: 2, to: 3 }, { name: "Test migration", from: 4, to: 5 }, { name: "Dress rehearsal", from: 6, to: 7 }, { name: "Cutover weekend", from: 8, to: 8, key: true }, { name: "Hypercare", from: 8, to: 10 }]} receive={["Migration runbook", "Rollback plan", "Test reports", "Handover notes"]} /></div>
+    </div>
+  </section>
 
   <section class="section section--subtle">
     <div class="container wwd">

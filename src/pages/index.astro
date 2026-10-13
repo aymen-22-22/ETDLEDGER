@@ -8,8 +8,10 @@ import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import BrandLogo from "../components/BrandLogo.astro";
 import LedgerStream from "../components/LedgerStream.astro";
+import AlgeriaMap from "../components/AlgeriaMap.astro";
 import SecurityFlow from "../components/diagrams/SecurityFlow.astro";
 import DashboardMock from "../components/ui/DashboardMock.astro";
+import SecurityReport from "../components/docs/SecurityReport.astro";
 
 const practices = [
   ["01", "Platform", "We build InfraLedger, our self-hosted cloud platform, and install and run it with your team, including managed Kubernetes.", "#platform"],
@@ -28,10 +30,10 @@ const reasons = [
   ["One team across the stack", "Platform, security and business systems from the same engineers, so nothing falls between vendors."],
 ];
 const steps = [
-  ["Discover", "We map your systems, constraints and goals in a scoping call."],
-  ["Plan", "A written plan with scope, timeline, risks and rollback."],
-  ["Deliver", "Our engineers do the work with your team, in agreed stages."],
-  ["Support", "Handover, documentation and ongoing support if you need it."],
+  ["Discover", "We map your systems, constraints and goals in a scoping call.", "Scoping notes"],
+  ["Plan", "A written plan with scope, timeline, risks and rollback.", "Plan and rollback"],
+  ["Deliver", "Our engineers do the work with your team, in agreed stages.", "Progress reports"],
+  ["Support", "Handover, documentation and ongoing support if you need it.", "Handover documents"],
 ];
 const servicesLd = [
   ["Platform services", "InfraLedger rollout and operation, and managed Kubernetes.", "platform"],
@@ -131,7 +133,10 @@ const servicesLd = [
 
   <section class="section">
     <div class="container why">
-      <SectionHeader eyebrow="Why ETDLedger" title="Built here, run here, accountable here" />
+      <div class="why__side">
+        <SectionHeader eyebrow="Why ETDLedger" title="Built here, run here, accountable here" />
+        <div data-reveal><AlgeriaMap /></div>
+      </div>
       <dl class="why__list">
         {reasons.map(([t, d], i) => (
           <div data-reveal style={`--d:${i * 50}ms`}><dt>{t}</dt><dd>{d}</dd></div>
@@ -144,14 +149,23 @@ const servicesLd = [
     <div class="container">
       <SectionHeader eyebrow="How we work" title="From first call to support" lead="A fixed-scope project, a retained team or advisory work: every engagement follows the same four steps." />
       <ol class="steps4">
-        {steps.map(([t, d], i) => (
+        {steps.map(([t, d, out], i) => (
           <li data-reveal style={`--d:${i * 60}ms`}>
             <span class="steps4__n">0{i + 1}</span>
             <p class="card__title">{t}</p>
             <p class="card__text">{d}</p>
+            <p class="steps4__out">{out}</p>
           </li>
         ))}
       </ol>
+      <div class="receive">
+        <div class="receive__copy" data-reveal>
+          <p class="eyebrow">What you receive</p>
+          <h3 class="h2">Documents your team can act on</h3>
+          <p class="lead">Every engagement ends in writing: reports with findings ranked by risk, runbooks, rollback plans and handover notes that stay with you.</p>
+        </div>
+        <div data-reveal><SecurityReport /></div>
+      </div>
     </div>
   </section>
 
@@ -159,6 +173,9 @@ const servicesLd = [
 </Base>
 
 <style>
+  .receive { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; margin-top: 80px; }
+  .receive__copy { display: grid; gap: 14px; align-content: start; }
+  @media (max-width: 900px) { .receive { grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 56px; } }
   .hero { padding: 88px 0 96px; border-bottom: 1px solid var(--border); }
   .hero__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center; }
   .hero__name { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em; color: var(--text-2); }
@@ -214,8 +231,9 @@ const servicesLd = [
   }
 
   .why { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
-  .why :global(.section-header) { margin-bottom: 0; }
-  .why__list { border-top: 1px solid var(--border-strong); }
+  .why :global(.section-header) { margin-bottom: 24px; }
+  .why__side { min-width: 0; }
+  .why__list { border-top: 1px solid var(--border-strong); align-self: center; }
   .why__list div { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--border); }
   .why__list dt { font-weight: 600; }
   .why__list dd { color: var(--text-2); }
@@ -224,9 +242,16 @@ const servicesLd = [
     .why__list div { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   }
 
-  .steps4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
-  .steps4 li { display: grid; gap: 8px; align-content: start; padding-top: 16px; border-top: 1px solid var(--border-strong); }
+  .steps4 { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-top: 28px; }
+  .steps4::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 1px; background: var(--border-strong); }
+  .steps4 li { position: relative; display: grid; gap: 8px; align-content: start; }
+  .steps4 li::before { content: ""; position: absolute; left: 0; top: -28px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg-subtle); border: 1.5px solid var(--text-3); }
+  .steps4__out { margin-top: 6px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); }
+  .steps4__out::before { content: "→"; color: var(--text-3); }
   .steps4__n { font-family: var(--mono); font-size: 13px; color: var(--text-3); }
-  @media (max-width: 960px) { .steps4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 640px) { .steps4 { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 960px) {
+    .steps4 { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 0 0 0 28px; }
+    .steps4::before { left: 5px; right: auto; top: 6px; bottom: 6px; width: 1px; height: auto; }
+    .steps4 li::before { left: -28px; top: 4px; }
+  }
 </style>

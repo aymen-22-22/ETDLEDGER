@@ -1,0 +1,53 @@
+---
+import DocPage from "./DocPage.astro";
+const risks = [["Critical", 1], ["High", 2], ["Medium", 4], ["Low", 6]] as const;
+const findings = [
+  ["F-01", "Default credentials on a monitoring dashboard", "Critical", "Change credentials, allow access over VPN only"],
+  ["F-02", "Admin panel reachable from the internet", "High", "Move behind the VPN and single sign-on"],
+  ["F-03", "Legacy endpoint accepts TLS 1.0", "Medium", "Disable TLS 1.0 and 1.1"],
+  ["F-04", "Error pages show stack traces", "Low", "Return generic error pages"],
+] as const;
+const total = risks.reduce((n, [, c]) => n + c, 0);
+---
+<DocPage kind="Security assessment" caption="Sample first page of a security assessment report. Every finding comes with evidence, impact and step-by-step fixes.">
+  <p class="doc__title">Perimeter and web application assessment</p>
+  <p class="doc__meta"><span>Prepared for <b>Example Organization</b></span><span>Scope <b>perimeter, web apps, servers</b></span></p>
+  <p class="doc__h">Summary</p>
+  <p class="doc__p">One critical issue needs action this week. The remaining findings can be fixed in your normal change process.</p>
+  <p class="doc__h">Findings by risk</p>
+  <div class="sr__bar">
+    {risks.map(([r, c]) => <span class:list={["sr__seg", `sr__seg--${r.toLowerCase()}`]} style={`flex:${c}`} title={`${r}: ${c}`}></span>)}
+  </div>
+  <div class="sr__legend">{risks.map(([r, c]) => <span><i class={`sr__dot sr__seg--${r.toLowerCase()}`}></i>{r} <b>{c}</b></span>)}<span class="sr__total">{total} findings</span></div>
+  <table class="sr__table">
+    <thead><tr><th>ID</th><th>Finding</th><th>Risk</th><th class="sr__fix">Fix</th></tr></thead>
+    <tbody>
+      {findings.map(([id, f, r, fix]) => (
+        <tr class:list={{ "is-crit": r === "Critical" }}><td class="sr__id">{id}</td><td>{f}</td><td class="sr__risk">{r}</td><td class="sr__fix">{fix}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</DocPage>
+
+<style>
+  .sr__bar { display: flex; gap: 3px; height: 8px; margin-top: 10px; }
+  .sr__seg { border-radius: 2px; background: #c9ccd2; }
+  .sr__seg--critical { background: var(--red); }
+  .sr__seg--high { background: #4b5160; }
+  .sr__seg--medium { background: #9aa0aa; }
+  .sr__seg--low { background: #d6d8dc; }
+  .sr__legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 11.5px; color: var(--ink-2); }
+  .sr__legend b { color: #14171c; }
+  .sr__dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 2px; }
+  .sr__total { margin-left: auto; color: var(--ink-3); }
+  .sr__table { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: 12px; }
+  .sr__table th { padding: 6px 8px 6px 0; text-align: left; font-weight: 500; color: var(--ink-3); border-bottom: 1px solid var(--rule); }
+  .sr__table td { padding: 8px 8px 8px 0; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  .sr__id { font-family: var(--mono); color: var(--ink-3); white-space: nowrap; }
+  .sr__risk { white-space: nowrap; color: var(--ink-2); }
+  .sr__fix { color: var(--ink-2); }
+  .is-crit td { box-shadow: inset 0 0 0 9999px rgba(229, 72, 42, 0.06); }
+  .is-crit td:first-child { box-shadow: inset 2px 0 0 var(--red), inset 0 0 0 9999px rgba(229, 72, 42, 0.06); padding-left: 8px; }
+  .is-crit .sr__risk, .is-crit .sr__id { color: var(--red); font-weight: 500; }
+  @media (max-width: 560px) { .sr__fix { display: none; } }
+</style>

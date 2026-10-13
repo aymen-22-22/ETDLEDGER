@@ -47,7 +47,7 @@ const labelPos = (l: Link) => {
 // Nodes whose label names a real product show that product's logo in its brand color.
 const logos: Record<string, string> = {
   PostgreSQL: "siPostgresql", Redis: "siRedis", Traefik: "siTraefikproxy", "SAP S/4HANA": "siSap", Odoo: "siOdoo",
-  "Message queue": "siRabbitmq", Kubernetes: "siKubernetes", Docker: "siDocker", Grafana: "siGrafana",
+  "Message queue": "siRabbitmq", Kubernetes: "siKubernetes", Docker: "siDocker", Grafana: "siGrafana", Prometheus: "siPrometheus",
 };
 const brandLogo = (label: string, x: number, y: number) => {
   const key = logos[label];
@@ -90,9 +90,17 @@ const rendered = links.map((l) => {
       {[...byId.values()].map((n) => (
         <g class:list={["topo__node", n.tone && `t-${n.tone}`, { "is-dashed": n.dashed }, n.cls]}>
           <rect x={n.x} y={n.y} width={n.w} height={n.h} rx="8" />
-          {n.icon && <g class="topo__ic"><Fragment set:html={brandLogo(n.label, n.x + 12, n.y + n.h / 2 - 8) ?? icon(n.icon, n.x + 12, n.y + n.h / 2 - 8)} /></g>}
-          <text class="topo__label" x={n.x + (n.icon ? 36 : 12)} y={n.sub ? n.y + n.h / 2 - 3 : n.y + n.h / 2 + 4.5}>{n.label}</text>
-          {n.sub && <text class="topo__sub" x={n.x + (n.icon ? 36 : 12)} y={n.y + n.h / 2 + 13}>{n.sub}</text>}
+          {(() => {
+            const mark = brandLogo(n.label, n.x + 12, n.y + n.h / 2 - 8) ?? (n.icon ? icon(n.icon, n.x + 12, n.y + n.h / 2 - 8) : null);
+            const tx = n.x + (mark ? 36 : 12);
+            return (
+              <>
+                {mark && <g class="topo__ic"><Fragment set:html={mark} /></g>}
+                <text class="topo__label" x={tx} y={n.sub ? n.y + n.h / 2 - 3 : n.y + n.h / 2 + 4.5}>{n.label}</text>
+                {n.sub && <text class="topo__sub" x={tx} y={n.y + n.h / 2 + 13}>{n.sub}</text>}
+              </>
+            );
+          })()}
         </g>
       ))}
       <slot />

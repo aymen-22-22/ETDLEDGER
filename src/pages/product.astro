@@ -5,6 +5,7 @@ import PageHeader from "../components/PageHeader.astro";
 import SubNav from "../components/SubNav.astro";
 import FeatureRow from "../components/FeatureRow.astro";
 import InfraTopologies from "../components/diagrams/InfraTopologies.astro";
+import InfraLedgerArchitecture from "../components/diagrams/InfraLedgerArchitecture.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
@@ -124,12 +125,14 @@ const productLd = {
         {stack.map(([k, v]) => <div><dt>{k}</dt><dd class="mono">{v}</dd></div>)}
       </dl>
     </div>
+    <div class="container arch" data-reveal><InfraLedgerArchitecture /></div>
   </section>
 
   <CtaBand title="See InfraLedger on your servers" text="We'll set up an evaluation on infrastructure like yours." action="Request early access" />
 </Base>
 
 <style>
+  .arch { margin-top: 64px; }
   .caps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
   .cap { display: grid; gap: 12px; align-content: start; padding-top: 20px; border-top: 1px solid var(--border-strong); }
   .cap .checklist { margin-top: 6px; }
