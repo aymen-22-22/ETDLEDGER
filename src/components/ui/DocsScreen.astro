@@ -1,0 +1,84 @@
+---
+// Small dashboard screens that illustrate the docs steps: new application, add a database, custom domains.
+import Window from "./Window.astro";
+import BrandLogo from "../BrandLogo.astro";
+interface Props { screen: "new-app" | "add-db" | "domain" }
+const { screen } = Astro.props;
+const engines = [
+  ["siPostgresql", "PostgreSQL"], ["siMysql", "MySQL"], ["siMariadb", "MariaDB"],
+  ["siRedis", "Redis"], ["siMinio", "Object storage"], ["siRabbitmq", "RabbitMQ"],
+] as const;
+---
+{screen === "new-app" && (
+  <Window title="production / New application" caption="Illustration of the new application form">
+    <div class="ds">
+      <div class="ds__f"><span class="ds__l">Source</span><span class="ds__seg"><span class="is-on">Git repository</span><span>Container image</span></span></div>
+      <div class="ds__two">
+        <div class="ds__f"><span class="ds__l">Repository</span><span class="ds__in mono">github.com/acme/shop-api</span></div>
+        <div class="ds__f"><span class="ds__l">Branch</span><span class="ds__in mono">main</span></div>
+      </div>
+      <div class="ds__f">
+        <span class="ds__l">Environment variables</span>
+        <div class="ds__vars">
+          <span class="mono">DATABASE_URL</span><span class="mono ds__secret">••••••••••••</span><span class="ui-tag">Encrypted</span>
+          <span class="mono">NODE_ENV</span><span class="mono">production</span><span></span>
+        </div>
+      </div>
+      <div class="ds__actions"><span class="ui-dim">Builds with the Dockerfile in the repository</span><span class="ui-btn">Deploy</span></div>
+    </div>
+  </Window>
+)}
+{screen === "add-db" && (
+  <Window title="production / Add service" caption="Illustration of the add service screen">
+    <div class="ds">
+      <div class="ds__engines">
+        {engines.map(([b, n], i) => (
+          <span class:list={["ds__engine", { "is-on": i === 0 }]}><BrandLogo brand={b} size={22} decorative /><span>{n}</span></span>
+        ))}
+      </div>
+      <div class="ds__two">
+        <div class="ds__f"><span class="ds__l">Version</span><span class="ds__in">PostgreSQL 16</span></div>
+        <div class="ds__f"><span class="ds__l">Backups</span><span class="ds__in">Daily at 02:00, keep 14</span></div>
+      </div>
+      <div class="ds__actions"><span class="ui-dim">Runs inside the project's private network</span><span class="ui-btn">Create</span></div>
+    </div>
+  </Window>
+)}
+{screen === "domain" && (
+  <Window title="shop-api / Domains" caption="Illustration of the domains screen">
+    <span slot="bar" class="ui-btn">Add domain</span>
+    <div class="ui-scroll">
+      <table class="ui-table">
+        <thead><tr><th>Domain</th><th>Certificate</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">shop.example.com</td><td class="ui-dim">Let's Encrypt, auto-renew</td><td><span class="status status--ok">Active</span></td></tr>
+          <tr><td class="mono">api.example.com</td><td class="ui-dim">Let's Encrypt, auto-renew</td><td><span class="status status--ok">Active</span></td></tr>
+          <tr><td class="mono">new.example.com</td><td class="ui-dim">Waiting for DNS</td><td><span class="status status--warn">Pending</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ds__hint">Point an <b>A</b> record for <span class="mono">new.example.com</span> to <span class="mono">203.0.113.10</span>. The certificate is issued as soon as DNS resolves.</p>
+  </Window>
+)}
+
+<style>
+  .ds { display: grid; gap: 16px; padding: 18px; }
+  .ds__f { display: grid; gap: 6px; min-width: 0; }
+  .ds__l { font-size: 12.5px; color: var(--text-2); }
+  .ds__two { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 12px; }
+  .ds__in { display: flex; align-items: center; height: 34px; padding: 0 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); font-size: 12.5px; overflow: hidden; white-space: nowrap; }
+  .ds__seg { display: inline-flex; width: max-content; padding: 3px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); font-size: 12.5px; }
+  .ds__seg span { padding: 5px 10px; border-radius: 5px; color: var(--text-2); }
+  .ds__seg .is-on { background: var(--surface-2); color: var(--text); font-weight: 500; }
+  .ds__vars { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); font-size: 12.5px; }
+  .ds__secret { color: var(--text-3); }
+  .ds__actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12.5px; }
+  .ds__engines { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .ds__engine { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); font-size: 12.5px; }
+  .ds__engine.is-on { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+  .ds__hint { margin: 0; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-2); }
+  @media (max-width: 560px) {
+    .ds__two { grid-template-columns: minmax(0, 1fr); }
+    .ds__engines { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

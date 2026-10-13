@@ -20,7 +20,5 @@ const shown = items.filter((p) => existsSync(join(process.cwd(), "public/photos"
 
 <style>
   .photos { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 16px; }
-  .photo { margin: 0; }
-  .photo img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--border); filter: grayscale(1) contrast(1.05); }
   @media (max-width: 720px) { .photos { grid-template-columns: minmax(0, 1fr); } }
 </style>

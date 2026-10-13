@@ -69,3 +69,14 @@ Stock sources with free commercial licenses: unsplash.com, pexels.com. Replace t
 - Brand colors come from the supplied marks: ETDLedger vermilion (#FF5A36 dark, #E5482A light) and InfraLedger petrol (#3FB6C4).
 - SAP (#0070F2), Oracle (#C74634) and Odoo (#714B67 with teal #017E84) pages use those companies' brand colors. Each page has a note that ETDLedger is an independent provider. If ETDLedger becomes an official partner, update the notes.
 - The Oracle mark in the page header is plain text, not Oracle's logo.
+
+## Home page and contact form
+- Headline "Your systems and your data, kept in Algeria." and the "Why ETDLedger" points (including "in French, Arabic and English") are positioning statements to confirm.
+- The live audit ledger in the home hero is an illustration: entries are sample events, times follow the visitor's clock, and 203.0.113.24 is a reserved documentation address.
+- The contact form now posts to `public/contact.php`, which emails hello@etdledger.com with PHP mail() on the cPanel host (5 messages per hour per visitor). After deploying, send one test message from the live site. If it doesn't arrive, check spam and the cPanel "Track Delivery" page. To use another service instead, set the `PUBLIC_FORM_ENDPOINT` repository variable.
+
+## Section A visuals (samples and examples)
+- The security assessment report, the lab session report and the SAP, Oracle and Odoo project timelines are labelled samples. Their findings, times and week counts are examples of the format, not client data. Adjust the timelines to match how you actually deliver.
+- Company page history: only "2023, founded in Sidi Bel Abbès" is dated. Add real milestones (first client, InfraLedger first release, new practices) to `history` in `src/pages/company.astro`.
+- Team section: add people to `src/lib/team.ts` and their photos to `public/photos/team/`. The section appears automatically.
+- The Algeria map uses Natural Earth data (public domain) via the world-atlas package. Algiers, Constantine, Ouargla and Tamanrasset are shown for orientation only.

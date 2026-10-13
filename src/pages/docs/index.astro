@@ -3,6 +3,8 @@ import Base from "../../layouts/Base.astro";
 import { u } from "../../lib/url";
 import { site } from "../../lib/site";
 import CodeBlock from "../../components/CodeBlock.astro";
+import DocsScreen from "../../components/ui/DocsScreen.astro";
+import InfraLedgerArchitecture from "../../components/diagrams/InfraLedgerArchitecture.astro";
 
 const toc: [string, string][] = [
   ["overview", "Overview"],
@@ -39,6 +41,7 @@ const toc: [string, string][] = [
         <li>A PostgreSQL database that stores the platform's own state and audit log</li>
       </ul>
       <p>On a single server, InfraLedger runs workloads with Docker. On a cluster, it runs the same workloads on Kubernetes.</p>
+      <div class="docs__fig"><InfraLedgerArchitecture /></div>
 
       <h2 id="requirements">Requirements</h2>
       <ul class="checklist">
@@ -67,13 +70,16 @@ const toc: [string, string][] = [
         <li>Add any environment variables. They're encrypted at rest.</li>
         <li>Choose <b>Deploy</b>. InfraLedger builds the app, issues a certificate and starts it.</li>
       </ol>
+      <div class="docs__fig"><DocsScreen screen="new-app" /></div>
       <p>Every deploy appears in the app's history with its build log, and in the organization's audit log.</p>
 
       <h2 id="database">Add a database</h2>
       <p>Open <b>Databases</b>, choose <b>Add service</b> and pick an engine: PostgreSQL, MySQL, MariaDB, Redis, object storage or RabbitMQ. Connection credentials can be shared with applications in the same project through project-level variables. Set a backup schedule from the service's settings.</p>
+      <div class="docs__fig"><DocsScreen screen="add-db" /></div>
 
       <h2 id="domain">Add a custom domain</h2>
       <p>Point a DNS record for your domain at the server, then add the domain in the application's settings. InfraLedger requests a certificate from Let's Encrypt and renews it automatically. You can also manage DNS zones for your own domains from the dashboard.</p>
+      <div class="docs__fig"><DocsScreen screen="domain" /></div>
 
       <h2 id="kubernetes">Move to Kubernetes</h2>
       <p>When one server isn't enough, InfraLedger can run the same applications and databases on a Kubernetes cluster through its Kubernetes provider. Developers keep the same dashboard and workflow. Our engineers guide this move with you.</p>
@@ -85,6 +91,7 @@ const toc: [string, string][] = [
 </Base>
 
 <style>
+  .docs__fig { margin: 24px 0 8px; }
   .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 64px; padding-top: 64px; padding-bottom: 112px; }
   .docs__side { position: sticky; top: 96px; align-self: start; }
   .docs__group { font-size: 14px; font-weight: 600; margin-bottom: 10px; }

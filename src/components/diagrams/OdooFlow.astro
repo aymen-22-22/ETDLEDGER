@@ -15,7 +15,7 @@ import Topology from "./Topology.astro";
   ]}
   links={[
     { from: "us", to: "od", flow: 2, dur: 2.2 },
-    { from: "od", to: "pg", flow: 2, dur: 2.2, begin: 0.4 },
+    { from: "od", to: "pg", tone: "accent", flow: 2, dur: 2.2, begin: 0.4 },
     { from: "pg", to: "bk", via: [[585, 200]], vertical: true, dashed: true, flow: 1, dur: 3 },
     { from: "od", to: "pay", via: [[720, 190], [720, 86]], flow: 1, dur: 3, begin: 0.5 },
     { from: "shop", to: "od", flow: 1, dur: 3, begin: 1.2 },

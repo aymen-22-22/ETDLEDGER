@@ -1,0 +1,36 @@
+---
+import DocPage from "./DocPage.astro";
+const timeline = [
+  ["09:00", "Briefing and rules of engagement", false],
+  ["09:30", "Scenario starts on the lab network", false],
+  ["10:12", "First detection: injection attempts on /login", true],
+  ["10:40", "WAF rule tested, then deployed", false],
+  ["11:40", "Incident contained and documented", false],
+  ["12:00", "Debrief, then the lab is reset", false],
+] as const;
+---
+<DocPage kind="Lab session report" caption="Sample lab session report: what happened, when it was caught and what the team should practice next.">
+  <p class="doc__title">Web application protection, Team Blue</p>
+  <p class="doc__meta"><span>Participants <b>6</b></span><span>Duration <b>3 hours</b></span><span>Lab <b>reset after session</b></span></p>
+  <p class="doc__h">Timeline</p>
+  <ol class="lr__tl">
+    {timeline.map(([t, e, flag]) => <li class:list={{ "is-flag": flag }}><span class="lr__t">{t}</span><span>{e}</span></li>)}
+  </ol>
+  <div class="lr__cols">
+    <div><p class="doc__h">Went well</p><ul class="lr__list"><li>Detection 42 minutes after the scenario started</li><li>WAF rule tested before going live</li></ul></div>
+    <div><p class="doc__h">To practice</p><ul class="lr__list"><li>Escalation path to the on-call lead</li><li>Collecting logs from every server</li></ul></div>
+  </div>
+</DocPage>
+
+<style>
+  .lr__tl { margin-top: 8px; border-top: 1px solid var(--rule); }
+  .lr__tl li { position: relative; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; padding: 7px 0 7px 10px; border-bottom: 1px solid var(--rule); color: var(--ink-2); }
+  .lr__t { font-family: var(--mono); color: var(--ink-3); }
+  .lr__tl li.is-flag { color: #14171c; background: rgba(229, 72, 42, 0.06); }
+  .lr__tl li.is-flag::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--red); }
+  .lr__tl li.is-flag .lr__t { color: var(--red); font-weight: 500; }
+  .lr__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .lr__list { margin-top: 6px; display: grid; gap: 4px; color: var(--ink-2); }
+  .lr__list li { padding-left: 12px; position: relative; }
+  .lr__list li::before { content: ""; position: absolute; left: 0; top: 8px; width: 5px; height: 1px; background: var(--ink-3); }
+</style>

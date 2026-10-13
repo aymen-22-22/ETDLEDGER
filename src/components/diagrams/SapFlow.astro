@@ -12,9 +12,9 @@ import Topology from "./Topology.astro";
     { id: "pt", x: 640, y: 300, w: 240, label: "Partner APIs", sub: "Suppliers, banks", icon: "Handshake" },
   ]}
   links={[
-    { from: "sap", to: "int", flow: 3, dur: 2.4 },
-    { from: "sap", to: "int", reverse: true, tone: "ok", flow: 2, dur: 2.4, begin: 0.6 },
-    { from: "int", to: "web", reverse: true, tone: "ok", flow: 1, dur: 2.6 },
+    { from: "sap", to: "int", tone: "accent", flow: 3, dur: 2.4 },
+    { from: "sap", to: "int", reverse: true, tone: "accent", flow: 2, dur: 2.4, begin: 0.6 },
+    { from: "int", to: "web", reverse: true, flow: 1, dur: 2.6 },
     { from: "int", to: "dw", flow: 1, dur: 2.6, begin: 0.7 },
     { from: "int", to: "mq", flow: 1, dur: 2.6, begin: 1.4 },
     { from: "int", to: "pt", flow: 1, dur: 2.6, begin: 2.1 },

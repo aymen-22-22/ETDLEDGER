@@ -5,20 +5,25 @@ import PageHeader from "../components/PageHeader.astro";
 import SubNav from "../components/SubNav.astro";
 import FeatureRow from "../components/FeatureRow.astro";
 import InfraTopologies from "../components/diagrams/InfraTopologies.astro";
+import InfraLedgerArchitecture from "../components/diagrams/InfraLedgerArchitecture.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
 import DeployMock from "../components/ui/DeployMock.astro";
+import DashboardMock from "../components/ui/DashboardMock.astro";
 
 const sub: [string, string][] = [
   ["deploy", "Deploy"],
-  ["data", "Data services"],
-  ["network", "Networking"],
-  ["observe", "Observability"],
+  ["capabilities", "Data, network, observability"],
   ["access", "Access and audit"],
   ["architecture", "Architecture"],
   ["apps", "Templates"],
   ["stack", "Under the hood"],
+];
+const caps = [
+  { title: "Data services", text: "Databases in a few clicks, on persistent storage inside each project's private network.", items: ["PostgreSQL, MySQL, MariaDB and Redis", "S3-compatible storage and RabbitMQ", "Scheduled backups with restore"] },
+  { title: "Networking", text: "Routing, DNS and firewalls set in the dashboard, with no config files to edit.", items: ["Path routing, redirects and rate limits", "IP allow-lists and basic auth per app", "Projects can't reach each other by default"] },
+  { title: "Observability", text: "Metrics, logs and alerts next to the deploy history, so a spike lines up with its cause.", items: ["CPU, memory, request and error rates", "Centralized, searchable logs", "Alerts to Slack, email or a webhook"] },
 ];
 const access = [
   ["Organizations and projects", "Organizations are the tenant boundary. Projects group the apps, databases and services that belong together."],
@@ -46,60 +51,39 @@ const productLd = {
 };
 ---
 <Base brand="infraledger" jsonld={[productLd]} title="Product — InfraLedger" description="Deploys, managed databases, networking, observability and an audit log of every action, on infrastructure you run.">
-  <PageHeader brand="infraledger" eyebrow="InfraLedger" title="A self-service platform on your own servers" lead="InfraLedger turns raw servers into a self-service platform. Developers deploy, provision and operate from a dashboard, and you keep full control of the infrastructure.">
+  <PageHeader stack brand="infraledger" eyebrow="InfraLedger" title="A self-service platform on your own servers" lead="InfraLedger turns raw servers into a self-service platform. Developers deploy, provision and operate from a dashboard, and you keep full control of the infrastructure.">
     <a class="btn btn--primary" href={u("/contact?interest=platform")}>Request early access <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href={u("/docs")}>Read the docs</a>
+    <DashboardMock slot="visual" />
   </PageHeader>
   <SubNav label="Product sections" items={sub} />
 
-  <FeatureRow id="deploy" eyebrow="Deploy" icon="Rocket" title="Push code, get a running service"
+  <FeatureRow id="deploy" eyebrow="Deploy" title="Push code, get a running service"
     text="Connect a Git repository or point at any container image. InfraLedger builds it, issues a certificate and runs it behind a load balancer."
     items={[
       "Git deploys with Dockerfile detection or buildpacks",
       "Deploy any image from a container registry",
       "Automatic HTTPS for every app and custom domain",
-      "Replicas with health checks and sticky sessions",
-      "A disposable preview environment per branch",
-      "Deploy history with build logs and commit SHA",
-      "A console into running containers, no SSH needed",
-      "Scheduled and one-off jobs in the app's environment",
+      "A preview environment per branch, and a console into running containers",
     ]}>
     <DeployMock />
   </FeatureRow>
 
-  <FeatureRow id="data" eyebrow="Data services" icon="Database" title="Databases in a few clicks, isolated by default"
-    text="Every data service runs on persistent storage inside its project's private network, with resource monitoring and scheduled backups."
-    items={[
-      "PostgreSQL, MySQL and MariaDB with versioned engines",
-      "Redis for caching, with persistence options",
-      "S3-compatible object storage with access keys",
-      "RabbitMQ message queues",
-      "Scheduled backups with restore",
-      "Credentials and environment variables encrypted at rest",
-    ]}>
-  </FeatureRow>
-
-  <FeatureRow id="network" eyebrow="Networking" icon="Network" title="Routing, DNS and firewalls without config files"
-    text="Set rules in the dashboard and InfraLedger compiles them into reverse-proxy configuration. Each project gets its own private network."
-    items={[
-      "Path-based routing, redirects and rate limits",
-      "IP allow-lists and basic auth per application",
-      "DNS zone management for your own domains",
-      "Workloads can't reach other projects unless you connect them",
-      "One-click templates for common stacks",
-    ]}>
-  </FeatureRow>
-
-  <FeatureRow id="observe" eyebrow="Observability" icon="Activity" title="See what's running, and what changed"
-    text="Metrics, logs and alerts sit next to the deploy history, so a spike lines up with the change that caused it."
-    items={[
-      "CPU, memory, request and error rates per service",
-      "Centralized, searchable logs",
-      "Threshold alerts to Slack, email or any webhook",
-      "Usage dashboards per project and organization",
-    ]}
-    note="In progress: staged configuration changes with a diff before applying, and one-click rollback with a preview of what will revert.">
-  </FeatureRow>
+  <section class="section section--subtle" id="capabilities">
+    <div class="container">
+      <SectionHeader eyebrow="Platform services" title="Databases, networking and observability, built in" />
+      <div class="caps">
+        {caps.map((c, i) => (
+          <div class="cap" data-reveal style={`--d:${i * 60}ms`}>
+            <h3 class="h3">{c.title}</h3>
+            <p class="muted">{c.text}</p>
+            <ul class="checklist">{c.items.map((x) => <li>{x}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+      <p class="caps__note">In progress: staged configuration changes with a diff before applying, and one-click rollback with a preview of what will revert.</p>
+    </div>
+  </section>
 
   <section class="section" id="access">
     <div class="container">
@@ -141,12 +125,19 @@ const productLd = {
         {stack.map(([k, v]) => <div><dt>{k}</dt><dd class="mono">{v}</dd></div>)}
       </dl>
     </div>
+    <div class="container arch" data-reveal><InfraLedgerArchitecture /></div>
   </section>
 
   <CtaBand title="See InfraLedger on your servers" text="We'll set up an evaluation on infrastructure like yours." action="Request early access" />
 </Base>
 
 <style>
+  .arch { margin-top: 64px; }
+  .caps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+  .cap { display: grid; gap: 12px; align-content: start; padding-top: 20px; border-top: 1px solid var(--border-strong); }
+  .cap .checklist { margin-top: 6px; }
+  .caps__note { margin-top: 40px; font-size: 14px; color: var(--text-2); }
+  @media (max-width: 900px) { .caps { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
   .more { margin-top: 28px; font-size: 15px; }
   .stack { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: start; }
   .stack :global(.section-header) { margin-bottom: 0; }

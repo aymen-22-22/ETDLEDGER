@@ -6,6 +6,8 @@ import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
 import LogoCloud from "../components/LogoCloud.astro";
 import OracleConsole from "../components/ui/OracleConsole.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ProjectTimeline from "../components/ProjectTimeline.astro";
 import TrademarkNote from "../components/TrademarkNote.astro";
 import OracleFailover from "../components/diagrams/OracleFailover.astro";
 
@@ -24,22 +26,29 @@ const ld = {
   <PageHeader brand="oracle" eyebrow="Oracle solutions" title="Oracle databases that stay up" lead="Administration, standby databases, migrations and application support for Oracle estates, on-premises or hybrid.">
     <a class="btn btn--primary" href={u("/contact?interest=oracle")}>Talk to an Oracle engineer <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href="#how">How it works</a>
+    <OracleConsole slot="visual" />
   </PageHeader>
 
-  <FeatureRow id="how" eyebrow="Disaster recovery" icon="Database" title="A standby ready to take over" text="We set up standby databases at a second site, test the switch regularly, and document exactly what happens when the primary fails." items={["Changes shipped continuously to the standby", "Automatic or manual switchover, tested on a schedule", "Applications reconnect to the new primary", "A written recovery runbook for your team"]}>
+  <FeatureRow id="how" eyebrow="Disaster recovery" title="A standby ready to take over" text="We set up standby databases at a second site, test the switch regularly, and document exactly what happens when the primary fails." items={["Changes shipped continuously to the standby", "Automatic or manual switchover, tested on a schedule", "Applications reconnect to the new primary"]}>
     <OracleFailover />
   </FeatureRow>
 
+  <section class="section" id="plan">
+    <div class="container">
+      <SectionHeader eyebrow="A typical upgrade" title="The standby is built and tested before anything changes in production." />
+      <div data-reveal><ProjectTimeline title="A typical Oracle upgrade with a standby" weeks={8} phases={[{ name: "Health check", from: 1, to: 1 }, { name: "Standby build", from: 2, to: 3 }, { name: "Switchover test", from: 4, to: 4 }, { name: "Upgrade rehearsal", from: 5, to: 5 }, { name: "Production upgrade", from: 6, to: 6, key: true }, { name: "Monitoring", from: 6, to: 8 }]} receive={["Health check report", "Recovery runbook", "Switchover test results"]} /></div>
+    </div>
+  </section>
+
   <section class="section section--subtle">
     <div class="container wwd">
-      <div data-reveal>
+      <div class="wwd__head" data-reveal>
         <p class="eyebrow">What we do</p>
         <h2 class="h2 wwd__title">Oracle work your team can rely on</h2>
-        <dl class="wwd__list">
-          {offers.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
-        </dl>
       </div>
-      <div data-reveal><OracleConsole /></div>
+      <dl class="wwd__list" data-reveal>
+        {offers.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}
+      </dl>
     </div>
   </section>
 
@@ -54,8 +63,8 @@ const ld = {
 </Base>
 
 <style>
-  .wwd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 64px; align-items: start; }
-  .wwd__title { margin: 12px 0 32px; }
+  .wwd { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
+  .wwd__title { margin-top: 12px; }
   .wwd__list { border-top: 1px solid var(--border); }
   .wwd__list div { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
   .wwd__list dt { font-weight: 600; }

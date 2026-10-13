@@ -1,9 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 import { u } from "../lib/url";
+import AlgeriaMap from "../components/AlgeriaMap.astro";
 import { site } from "../lib/site";
 
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
+// Defaults to the PHP mailer that ships with the site (public/contact.php) on the cPanel host.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || u("/contact.php");
 const interests = [
   ["platform", "InfraLedger"],
   ["security", "Security services"],
@@ -29,6 +31,7 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "More than 50 se
           <div><dt>Pricing</dt><dd>InfraLedger is priced by the size of your deployment and the support you need. We send a quote after a first call.</dd></div>
           <div><dt>What happens next</dt><dd>An engineer reviews your request and replies by email to schedule a call.</dd></div>
         </dl>
+        <AlgeriaMap size="sm" />
       </div>
 
       <form class="form" data-form data-endpoint={endpoint} data-email={site.email} novalidate>
@@ -76,7 +79,7 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "More than 50 se
 <style>
   .ct { padding: 96px 0 120px; }
   .ct__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
-  .ct__intro { position: sticky; top: 104px; display: grid; gap: 20px; }
+  .ct__intro { display: grid; gap: 20px; align-content: start; }
   .ct__title { font-size: clamp(38px, 4.8vw, 60px); }
   .ct__facts { margin-top: 12px; border-top: 1px solid var(--border); }
   .ct__facts div { display: grid; gap: 2px; padding: 14px 0; border-bottom: 1px solid var(--border); }
@@ -84,7 +87,6 @@ const sizes = ["1 server", "2–10 servers", "11–50 servers", "More than 50 se
   @media (max-width: 900px) {
     .ct { padding: 64px 0 88px; }
     .ct__in { grid-template-columns: minmax(0, 1fr); gap: 40px; }
-    .ct__intro { position: static; }
   }
 
   .form { display: grid; gap: 24px; min-width: 0; padding: 32px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }

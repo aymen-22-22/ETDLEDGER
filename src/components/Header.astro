@@ -1,7 +1,14 @@
 ---
 import { u, stripBase } from "../lib/url";
 import Logo from "./Logo.astro";
-import { brands } from "../lib/brands";
+import { brands, type Brand } from "../lib/brands";
+
+interface Props { brand?: Brand }
+const { brand } = Astro.props;
+// The header button matches the page: a demo for the product, a conversation everywhere else.
+const cta = brand === "infraledger"
+  ? { label: "Request a demo", href: "/contact?interest=platform" }
+  : { label: "Talk to us", href: brand ? `/contact?interest=${brand}` : "/contact" };
 
 const links = [{ href: "/docs", label: "Docs" }];
 const products = Object.values(brands);
@@ -58,7 +65,7 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
         <svg class="i-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6 13 13M3 13l1.4-1.4M11.6 4.4 13 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
         <svg class="i-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
       </button>
-      <a class="btn btn--primary btn--sm hdr__cta" href={u("/contact")}>Request a demo</a>
+      <a class="btn btn--primary btn--sm hdr__cta" href={u(cta.href)}>{cta.label}</a>
       <button class="icon-btn hdr__burger" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Open menu" data-burger>
         <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path class="b1" d="M3 6h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path class="b2" d="M3 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </button>
@@ -73,7 +80,7 @@ const isCurrent = (href: string) => (path === href || path.startsWith(href + "/"
       {services.map((s) => <a class="mnav__sub" href={u(s.href)}>{s.label}</a>)}
       {links.map((l) => <a class="mnav__link" href={u(l.href)}>{l.label}</a>)}
       <a class="mnav__link" href={u("/company")}>Company</a>
-      <a class="btn btn--primary mnav__cta" href={u("/contact")}>Request a demo</a>
+      <a class="btn btn--primary mnav__cta" href={u(cta.href)}>{cta.label}</a>
     </nav>
   </div>
 </header>

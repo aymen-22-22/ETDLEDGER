@@ -1,21 +1,9 @@
 ---
 import BrandLogo from "./BrandLogo.astro";
 
-interface Props { items: [Parameters<typeof BrandLogo>[0]["brand"], string][]; label?: string; compact?: boolean; marquee?: boolean }
-const { items, label, compact = false, marquee = false } = Astro.props;
+interface Props { items: [Parameters<typeof BrandLogo>[0]["brand"], string][]; label?: string; compact?: boolean }
+const { items, label, compact = false } = Astro.props;
 ---
-{marquee ? (
-  <div class="lc lc--marquee">
-    {label && <p class="lc__label">{label}</p>}
-    <div class="mq" aria-label={items.map(([, n]) => n).join(", ")} role="img">
-      <ul class="mq__track" aria-hidden="true">
-        {[...items, ...items].map(([brand, name], i) => (
-          <li class:list={["mq__item", { "mq__dup": i >= items.length }]}><BrandLogo brand={brand} size={26} decorative /><span>{name}</span></li>
-        ))}
-      </ul>
-    </div>
-  </div>
-) : (
 <div class:list={["lc", { "lc--compact": compact }]}>
   {label && <p class="lc__label">{label}</p>}
   <ul class="lc__list">
@@ -27,32 +15,21 @@ const { items, label, compact = false, marquee = false } = Astro.props;
     ))}
   </ul>
 </div>
-)}
 
 <style>
-  .mq { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-  .mq__track { display: flex; gap: 40px; width: max-content; animation: mq 50s linear infinite; }
-  .mq:hover .mq__track { animation-play-state: paused; }
-  .mq__item { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
-  @keyframes mq { to { transform: translateX(calc(-50% - 20px)); } }
-  @media (prefers-reduced-motion: reduce) {
-    .mq { -webkit-mask: none; mask: none; }
-    .mq__track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
-    .mq__dup { display: none !important; }
-  }
   .lc__label { text-align: center; font-size: 14px; color: var(--text-2); margin-bottom: 24px; }
   .lc__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
   .lc__item {
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-    width: 140px; height: 112px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);
+    width: 120px; padding: 12px 0;
     color: var(--text-2); font-size: 13.5px; font-weight: 500;
-    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+    transition: color 200ms var(--ease);
   }
-  .lc__item:hover { color: var(--text); border-color: var(--border-strong); }
+  .lc__item:hover { color: var(--text); }
   .lc__item :global(.brand) { transition: transform 200ms var(--ease); }
   .lc__item:hover :global(.brand) { transform: scale(1.12); }
-  .lc--compact .lc__list { justify-content: flex-start; gap: 8px; }
-  .lc--compact .lc__item { flex-direction: row; width: auto; height: 44px; padding: 0 14px; gap: 10px; }
+  .lc--compact .lc__list { justify-content: flex-start; gap: 4px 28px; }
+  .lc--compact .lc__item { flex-direction: row; width: auto; height: 44px; padding: 0; gap: 10px; }
   @media (max-width: 640px) {
     .lc__item { width: calc(50% - 6px); }
     .lc--compact .lc__item { width: auto; }

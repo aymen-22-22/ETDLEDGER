@@ -5,6 +5,7 @@ import PageHeader from "../components/PageHeader.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CtaBand from "../components/CtaBand.astro";
 import LabTopologyMock from "../components/ui/LabTopologyMock.astro";
+import LabReport from "../components/docs/LabReport.astro";
 
 const templates = [
   { icon: "BrickWall", title: "Perimeter defense", text: "Practice firewall rules, network segmentation and VPN access on a realistic company network." },
@@ -33,6 +34,7 @@ const safety = [
   <PageHeader brand="labs" eyebrow="Cyber labs" title="Training environments built for your security team" lead="We design and run isolated lab networks where your team practices defense and response on realistic infrastructure, then reset them to a clean state for the next session.">
     <a class="btn btn--primary" href={u("/contact?interest=labs")}>Plan a lab <span class="arrow">→</span></a>
     <a class="btn btn--secondary" href="#templates">See lab types</a>
+    <LabTopologyMock slot="visual" />
   </PageHeader>
 
   <section class="section">
@@ -47,7 +49,6 @@ const safety = [
           <li>Runs on InfraLedger, on our hardware or on yours</li>
         </ul>
       </div>
-      <div data-reveal><LabTopologyMock /></div>
     </div>
   </section>
 
@@ -77,6 +78,14 @@ const safety = [
           </li>
         ))}
       </ol>
+      <div class="receive">
+        <div class="receive__copy" data-reveal>
+          <p class="eyebrow">After every session</p>
+          <h3 class="h2">A report your team can learn from</h3>
+          <p class="lead">What happened, when it was caught, what went well and what to practice next. The lab is then reset to a clean state.</p>
+        </div>
+        <div data-reveal><LabReport /></div>
+      </div>
     </div>
   </section>
 
@@ -98,8 +107,10 @@ const safety = [
 </Base>
 
 <style>
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 64px; align-items: center; }
-  .split__copy { display: grid; gap: 18px; align-content: start; }
+  .receive { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; margin-top: 80px; }
+  .receive__copy { display: grid; gap: 14px; align-content: start; }
+  @media (max-width: 900px) { .receive { grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 56px; } }
+  .split__copy { display: grid; gap: 18px; align-content: start; max-width: 760px; }
   @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
   .steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .steps4__top { display: flex; justify-content: space-between; align-items: flex-start; }

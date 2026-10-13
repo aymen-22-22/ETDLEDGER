@@ -1,0 +1,50 @@
+---
+// A week-by-week plan for a typical engagement. The decisive moment (cutover, go-live) gets the accent color.
+interface Phase { name: string; from: number; to: number; key?: boolean }
+interface Props { title: string; weeks: number; phases: Phase[]; receive: string[]; note?: string }
+const { title, weeks, phases, receive, note = "Typical example. Your timeline depends on scope." } = Astro.props;
+---
+<figure class="ptl" style={`--weeks:${weeks}`}>
+  <div class="ptl__panel">
+    <div class="ptl__head"><span class="ptl__title">{title}</span><span class="ptl__note">{note}</span></div>
+    <div class="ptl__grid">
+      <div class="ptl__weeks" aria-hidden="true">
+        <span></span>{Array.from({ length: weeks }, (_, i) => <span>W{i + 1}</span>)}
+      </div>
+      {phases.map((p) => (
+        <div class:list={["ptl__row", { "is-key": p.key }]}>
+          <span class="ptl__name">{p.name}</span>
+          <span class="ptl__track"><span class="ptl__bar" style={`grid-column:${p.from} / ${p.to + 1}`}></span></span>
+        </div>
+      ))}
+    </div>
+    <div class="ptl__receive"><span>You receive</span>{receive.map((r) => <span class="ptl__doc">{r}</span>)}</div>
+  </div>
+</figure>
+
+<style>
+  .ptl { margin: 0; min-width: 0; }
+  .ptl__panel { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); overflow: hidden; }
+  .ptl__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .ptl__title { font-weight: 600; }
+  .ptl__note { color: var(--text-3); }
+  .ptl__grid { padding: 8px 20px 14px; overflow-x: auto; }
+  .ptl__weeks, .ptl__row { display: grid; grid-template-columns: 160px minmax(420px, 1fr); align-items: center; }
+  .ptl__weeks { grid-template-columns: 160px repeat(var(--weeks), minmax(0, 1fr)); min-width: 580px; font: 11px var(--mono); color: var(--text-3); padding: 6px 0; }
+  .ptl__row { min-width: 580px; height: 34px; border-top: 1px solid var(--border); font-size: 13px; }
+  .ptl__name { color: var(--text-2); padding-right: 12px; }
+  .ptl__track { display: grid; grid-template-columns: repeat(var(--weeks), minmax(0, 1fr)); height: 100%; align-items: center;
+    background-image: linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: calc(100% / var(--weeks)) 100%; }
+  .ptl__bar { height: 10px; margin: 0 3px; border-radius: 3px; background: var(--text-3); }
+  .ptl__row.is-key .ptl__name { color: var(--text); font-weight: 600; }
+  .ptl__row.is-key .ptl__bar { background: var(--accent); height: 12px; }
+  .ptl__receive { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-3); }
+  @media (max-width: 560px) {
+    .ptl__grid { padding: 8px 14px 12px; }
+    .ptl__weeks, .ptl__row { min-width: 0; grid-template-columns: 104px minmax(0, 1fr); }
+    .ptl__weeks { grid-template-columns: 104px repeat(var(--weeks), minmax(0, 1fr)); font-size: 8.5px; }
+    .ptl__name { font-size: 12px; }
+    .ptl__bar { margin: 0 1px; }
+  }
+  .ptl__doc { padding: 3px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--text-2); }
+</style>
