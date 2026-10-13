@@ -17,9 +17,9 @@ const font = (p) => `data:font/woff2;base64,${readFileSync(resolve(root, "node_m
 const sans = font("@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2");
 const mono = font("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2");
 
-const logo = (size, stroke = "#f4f4f5") => `
-  <svg width="${size}" height="${size}" viewBox="0 0 22 22"><rect x="0.75" y="0.75" width="20.5" height="20.5" rx="5" fill="none" stroke="${stroke}" stroke-width="1.5"/>
-  <path d="M6 7.5h10M6 11h6M6 14.5h10" stroke="${stroke}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+const logo = (size, stroke = "#edebe6") => `
+  <svg width="${size}" height="${size}" viewBox="0 0 22 22"><rect x="0.5" y="0.5" width="21" height="21" rx="5" fill="none" stroke="${stroke}"/>
+  <line x1="5" y1="7" x2="17" y2="7" stroke="${stroke}"/><line x1="5" y1="11" x2="12" y2="11" stroke="#ff5a36" stroke-width="2"/><line x1="5" y1="15" x2="17" y2="15" stroke="${stroke}"/></svg>`;
 
 const rack = (x, seed) => {
   let r = seed * 9301 + 49297;
@@ -51,9 +51,9 @@ const html = ({ title, eyebrow, accent }) => `<!doctype html><html><head><style>
   .eyebrow { margin-top: auto; font-size: 26px; color: #a1a1aa; font-weight: 500; }
   h1 { margin-top: 14px; font-size: 68px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; max-width: 760px; }
   .foot { margin-top: 40px; display: flex; gap: 14px; align-items: center; font-family: "JetBrains Mono"; font-size: 22px; color: #a1a1aa; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: ${accent ?? "#30a46c"}; }
-  .bar { position: absolute; inset: 0 0 auto; height: 10px; background: ${accent ?? "transparent"}; }
-  body { background: ${accent ? `radial-gradient(120% 140% at 100% 0%, ${accent}66, #0a0a0b 65%)` : "#0a0a0b"}; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: ${accent ?? "#ff5a36"}; }
+  .bar { position: absolute; inset: 0 0 auto; height: 10px; background: ${accent ?? "#ff5a36"}; }
+  body { background: radial-gradient(120% 140% at 100% 0%, ${accent ?? "#ff5a36"}55, #0a0a0b 65%); }
 </style></head><body><div class="bar"></div>
   <svg class="racks" viewBox="0 0 520 630">${rack(20, 3)}${rack(270, 7)}</svg>
   <div class="wrap">

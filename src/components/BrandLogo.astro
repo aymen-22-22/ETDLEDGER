@@ -1,13 +1,21 @@
 ---
+// Brand logo from Simple Icons, in the brand's official color by default.
+// Near-black marks follow the text color so they stay visible in dark mode; dark-ish marks are lifted in dark mode.
+// Pass `mono` to use the surrounding text color instead (on colored backgrounds).
 import * as brands from "simple-icons";
 
 type Key = Extract<keyof typeof brands, `si${string}`>;
-interface Props { brand: Key; size?: number; class?: string; decorative?: boolean }
-const { brand, size = 24, class: cls, decorative = false } = Astro.props;
-const icon = brands[brand] as { title: string; path: string };
+interface Props { brand: Key; size?: number; class?: string; decorative?: boolean; mono?: boolean }
+const { brand, size = 24, class: cls, decorative = false, mono = false } = Astro.props;
+const icon = brands[brand] as { title: string; path: string; hex: string };
+const [r, g, b] = [0, 2, 4].map((i) => parseInt(icon.hex.slice(i, i + 2), 16) / 255);
+const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+const tone = mono ? "" : lum < 0.08 ? "brand--ink" : lum < 0.3 ? "brand--deep" : "";
+const style = mono ? undefined : `--bc:#${icon.hex}`;
 ---
 <svg
-  class:list={["brand", cls]}
+  class:list={["brand", { "brand--color": !mono }, tone, cls]}
+  style={style}
   width={size}
   height={size}
   viewBox="0 0 24 24"
@@ -16,3 +24,9 @@ const icon = brands[brand] as { title: string; path: string };
   aria-label={decorative ? undefined : icon.title}
   aria-hidden={decorative ? "true" : undefined}
 ><path d={icon.path} /></svg>
+
+<style is:global>
+  .brand--color { color: var(--bc); }
+  .brand--color.brand--ink { color: var(--text); }
+  :root[data-theme="dark"] .brand--color.brand--deep { filter: brightness(1.7) saturate(1.1); }
+</style>
